@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neuro Toolkit — raffotom12</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0F172A;
+      --surface:   #1E293B;
+      --border:    #2D3748;
+      --text:      #F1F5F9;
+      --muted:     #64748B;
+      --faint:     #334155;
+      --accent:    #60A5FA;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 36px 24px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .header-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .header-title {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    .header-title span { color: var(--accent); }
+    .header-sub {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    /* ── MAIN ── */
+    .main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+
+    /* ── CATEGORY ── */
+    .category { margin-bottom: 40px; }
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cat-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .cat-name {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .cat-count {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--faint);
+    }
+
+    /* ── GRID ── */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+      gap: 12px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .card.endo::before  { background: #F472B6; }
+    .card.neuro::before { background: #60A5FA; }
+    .card.pharma::before{ background: #34D399; }
+
+    .card.live:hover {
+      border-color: #475569;
+      transform: translateY(-2px);
+    }
+    .card.soon { opacity: 0.45; }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .card-icon { font-size: 22px; line-height: 1; }
+
+    .badge {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .badge.live { background: rgba(52,211,153,0.15); color: #34D399; }
+    .badge.soon { background: rgba(100,116,139,0.18); color: #64748B; }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      margin-top: 2px;
+      transition: gap 0.15s;
+    }
+    .card-link:hover { gap: 8px; }
+    .card-link::after { content: "→"; }
+
+    /* ── FOOTER ── */
+    .footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--faint);
+    }
+
+    @media (max-width: 600px) {
+      .header { padding: 24px 16px 20px; }
+      .main   { padding: 24px 16px; }
+      .header-title { font-size: 24px; }
+      .tool-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-eyebrow">Personal Clinical Reference · raffotom12</div>
+    <h1 class="header-title">Neuro<span>Toolkit</span></h1>
+    <p class="header-sub">Interactive medical reference tools for neurology residency. All tools run in Safari, Chrome, or any browser — no login, no install.</p>
+  </header>
+
+  <main class="main">
+
+    <!-- ── ENDOCRINOLOGY ── -->
+    <section class="category">
+      <div class="cat-header">
+        <div class="cat-dot" style="background:#F472B6;"></div>
+        <span class="cat-name">Endocrinology</span>
+        <span class="cat-count">1 tool</span>
+      </div>
+      <div class="tool-grid">
+
+        <div class="card endo live">
+          <div class="card-top">
+            <span class="card-icon">🔬</span>
+            <span class="badge live">Live</span>
+          </div>
+          <div class="card-title">Menstrual Cycle — Hormonal &amp; Psychobehavioral Profile</div>
+          <div class="card-desc">Interactive charts of FSH, LH, Estradiol, Progesterone and Testosterone across the 28-day cycle. Includes mood/libido/anxiety curves and neurological correlates (catamenial epilepsy, migraine, PMDD).</div>
+          <a class="card-link" href="menstrual-cycle.html">Open tool</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── NEUROLOGY ── -->
+    <section class="category">
+      <div class="cat-header">
+        <div class="cat-dot" style="background:#60A5FA;"></div>
+        <span class="cat-name">Neurology</span>
+        <span class="cat-count">Coming soon</span>
+      </div>
+      <div class="tool-grid">
+
+        <div class="card neuro soon">
+          <div class="card-top">
+            <span class="card-icon">⚡</span>
+            <span class="badge soon">Soon</span>
+          </div>
+          <div class="card-title">EMG / NCS Interpretation Guide</div>
+          <div class="card-desc">Pattern recognition for nerve conduction studies and EMG — axonal vs demyelinating, NMJ, localization algorithm.</div>
+        </div>
+
+        <div class="card neuro soon">
+          <div class="card-top">
+            <span class="card-icon">🧠</span>
+            <span class="badge soon">Soon</span>
+          </div>
+          <div class="card-title">Seizure Classification &amp; Workup</div>
+          <div class="card-desc">ILAE 2017 classification, catamenial epilepsy patterns, EEG correlates, first-line AED selection by syndrome.</div>
+        </div>
+
+        <div class="card neuro soon">
+          <div class="card-top">
+            <span class="card-icon">🗺️</span>
+            <span class="badge soon">Soon</span>
+          </div>
+          <div class="card-title">Dermatome &amp; Myotome Map</div>
+          <div class="card-desc">Interactive spinal level reference for motor and sensory localization in clinical examination.</div>
+        </div>
+
+        <div class="card neuro soon">
+          <div class="card-top">
+            <span class="card-icon">📊</span>
+            <span class="badge soon">Soon</span>
+          </div>
+          <div class="card-title">MS Disease Activity Tracker</div>
+          <div class="card-desc">McDonald 2024 criteria reference, relapse logging, EDSS progression visualization.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── PHARMACOLOGY ── -->
+    <section class="category">
+      <div class="cat-header">
+        <div class="cat-dot" style="background:#34D399;"></div>
+        <span class="cat-name">Pharmacology</span>
+        <span class="cat-count">Coming soon</span>
+      </div>
+      <div class="tool-grid">
+
+        <div class="card pharma soon">
+          <div class="card-top">
+            <span class="card-icon">💊</span>
+            <span class="badge soon">Soon</span>
+          </div>
+          <div class="card-title">Neurology Drug Reference</div>
+          <div class="card-desc">Dosages, titration schedules, and interactions for MS, PD, epilepsy, and neuromuscular disease agents.</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>raffotom12.github.io/neuro-toolkit</span>
+    <span>Built with Claude · Anthropic</span>
+  </footer>
+
+</body>
+</html>
