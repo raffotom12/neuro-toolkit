@@ -5,17 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menstrual Cycle — Neuro Toolkit</title>
 
-  <!-- CDN dependencies -->
+  <!-- React + Recharts only — no Babel, loads in ~1s -->
   <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/recharts@2.10.1/umd/Recharts.js"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.23.4/babel.min.js"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #0F172A; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
 
-    /* ── NAV BAR ── */
     .nav {
       background: #1E293B;
       border-bottom: 1px solid #2D3748;
@@ -32,9 +30,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: gap 0.15s;
     }
-    .nav-back:hover { gap: 9px; }
     .nav-back::before { content: "←"; }
     .nav-title {
       margin-left: 16px;
@@ -44,21 +40,25 @@
       color: #64748B;
     }
 
-    /* ── LOADING STATE ── */
-    #root:empty::after {
-      content: "Loading chart…";
+    /* Loading indicator while CDN scripts arrive */
+    .loading {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       height: calc(100vh - 44px);
-      color: #334155;
+      gap: 14px;
+      color: #475569;
       font-size: 13px;
-      font-family: system-ui, sans-serif;
     }
-
-    @media (max-width: 600px) {
-      .nav { padding: 0 16px; }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid #1E293B;
+      border-top-color: #60A5FA;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
     }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -68,350 +68,1020 @@
     <span class="nav-title">Menstrual Cycle</span>
   </nav>
 
-  <div id="root"></div>
+  <div id="root">
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading chart…
+    </div>
+  </div>
 
-  <script type="text/babel">
-    // ── Unpack globals (no ES module imports in standalone HTML) ──
-    const { useState } = React;
-    const {
-      LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-      ResponsiveContainer, ReferenceArea, ReferenceLine
-    } = Recharts;
-
-    // ─── DATA ────────────────────────────────────────────────────────────────
-
-    const hormoneData = [
-      { day: 1,  FSH: 75, LH: 10, E2: 15,  P4: 5,   T: 55 },
-      { day: 2,  FSH: 80, LH: 8,  E2: 13,  P4: 4,   T: 50 },
-      { day: 3,  FSH: 78, LH: 8,  E2: 14,  P4: 4,   T: 50 },
-      { day: 4,  FSH: 72, LH: 8,  E2: 16,  P4: 4,   T: 51 },
-      { day: 5,  FSH: 65, LH: 9,  E2: 18,  P4: 5,   T: 52 },
-      { day: 6,  FSH: 60, LH: 9,  E2: 22,  P4: 5,   T: 53 },
-      { day: 7,  FSH: 55, LH: 10, E2: 28,  P4: 5,   T: 55 },
-      { day: 8,  FSH: 50, LH: 10, E2: 36,  P4: 5,   T: 57 },
-      { day: 9,  FSH: 45, LH: 11, E2: 46,  P4: 5,   T: 60 },
-      { day: 10, FSH: 40, LH: 12, E2: 58,  P4: 5,   T: 65 },
-      { day: 11, FSH: 37, LH: 15, E2: 75,  P4: 5,   T: 73 },
-      { day: 12, FSH: 35, LH: 22, E2: 100, P4: 5,   T: 82 },
-      { day: 13, FSH: 42, LH: 48, E2: 88,  P4: 6,   T: 95 },
-      { day: 14, FSH: 52, LH: 100,E2: 68,  P4: 8,   T: 100 },
-      { day: 15, FSH: 28, LH: 18, E2: 52,  P4: 15,  T: 80 },
-      { day: 16, FSH: 20, LH: 10, E2: 56,  P4: 30,  T: 65 },
-      { day: 17, FSH: 18, LH: 8,  E2: 62,  P4: 48,  T: 60 },
-      { day: 18, FSH: 17, LH: 7,  E2: 68,  P4: 65,  T: 58 },
-      { day: 19, FSH: 16, LH: 7,  E2: 71,  P4: 80,  T: 56 },
-      { day: 20, FSH: 15, LH: 7,  E2: 71,  P4: 92,  T: 54 },
-      { day: 21, FSH: 15, LH: 7,  E2: 68,  P4: 100, T: 52 },
-      { day: 22, FSH: 16, LH: 7,  E2: 62,  P4: 87,  T: 51 },
-      { day: 23, FSH: 16, LH: 8,  E2: 54,  P4: 73,  T: 50 },
-      { day: 24, FSH: 18, LH: 8,  E2: 44,  P4: 56,  T: 50 },
-      { day: 25, FSH: 20, LH: 8,  E2: 34,  P4: 38,  T: 48 },
-      { day: 26, FSH: 23, LH: 9,  E2: 24,  P4: 22,  T: 47 },
-      { day: 27, FSH: 26, LH: 9,  E2: 16,  P4: 11,  T: 46 },
-      { day: 28, FSH: 30, LH: 10, E2: 11,  P4: 5,   T: 48 },
-    ];
-
-    const behaviorData = [
-      { day: 1,  libido: 20, mood: 30, energy: 25, anxiety: 55 },
-      { day: 2,  libido: 18, mood: 28, energy: 22, anxiety: 55 },
-      { day: 3,  libido: 19, mood: 28, energy: 23, anxiety: 50 },
-      { day: 4,  libido: 20, mood: 32, energy: 25, anxiety: 45 },
-      { day: 5,  libido: 22, mood: 35, energy: 30, anxiety: 40 },
-      { day: 6,  libido: 28, mood: 42, energy: 38, anxiety: 32 },
-      { day: 7,  libido: 35, mood: 50, energy: 46, anxiety: 25 },
-      { day: 8,  libido: 42, mood: 57, energy: 53, anxiety: 20 },
-      { day: 9,  libido: 52, mood: 65, energy: 62, anxiety: 15 },
-      { day: 10, libido: 62, mood: 72, energy: 70, anxiety: 12 },
-      { day: 11, libido: 74, mood: 78, energy: 76, anxiety: 10 },
-      { day: 12, libido: 84, mood: 83, energy: 82, anxiety: 9  },
-      { day: 13, libido: 92, mood: 85, energy: 84, anxiety: 9  },
-      { day: 14, libido: 100,mood: 86, energy: 85, anxiety: 10 },
-      { day: 15, libido: 88, mood: 82, energy: 80, anxiety: 12 },
-      { day: 16, libido: 72, mood: 75, energy: 70, anxiety: 15 },
-      { day: 17, libido: 62, mood: 72, energy: 66, anxiety: 16 },
-      { day: 18, libido: 56, mood: 70, energy: 62, anxiety: 17 },
-      { day: 19, libido: 50, mood: 68, energy: 60, anxiety: 18 },
-      { day: 20, libido: 46, mood: 65, energy: 57, anxiety: 20 },
-      { day: 21, libido: 42, mood: 62, energy: 54, anxiety: 22 },
-      { day: 22, libido: 36, mood: 55, energy: 48, anxiety: 28 },
-      { day: 23, libido: 30, mood: 48, energy: 42, anxiety: 35 },
-      { day: 24, libido: 26, mood: 40, energy: 36, anxiety: 42 },
-      { day: 25, libido: 22, mood: 35, energy: 32, anxiety: 48 },
-      { day: 26, libido: 20, mood: 30, energy: 28, anxiety: 52 },
-      { day: 27, libido: 19, mood: 27, energy: 26, anxiety: 56 },
-      { day: 28, libido: 18, mood: 25, energy: 24, anxiety: 58 },
-    ];
-
-    // ─── CONFIG ──────────────────────────────────────────────────────────────
-
-    const PHASES = [
-      {
-        name: "Menstruation", short: "Mens.", days: "1–5",
-        x1: 1, x2: 5, pct: [0, 14.8],
-        fill: "rgba(251,113,133,0.10)", color: "#FB7185",
-        desc: "E2 & P4 at nadir · prostaglandins trigger shedding · FSH begins to rise",
-        neuro: "Migraine risk ↑ (E2 withdrawal trigger)",
-      },
-      {
-        name: "Follicular", short: "Follic.", days: "6–13",
-        x1: 5, x2: 13, pct: [14.8, 44.4],
-        fill: "rgba(52,211,153,0.09)", color: "#34D399",
-        desc: "FSH recruits dominant follicle · E2 rises steadily · endometrium proliferates",
-        neuro: "Seizure threshold ↑ (E2 still rising, pro-epileptic)",
-      },
-      {
-        name: "Ovulation", short: "Ovul.", days: "14–15",
-        x1: 13, x2: 15, pct: [44.4, 51.8],
-        fill: "rgba(251,146,60,0.14)", color: "#FB923C",
-        desc: "LH surge → ovulation ~36h later · peak testosterone · peak libido",
-        neuro: "Catamenial epilepsy risk varies by pattern (C1/C2/C3)",
-      },
-      {
-        name: "Luteal", short: "Luteal", days: "16–28",
-        x1: 15, x2: 28, pct: [51.8, 100],
-        fill: "rgba(167,139,250,0.09)", color: "#A78BFA",
-        desc: "Corpus luteum secretes P4 (peak d21) · allopregnanolone ↑ → GABA-A PAM · late phase: withdrawal → PMS/PMDD",
-        neuro: "Allopregnanolone withdrawal = late luteal excitability · PMDD / seizure risk",
-      },
-    ];
-
-    const HORMONES = [
-      { key: "FSH", name: "FSH",          color: "#60A5FA", fullName: "Follicle-stimulating hormone" },
-      { key: "LH",  name: "LH",           color: "#FB923C", fullName: "Luteinizing hormone — massive surge at d14" },
-      { key: "E2",  name: "Estradiol",    color: "#F472B6", fullName: "E2 — bimodal: d12 peak + smaller d18–20 rise" },
-      { key: "P4",  name: "Progesterone", color: "#C084FC", fullName: "P4 — corpus luteum peak d21" },
-      { key: "T",   name: "Testosterone", color: "#22D3EE", fullName: "Testosterone — small periovulatory peak" },
-    ];
-
-    const BEHAVIORS = [
-      { key: "libido",  name: "Libido",    color: "#F43F5E", desc: "Peaks at ovulation; E2 + T + LH-driven" },
-      { key: "mood",    name: "Mood",      color: "#10B981", desc: "Tracks E2 (serotonergic); dips late luteal" },
-      { key: "energy",  name: "Energy",    color: "#F59E0B", desc: "Dopaminergic E2 effect; lowest menstrual/late luteal" },
-      { key: "anxiety", name: "Anxiety ↑", color: "#818CF8", desc: "Allopregnanolone withdrawal in late luteal → excitability" },
-    ];
-
-    // ─── SUB-COMPONENTS ──────────────────────────────────────────────────────
-
-    const CustomTooltip = ({ active, payload, label }) => {
-      if (!active || !payload || !payload.length) return null;
-      const phase = PHASES.find(p => label >= p.x1 && label <= p.x2);
-      return (
-        <div style={{
-          background: "#1E2533", border: "1px solid #374151", borderRadius: 10,
-          padding: "10px 14px", boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
-          fontSize: 12, minWidth: 155,
-        }}>
-          <div style={{ fontWeight: 700, color: "#F1F5F9", marginBottom: 6, fontSize: 13 }}>
-            Day {label}
-            {phase && <span style={{ color: phase.color, fontWeight: 500, marginLeft: 6, fontSize: 11 }}>· {phase.short}</span>}
-          </div>
-          {payload.map(p => (
-            <div key={p.dataKey} style={{ display: "flex", justifyContent: "space-between", gap: 14, marginBottom: 3 }}>
-              <span style={{ color: p.color }}>{p.name}</span>
-              <span style={{ color: "#F1F5F9", fontWeight: 700 }}>{p.value}%</span>
-            </div>
-          ))}
-        </div>
-      );
-    };
-
-    const Chip = ({ item, active, onToggle }) => (
-      <button
-        onClick={() => onToggle(item.key)}
-        title={item.fullName || item.desc || ""}
-        style={{
-          padding: "5px 13px", borderRadius: 20, fontSize: 12, fontWeight: 600,
-          cursor: "pointer", border: `2px solid ${item.color}`,
-          background: active ? item.color : "transparent",
-          color: active ? "#0F172A" : item.color,
-          transition: "background 0.15s, color 0.15s", outline: "none",
-        }}
-      >
-        {item.name}
-      </button>
-    );
-
-    // ─── MAIN APP ────────────────────────────────────────────────────────────
-
-    function App() {
-      const [visH, setVisH] = useState(Object.fromEntries(HORMONES.map(h => [h.key, true])));
-      const [visB, setVisB] = useState(Object.fromEntries(BEHAVIORS.map(b => [b.key, true])));
-
-      const toggleH = k => setVisH(p => ({ ...p, [k]: !p[k] }));
-      const toggleB = k => setVisB(p => ({ ...p, [k]: !p[k] }));
-
-      const phaseAreas = PHASES.map(ph => (
-        <ReferenceArea key={ph.name} x1={ph.x1} x2={ph.x2} fill={ph.fill} fillOpacity={1} strokeOpacity={0} />
-      ));
-
-      const xAxis = (
-        <XAxis dataKey="day"
-          tick={{ fontSize: 11, fill: "#64748B" }} tickLine={false}
-          axisLine={{ stroke: "#334155" }}
-          label={{ value: "Day of Cycle", position: "insideBottom", offset: -8, style: { fontSize: 11, fill: "#64748B" } }}
-        />
-      );
-      const yAxis = (
-        <YAxis tick={{ fontSize: 11, fill: "#64748B" }} tickLine={false} axisLine={false}
-          domain={[0, 105]} tickFormatter={v => `${v}%`} width={40}
-        />
-      );
-      const ovulationLine = (
-        <ReferenceLine x={14} stroke="#FB923C" strokeDasharray="5 3" strokeWidth={1.5}
-          label={{ value: "▼ Ovulation", position: "insideTopRight", style: { fontSize: 9, fill: "#FB923C", fontWeight: 700 } }}
-        />
-      );
-
-      return (
-        <div style={{ fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif", background: "#0F172A", minHeight: "calc(100vh - 44px)", padding: "24px 16px", color: "#E2E8F0" }}>
-          <div style={{ maxWidth: 820, margin: "0 auto" }}>
-
-            {/* HEADER */}
-            <div style={{ marginBottom: 22 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", color: "#64748B", textTransform: "uppercase", marginBottom: 6 }}>
-                Reproductive Endocrinology · Clinical Reference
-              </div>
-              <h1 style={{ fontSize: 22, fontWeight: 800, color: "#F1F5F9", margin: "0 0 6px 0", letterSpacing: "-0.02em" }}>
-                The Menstrual Cycle
-              </h1>
-              <p style={{ fontSize: 12, color: "#64748B", margin: 0, lineHeight: 1.5 }}>
-                Idealized 28-day cycle · All values normalized to peak = 100 · Hover charts for day-by-day values
-              </p>
-            </div>
-
-            {/* CYCLE BAND */}
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ display: "flex", height: 36, borderRadius: 8, overflow: "hidden", border: "1px solid #1E293B" }}>
-                {PHASES.map(ph => (
-                  <div key={ph.name} style={{
-                    width: `${ph.pct[1] - ph.pct[0]}%`,
-                    background: ph.color + "30",
-                    borderRight: ph.name !== "Luteal" ? `1px solid ${ph.color}55` : "none",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    flexDirection: "column", gap: 1,
-                  }}>
-                    <span style={{ fontSize: 10, fontWeight: 700, color: ph.color, letterSpacing: "0.04em" }}>
-                      {ph.short.toUpperCase()}
-                    </span>
-                    <span style={{ fontSize: 9, color: ph.color + "AA" }}>d{ph.days}</span>
-                  </div>
-                ))}
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "3px 0 0 0" }}>
-                {[1, 5, 10, 14, 20, 25, 28].map(d => (
-                  <span key={d} style={{ fontSize: 9, color: "#475569", width: `${(d / 28) * 100}%`, textAlign: d === 1 ? "left" : d === 28 ? "right" : "center" }}>
-                    {d === 14 ? "⊙ 14" : d}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* HORMONE CHART */}
-            <div style={{ background: "#1E293B", borderRadius: 14, padding: "18px 18px 8px", marginBottom: 14, border: "1px solid #2D3748" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14, flexWrap: "wrap", gap: 10 }}>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#F1F5F9" }}>Reproductive Hormones</div>
-                  <div style={{ fontSize: 11, color: "#64748B" }}>Relative % · Actual peaks: LH ~50 mIU/mL · E2 ~300 pg/mL · P4 ~18 ng/mL</div>
-                </div>
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                  {HORMONES.map(h => <Chip key={h.key} item={h} active={visH[h.key]} onToggle={toggleH} />)}
-                </div>
-              </div>
-              <ResponsiveContainer width="100%" height={260}>
-                <LineChart data={hormoneData} margin={{ top: 4, right: 12, left: -12, bottom: 24 }}>
-                  {phaseAreas}
-                  <CartesianGrid strokeDasharray="3 3" stroke="#243044" vertical={false} />
-                  {xAxis}{yAxis}
-                  <Tooltip content={<CustomTooltip />} />
-                  {ovulationLine}
-                  {HORMONES.map(h => visH[h.key] ? (
-                    <Line key={h.key} type="monotone" dataKey={h.key} name={h.name}
-                      stroke={h.color} strokeWidth={2.2} dot={false}
-                      activeDot={{ r: 4, strokeWidth: 0, fill: h.color }} />
-                  ) : null)}
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* BEHAVIOR CHART */}
-            <div style={{ background: "#1E293B", borderRadius: 14, padding: "18px 18px 8px", marginBottom: 18, border: "1px solid #2D3748" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14, flexWrap: "wrap", gap: 10 }}>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#F1F5F9" }}>Psychobehavioral Profile</div>
-                  <div style={{ fontSize: 11, color: "#64748B" }}>Anxiety ↑ in late luteal = PMS/PMDD territory</div>
-                </div>
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                  {BEHAVIORS.map(b => <Chip key={b.key} item={b} active={visB[b.key]} onToggle={toggleB} />)}
-                </div>
-              </div>
-              <ResponsiveContainer width="100%" height={220}>
-                <LineChart data={behaviorData} margin={{ top: 4, right: 12, left: -12, bottom: 24 }}>
-                  {phaseAreas}
-                  <CartesianGrid strokeDasharray="3 3" stroke="#243044" vertical={false} />
-                  {xAxis}{yAxis}
-                  <Tooltip content={<CustomTooltip />} />
-                  {ovulationLine}
-                  {BEHAVIORS.map(b => visB[b.key] ? (
-                    <Line key={b.key} type="monotone" dataKey={b.key} name={b.name}
-                      stroke={b.color} strokeWidth={2.2} dot={false}
-                      activeDot={{ r: 4, strokeWidth: 0, fill: b.color }} />
-                  ) : null)}
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-
-            {/* PHASE CARDS */}
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 18 }}>
-              {PHASES.map(ph => (
-                <div key={ph.name} style={{
-                  flex: "1 1 170px", background: "#1E293B", borderRadius: 10,
-                  padding: "12px 14px", border: "1px solid #2D3748", borderTop: `3px solid ${ph.color}`,
-                }}>
-                  <div style={{ fontWeight: 700, fontSize: 12, color: ph.color, marginBottom: 2 }}>{ph.name}</div>
-                  <div style={{ fontSize: 11, color: "#64748B", marginBottom: 6 }}>Days {ph.days}</div>
-                  <div style={{ fontSize: 11, color: "#94A3B8", lineHeight: 1.5, marginBottom: 6 }}>{ph.desc}</div>
-                  <div style={{ fontSize: 10, color: ph.color + "CC", background: ph.color + "15", borderRadius: 5, padding: "4px 7px", lineHeight: 1.4, fontWeight: 500 }}>
-                    ⚡ {ph.neuro}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* MECHANISM BOX */}
-            <div style={{ background: "#1E293B", borderRadius: 12, padding: "14px 16px", border: "1px solid #2D3748", marginBottom: 8 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
-                Neurochemical Mechanism Summary
-              </div>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                {[
-                  { label: "E2 ↑", text: "↑ 5-HT synthesis, ↑ 5-HT2A, ↓ MAO → mood, libido, verbal fluency", c: "#F472B6" },
-                  { label: "E2 ↑", text: "↑ dopamine D2 sensitivity → reward, motivation, risk-taking", c: "#F472B6" },
-                  { label: "P4 ↑", text: "→ allopregnanolone ↑ → GABA-A PAM → anxiolysis, sedation", c: "#C084FC" },
-                  { label: "P4 ↓", text: "→ allopregnanolone ↓ → GABA-A withdrawal → irritability, PMS/PMDD", c: "#C084FC" },
-                  { label: "T ↑",  text: "Periovulatory peak → androgen receptors in hypothalamus → libido spike", c: "#22D3EE" },
-                ].map((m, i) => (
-                  <div key={i} style={{ display: "flex", gap: 6, alignItems: "flex-start", flex: "1 1 240px" }}>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: m.c, background: m.c + "20", borderRadius: 4, padding: "2px 6px", whiteSpace: "nowrap", marginTop: 1 }}>
-                      {m.label}
-                    </span>
-                    <span style={{ fontSize: 11, color: "#94A3B8", lineHeight: 1.5 }}>{m.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* FOOTER NOTE */}
-            <div style={{ fontSize: 10, color: "#334155", textAlign: "center", paddingTop: 10 }}>
-              Values normalized — not to scale across hormones · Clinical ranges: LH surge ~50 mIU/mL · E2 peak ~200–400 pg/mL · P4 peak ~10–20 ng/mL · FSH early follicular ~5–15 mIU/mL
-            </div>
-
-          </div>
-        </div>
-      );
+  <!-- Pre-compiled JS — no Babel runtime needed -->
+  <script>
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var _React = React,
+  useState = _React.useState;
+var _Recharts = Recharts,
+  LineChart = _Recharts.LineChart,
+  Line = _Recharts.Line,
+  XAxis = _Recharts.XAxis,
+  YAxis = _Recharts.YAxis,
+  CartesianGrid = _Recharts.CartesianGrid,
+  Tooltip = _Recharts.Tooltip,
+  ResponsiveContainer = _Recharts.ResponsiveContainer,
+  ReferenceArea = _Recharts.ReferenceArea,
+  ReferenceLine = _Recharts.ReferenceLine;
+var hormoneData = [{
+  day: 1,
+  FSH: 75,
+  LH: 10,
+  E2: 15,
+  P4: 5,
+  T: 55
+}, {
+  day: 2,
+  FSH: 80,
+  LH: 8,
+  E2: 13,
+  P4: 4,
+  T: 50
+}, {
+  day: 3,
+  FSH: 78,
+  LH: 8,
+  E2: 14,
+  P4: 4,
+  T: 50
+}, {
+  day: 4,
+  FSH: 72,
+  LH: 8,
+  E2: 16,
+  P4: 4,
+  T: 51
+}, {
+  day: 5,
+  FSH: 65,
+  LH: 9,
+  E2: 18,
+  P4: 5,
+  T: 52
+}, {
+  day: 6,
+  FSH: 60,
+  LH: 9,
+  E2: 22,
+  P4: 5,
+  T: 53
+}, {
+  day: 7,
+  FSH: 55,
+  LH: 10,
+  E2: 28,
+  P4: 5,
+  T: 55
+}, {
+  day: 8,
+  FSH: 50,
+  LH: 10,
+  E2: 36,
+  P4: 5,
+  T: 57
+}, {
+  day: 9,
+  FSH: 45,
+  LH: 11,
+  E2: 46,
+  P4: 5,
+  T: 60
+}, {
+  day: 10,
+  FSH: 40,
+  LH: 12,
+  E2: 58,
+  P4: 5,
+  T: 65
+}, {
+  day: 11,
+  FSH: 37,
+  LH: 15,
+  E2: 75,
+  P4: 5,
+  T: 73
+}, {
+  day: 12,
+  FSH: 35,
+  LH: 22,
+  E2: 100,
+  P4: 5,
+  T: 82
+}, {
+  day: 13,
+  FSH: 42,
+  LH: 48,
+  E2: 88,
+  P4: 6,
+  T: 95
+}, {
+  day: 14,
+  FSH: 52,
+  LH: 100,
+  E2: 68,
+  P4: 8,
+  T: 100
+}, {
+  day: 15,
+  FSH: 28,
+  LH: 18,
+  E2: 52,
+  P4: 15,
+  T: 80
+}, {
+  day: 16,
+  FSH: 20,
+  LH: 10,
+  E2: 56,
+  P4: 30,
+  T: 65
+}, {
+  day: 17,
+  FSH: 18,
+  LH: 8,
+  E2: 62,
+  P4: 48,
+  T: 60
+}, {
+  day: 18,
+  FSH: 17,
+  LH: 7,
+  E2: 68,
+  P4: 65,
+  T: 58
+}, {
+  day: 19,
+  FSH: 16,
+  LH: 7,
+  E2: 71,
+  P4: 80,
+  T: 56
+}, {
+  day: 20,
+  FSH: 15,
+  LH: 7,
+  E2: 71,
+  P4: 92,
+  T: 54
+}, {
+  day: 21,
+  FSH: 15,
+  LH: 7,
+  E2: 68,
+  P4: 100,
+  T: 52
+}, {
+  day: 22,
+  FSH: 16,
+  LH: 7,
+  E2: 62,
+  P4: 87,
+  T: 51
+}, {
+  day: 23,
+  FSH: 16,
+  LH: 8,
+  E2: 54,
+  P4: 73,
+  T: 50
+}, {
+  day: 24,
+  FSH: 18,
+  LH: 8,
+  E2: 44,
+  P4: 56,
+  T: 50
+}, {
+  day: 25,
+  FSH: 20,
+  LH: 8,
+  E2: 34,
+  P4: 38,
+  T: 48
+}, {
+  day: 26,
+  FSH: 23,
+  LH: 9,
+  E2: 24,
+  P4: 22,
+  T: 47
+}, {
+  day: 27,
+  FSH: 26,
+  LH: 9,
+  E2: 16,
+  P4: 11,
+  T: 46
+}, {
+  day: 28,
+  FSH: 30,
+  LH: 10,
+  E2: 11,
+  P4: 5,
+  T: 48
+}];
+var behaviorData = [{
+  day: 1,
+  libido: 20,
+  mood: 30,
+  energy: 25,
+  anxiety: 55
+}, {
+  day: 2,
+  libido: 18,
+  mood: 28,
+  energy: 22,
+  anxiety: 55
+}, {
+  day: 3,
+  libido: 19,
+  mood: 28,
+  energy: 23,
+  anxiety: 50
+}, {
+  day: 4,
+  libido: 20,
+  mood: 32,
+  energy: 25,
+  anxiety: 45
+}, {
+  day: 5,
+  libido: 22,
+  mood: 35,
+  energy: 30,
+  anxiety: 40
+}, {
+  day: 6,
+  libido: 28,
+  mood: 42,
+  energy: 38,
+  anxiety: 32
+}, {
+  day: 7,
+  libido: 35,
+  mood: 50,
+  energy: 46,
+  anxiety: 25
+}, {
+  day: 8,
+  libido: 42,
+  mood: 57,
+  energy: 53,
+  anxiety: 20
+}, {
+  day: 9,
+  libido: 52,
+  mood: 65,
+  energy: 62,
+  anxiety: 15
+}, {
+  day: 10,
+  libido: 62,
+  mood: 72,
+  energy: 70,
+  anxiety: 12
+}, {
+  day: 11,
+  libido: 74,
+  mood: 78,
+  energy: 76,
+  anxiety: 10
+}, {
+  day: 12,
+  libido: 84,
+  mood: 83,
+  energy: 82,
+  anxiety: 9
+}, {
+  day: 13,
+  libido: 92,
+  mood: 85,
+  energy: 84,
+  anxiety: 9
+}, {
+  day: 14,
+  libido: 100,
+  mood: 86,
+  energy: 85,
+  anxiety: 10
+}, {
+  day: 15,
+  libido: 88,
+  mood: 82,
+  energy: 80,
+  anxiety: 12
+}, {
+  day: 16,
+  libido: 72,
+  mood: 75,
+  energy: 70,
+  anxiety: 15
+}, {
+  day: 17,
+  libido: 62,
+  mood: 72,
+  energy: 66,
+  anxiety: 16
+}, {
+  day: 18,
+  libido: 56,
+  mood: 70,
+  energy: 62,
+  anxiety: 17
+}, {
+  day: 19,
+  libido: 50,
+  mood: 68,
+  energy: 60,
+  anxiety: 18
+}, {
+  day: 20,
+  libido: 46,
+  mood: 65,
+  energy: 57,
+  anxiety: 20
+}, {
+  day: 21,
+  libido: 42,
+  mood: 62,
+  energy: 54,
+  anxiety: 22
+}, {
+  day: 22,
+  libido: 36,
+  mood: 55,
+  energy: 48,
+  anxiety: 28
+}, {
+  day: 23,
+  libido: 30,
+  mood: 48,
+  energy: 42,
+  anxiety: 35
+}, {
+  day: 24,
+  libido: 26,
+  mood: 40,
+  energy: 36,
+  anxiety: 42
+}, {
+  day: 25,
+  libido: 22,
+  mood: 35,
+  energy: 32,
+  anxiety: 48
+}, {
+  day: 26,
+  libido: 20,
+  mood: 30,
+  energy: 28,
+  anxiety: 52
+}, {
+  day: 27,
+  libido: 19,
+  mood: 27,
+  energy: 26,
+  anxiety: 56
+}, {
+  day: 28,
+  libido: 18,
+  mood: 25,
+  energy: 24,
+  anxiety: 58
+}];
+var PHASES = [{
+  name: "Menstruation",
+  short: "Mens.",
+  days: "1–5",
+  x1: 1,
+  x2: 5,
+  pct: [0, 14.8],
+  fill: "rgba(251,113,133,0.10)",
+  color: "#FB7185",
+  desc: "E2 & P4 at nadir · prostaglandins trigger shedding · FSH begins to rise",
+  neuro: "Migraine risk ↑ (E2 withdrawal trigger)"
+}, {
+  name: "Follicular",
+  short: "Follic.",
+  days: "6–13",
+  x1: 5,
+  x2: 13,
+  pct: [14.8, 44.4],
+  fill: "rgba(52,211,153,0.09)",
+  color: "#34D399",
+  desc: "FSH recruits dominant follicle · E2 rises steadily · endometrium proliferates",
+  neuro: "Seizure threshold ↑ (E2 still rising, pro-epileptic)"
+}, {
+  name: "Ovulation",
+  short: "Ovul.",
+  days: "14–15",
+  x1: 13,
+  x2: 15,
+  pct: [44.4, 51.8],
+  fill: "rgba(251,146,60,0.14)",
+  color: "#FB923C",
+  desc: "LH surge → ovulation ~36h later · peak testosterone · peak libido",
+  neuro: "Catamenial epilepsy risk varies by pattern (C1/C2/C3)"
+}, {
+  name: "Luteal",
+  short: "Luteal",
+  days: "16–28",
+  x1: 15,
+  x2: 28,
+  pct: [51.8, 100],
+  fill: "rgba(167,139,250,0.09)",
+  color: "#A78BFA",
+  desc: "Corpus luteum secretes P4 (peak d21) · allopregnanolone ↑ → GABA-A PAM · late phase: withdrawal → PMS/PMDD",
+  neuro: "Allopregnanolone withdrawal = late luteal excitability · PMDD / seizure risk"
+}];
+var HORMONES = [{
+  key: "FSH",
+  name: "FSH",
+  color: "#60A5FA",
+  fullName: "Follicle-stimulating hormone"
+}, {
+  key: "LH",
+  name: "LH",
+  color: "#FB923C",
+  fullName: "Luteinizing hormone — massive surge at d14"
+}, {
+  key: "E2",
+  name: "Estradiol",
+  color: "#F472B6",
+  fullName: "E2 — bimodal: d12 peak + smaller d18–20 rise"
+}, {
+  key: "P4",
+  name: "Progesterone",
+  color: "#C084FC",
+  fullName: "P4 — corpus luteum peak d21"
+}, {
+  key: "T",
+  name: "Testosterone",
+  color: "#22D3EE",
+  fullName: "Testosterone — small periovulatory peak"
+}];
+var BEHAVIORS = [{
+  key: "libido",
+  name: "Libido",
+  color: "#F43F5E"
+}, {
+  key: "mood",
+  name: "Mood",
+  color: "#10B981"
+}, {
+  key: "energy",
+  name: "Energy",
+  color: "#F59E0B"
+}, {
+  key: "anxiety",
+  name: "Anxiety ↑",
+  color: "#818CF8"
+}];
+var CustomTooltip = function CustomTooltip(_ref) {
+  var active = _ref.active,
+    payload = _ref.payload,
+    label = _ref.label;
+  if (!active || !payload || !payload.length) return null;
+  var phase = PHASES.find(function (p) {
+    return label >= p.x1 && label <= p.x2;
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1E2533",
+      border: "1px solid #374151",
+      borderRadius: 10,
+      padding: "10px 14px",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+      fontSize: 12,
+      minWidth: 155
     }
-
-    // ── Mount ──
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      color: "#F1F5F9",
+      marginBottom: 6,
+      fontSize: 13
+    }
+  }, "Day ", label, phase && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: phase.color,
+      fontWeight: 500,
+      marginLeft: 6,
+      fontSize: 11
+    }
+  }, "\xB7 ", phase.short)), payload.map(function (p) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: p.dataKey,
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        gap: 14,
+        marginBottom: 3
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: p.color
+      }
+    }, p.name), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#F1F5F9",
+        fontWeight: 700
+      }
+    }, p.value, "%"));
+  }));
+};
+var Chip = function Chip(_ref2) {
+  var item = _ref2.item,
+    active = _ref2.active,
+    onToggle = _ref2.onToggle;
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return onToggle(item.key);
+    },
+    title: item.fullName || "",
+    style: {
+      padding: "5px 13px",
+      borderRadius: 20,
+      fontSize: 12,
+      fontWeight: 600,
+      cursor: "pointer",
+      border: "2px solid ".concat(item.color),
+      background: active ? item.color : "transparent",
+      color: active ? "#0F172A" : item.color,
+      transition: "background 0.15s, color 0.15s",
+      outline: "none"
+    }
+  }, item.name);
+};
+function App() {
+  var _useState = useState(Object.fromEntries(HORMONES.map(function (h) {
+      return [h.key, true];
+    }))),
+    _useState2 = _slicedToArray(_useState, 2),
+    visH = _useState2[0],
+    setVisH = _useState2[1];
+  var _useState3 = useState(Object.fromEntries(BEHAVIORS.map(function (b) {
+      return [b.key, true];
+    }))),
+    _useState4 = _slicedToArray(_useState3, 2),
+    visB = _useState4[0],
+    setVisB = _useState4[1];
+  var toggleH = function toggleH(k) {
+    return setVisH(function (p) {
+      return _objectSpread(_objectSpread({}, p), {}, _defineProperty({}, k, !p[k]));
+    });
+  };
+  var toggleB = function toggleB(k) {
+    return setVisB(function (p) {
+      return _objectSpread(_objectSpread({}, p), {}, _defineProperty({}, k, !p[k]));
+    });
+  };
+  var phaseAreas = PHASES.map(function (ph) {
+    return /*#__PURE__*/React.createElement(ReferenceArea, {
+      key: ph.name,
+      x1: ph.x1,
+      x2: ph.x2,
+      fill: ph.fill,
+      fillOpacity: 1,
+      strokeOpacity: 0
+    });
+  });
+  var xAxis = /*#__PURE__*/React.createElement(XAxis, {
+    dataKey: "day",
+    tick: {
+      fontSize: 11,
+      fill: "#64748B"
+    },
+    tickLine: false,
+    axisLine: {
+      stroke: "#334155"
+    },
+    label: {
+      value: "Day of Cycle",
+      position: "insideBottom",
+      offset: -8,
+      style: {
+        fontSize: 11,
+        fill: "#64748B"
+      }
+    }
+  });
+  var yAxis = /*#__PURE__*/React.createElement(YAxis, {
+    tick: {
+      fontSize: 11,
+      fill: "#64748B"
+    },
+    tickLine: false,
+    axisLine: false,
+    domain: [0, 105],
+    tickFormatter: function tickFormatter(v) {
+      return "".concat(v, "%");
+    },
+    width: 40
+  });
+  var ovulationLine = /*#__PURE__*/React.createElement(ReferenceLine, {
+    x: 14,
+    stroke: "#FB923C",
+    strokeDasharray: "5 3",
+    strokeWidth: 1.5,
+    label: {
+      value: "▼ Ovulation",
+      position: "insideTopRight",
+      style: {
+        fontSize: 9,
+        fill: "#FB923C",
+        fontWeight: 700
+      }
+    }
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif",
+      background: "#0F172A",
+      minHeight: "calc(100vh - 44px)",
+      padding: "24px 16px",
+      color: "#E2E8F0"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 820,
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 22
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      fontWeight: 700,
+      letterSpacing: "0.12em",
+      color: "#64748B",
+      textTransform: "uppercase",
+      marginBottom: 6
+    }
+  }, "Reproductive Endocrinology \xB7 Clinical Reference"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: "#F1F5F9",
+      margin: "0 0 6px 0",
+      letterSpacing: "-0.02em"
+    }
+  }, "The Menstrual Cycle"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      fontSize: 12,
+      color: "#64748B",
+      margin: 0,
+      lineHeight: 1.5
+    }
+  }, "Idealized 28-day cycle \xB7 All values normalized to peak = 100 \xB7 Hover charts for day-by-day values")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      height: 36,
+      borderRadius: 8,
+      overflow: "hidden",
+      border: "1px solid #1E293B"
+    }
+  }, PHASES.map(function (ph) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: ph.name,
+      style: {
+        width: "".concat(ph.pct[1] - ph.pct[0], "%"),
+        background: ph.color + "30",
+        borderRight: ph.name !== "Luteal" ? "1px solid ".concat(ph.color, "55") : "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        gap: 1
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: ph.color,
+        letterSpacing: "0.04em"
+      }
+    }, ph.short.toUpperCase()), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 9,
+        color: ph.color + "AA"
+      }
+    }, "d", ph.days));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      padding: "3px 0 0 0"
+    }
+  }, [1, 5, 10, 14, 20, 25, 28].map(function (d) {
+    return /*#__PURE__*/React.createElement("span", {
+      key: d,
+      style: {
+        fontSize: 9,
+        color: "#475569",
+        width: "".concat(d / 28 * 100, "%"),
+        textAlign: d === 1 ? "left" : d === 28 ? "right" : "center"
+      }
+    }, d === 14 ? "⊙ 14" : d);
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1E293B",
+      borderRadius: 14,
+      padding: "18px 18px 8px",
+      marginBottom: 14,
+      border: "1px solid #2D3748"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: 14,
+      flexWrap: "wrap",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: "#F1F5F9"
+    }
+  }, "Reproductive Hormones"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#64748B"
+    }
+  }, "Relative % \xB7 Actual peaks: LH ~50 mIU/mL \xB7 E2 ~300 pg/mL \xB7 P4 ~18 ng/mL")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      flexWrap: "wrap"
+    }
+  }, HORMONES.map(function (h) {
+    return /*#__PURE__*/React.createElement(Chip, {
+      key: h.key,
+      item: h,
+      active: visH[h.key],
+      onToggle: toggleH
+    });
+  }))), /*#__PURE__*/React.createElement(ResponsiveContainer, {
+    width: "100%",
+    height: 260
+  }, /*#__PURE__*/React.createElement(LineChart, {
+    data: hormoneData,
+    margin: {
+      top: 4,
+      right: 12,
+      left: -12,
+      bottom: 24
+    }
+  }, phaseAreas, /*#__PURE__*/React.createElement(CartesianGrid, {
+    strokeDasharray: "3 3",
+    stroke: "#243044",
+    vertical: false
+  }), xAxis, yAxis, /*#__PURE__*/React.createElement(Tooltip, {
+    content: /*#__PURE__*/React.createElement(CustomTooltip, null)
+  }), ovulationLine, HORMONES.map(function (h) {
+    return visH[h.key] ? /*#__PURE__*/React.createElement(Line, {
+      key: h.key,
+      type: "monotone",
+      dataKey: h.key,
+      name: h.name,
+      stroke: h.color,
+      strokeWidth: 2.2,
+      dot: false,
+      activeDot: {
+        r: 4,
+        strokeWidth: 0,
+        fill: h.color
+      }
+    }) : null;
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1E293B",
+      borderRadius: 14,
+      padding: "18px 18px 8px",
+      marginBottom: 18,
+      border: "1px solid #2D3748"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: 14,
+      flexWrap: "wrap",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: "#F1F5F9"
+    }
+  }, "Psychobehavioral Profile"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#64748B"
+    }
+  }, "Anxiety \u2191 in late luteal = PMS/PMDD territory")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      flexWrap: "wrap"
+    }
+  }, BEHAVIORS.map(function (b) {
+    return /*#__PURE__*/React.createElement(Chip, {
+      key: b.key,
+      item: b,
+      active: visB[b.key],
+      onToggle: toggleB
+    });
+  }))), /*#__PURE__*/React.createElement(ResponsiveContainer, {
+    width: "100%",
+    height: 220
+  }, /*#__PURE__*/React.createElement(LineChart, {
+    data: behaviorData,
+    margin: {
+      top: 4,
+      right: 12,
+      left: -12,
+      bottom: 24
+    }
+  }, phaseAreas, /*#__PURE__*/React.createElement(CartesianGrid, {
+    strokeDasharray: "3 3",
+    stroke: "#243044",
+    vertical: false
+  }), xAxis, yAxis, /*#__PURE__*/React.createElement(Tooltip, {
+    content: /*#__PURE__*/React.createElement(CustomTooltip, null)
+  }), ovulationLine, BEHAVIORS.map(function (b) {
+    return visB[b.key] ? /*#__PURE__*/React.createElement(Line, {
+      key: b.key,
+      type: "monotone",
+      dataKey: b.key,
+      name: b.name,
+      stroke: b.color,
+      strokeWidth: 2.2,
+      dot: false,
+      activeDot: {
+        r: 4,
+        strokeWidth: 0,
+        fill: b.color
+      }
+    }) : null;
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      flexWrap: "wrap",
+      marginBottom: 18
+    }
+  }, PHASES.map(function (ph) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: ph.name,
+      style: {
+        flex: "1 1 170px",
+        background: "#1E293B",
+        borderRadius: 10,
+        padding: "12px 14px",
+        border: "1px solid #2D3748",
+        borderTop: "3px solid ".concat(ph.color)
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 12,
+        color: ph.color,
+        marginBottom: 2
+      }
+    }, ph.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "#64748B",
+        marginBottom: 6
+      }
+    }, "Days ", ph.days), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "#94A3B8",
+        lineHeight: 1.5,
+        marginBottom: 6
+      }
+    }, ph.desc), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: ph.color + "CC",
+        background: ph.color + "15",
+        borderRadius: 5,
+        padding: "4px 7px",
+        lineHeight: 1.4,
+        fontWeight: 500
+      }
+    }, "\u26A1 ", ph.neuro));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#1E293B",
+      borderRadius: 12,
+      padding: "14px 16px",
+      border: "1px solid #2D3748",
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      color: "#64748B",
+      textTransform: "uppercase",
+      letterSpacing: "0.08em",
+      marginBottom: 10
+    }
+  }, "Neurochemical Mechanism Summary"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 12,
+      flexWrap: "wrap"
+    }
+  }, [{
+    label: "E2 ↑",
+    text: "↑ 5-HT synthesis, ↑ 5-HT2A, ↓ MAO → mood, libido, verbal fluency",
+    c: "#F472B6"
+  }, {
+    label: "E2 ↑",
+    text: "↑ dopamine D2 sensitivity → reward, motivation, risk-taking",
+    c: "#F472B6"
+  }, {
+    label: "P4 ↑",
+    text: "→ allopregnanolone ↑ → GABA-A PAM → anxiolysis, sedation",
+    c: "#C084FC"
+  }, {
+    label: "P4 ↓",
+    text: "→ allopregnanolone ↓ → GABA-A withdrawal → irritability, PMS/PMDD",
+    c: "#C084FC"
+  }, {
+    label: "T ↑",
+    text: "Periovulatory peak → androgen receptors in hypothalamus → libido spike",
+    c: "#22D3EE"
+  }].map(function (m, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      key: i,
+      style: {
+        display: "flex",
+        gap: 6,
+        alignItems: "flex-start",
+        flex: "1 1 240px"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 10,
+        fontWeight: 800,
+        color: m.c,
+        background: m.c + "20",
+        borderRadius: 4,
+        padding: "2px 6px",
+        whiteSpace: "nowrap",
+        marginTop: 1
+      }
+    }, m.label), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 11,
+        color: "#94A3B8",
+        lineHeight: 1.5
+      }
+    }, m.text));
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "#334155",
+      textAlign: "center",
+      paddingTop: 10
+    }
+  }, "Values normalized \u2014 not to scale across hormones \xB7 Clinical ranges: LH surge ~50 mIU/mL \xB7 E2 peak ~200\u2013400 pg/mL \xB7 P4 peak ~10\u201320 ng/mL \xB7 FSH early follicular ~5\u201315 mIU/mL")));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
   </script>
 </body>
 </html>
