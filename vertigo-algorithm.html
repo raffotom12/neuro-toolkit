@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertigo Algorithm – Clinical Mind Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0c0f14;
+    --surface: #151921;
+    --surface2: #1c2230;
+    --border: #2a3040;
+    --text: #e0e4ec;
+    --text-dim: #8892a4;
+    --accent-red: #ff4d6a;
+    --accent-orange: #ff8c42;
+    --accent-yellow: #ffd166;
+    --accent-green: #06d6a0;
+    --accent-teal: #3ecfcf;
+    --accent-blue: #4dabf7;
+    --accent-purple: #b197fc;
+    --accent-pink: #f783ac;
+    --danger: #ff4d6a;
+    --warning: #ffd166;
+    --safe: #06d6a0;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  .header {
+    text-align: center;
+    padding: 28px 20px 18px;
+    background: linear-gradient(180deg, #151921 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header p {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background: var(--bg);
+    position: sticky;
+    top: 76px;
+    z-index: 99;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-tab:hover { border-color: var(--accent-blue); color: var(--text); }
+  .nav-tab.active {
+    background: var(--accent-blue);
+    color: #fff;
+    border-color: var(--accent-blue);
+  }
+
+  .content { padding: 16px; max-width: 800px; margin: 0 auto; }
+
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .flow-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    transition: all 0.2s;
+  }
+  .flow-card:hover { border-color: var(--accent-blue); }
+
+  .flow-card.emergency {
+    border-left: 4px solid var(--danger);
+    background: linear-gradient(135deg, rgba(255,77,106,0.06), var(--surface));
+  }
+  .flow-card.warning-card {
+    border-left: 4px solid var(--warning);
+    background: linear-gradient(135deg, rgba(255,209,102,0.06), var(--surface));
+  }
+  .flow-card.safe-card {
+    border-left: 4px solid var(--safe);
+    background: linear-gradient(135deg, rgba(6,214,160,0.06), var(--surface));
+  }
+  .flow-card.info-card {
+    border-left: 4px solid var(--accent-blue);
+    background: linear-gradient(135deg, rgba(77,171,247,0.06), var(--surface));
+  }
+  .flow-card.purple-card {
+    border-left: 4px solid var(--accent-purple);
+    background: linear-gradient(135deg, rgba(177,151,252,0.06), var(--surface));
+  }
+
+  .card-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+  }
+  .badge-red    { background: rgba(255,77,106,0.15);  color: var(--accent-red); }
+  .badge-orange { background: rgba(255,140,66,0.15);  color: var(--accent-orange); }
+  .badge-yellow { background: rgba(255,209,102,0.15); color: var(--accent-yellow); }
+  .badge-green  { background: rgba(6,214,160,0.15);   color: var(--accent-green); }
+  .badge-blue   { background: rgba(77,171,247,0.15);  color: var(--accent-blue); }
+  .badge-teal   { background: rgba(62,207,207,0.15);  color: var(--accent-teal); }
+  .badge-purple { background: rgba(177,151,252,0.15); color: var(--accent-purple); }
+  .badge-pink   { background: rgba(247,131,172,0.15); color: var(--accent-pink); }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .card-text {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .card-text strong { color: var(--text); font-weight: 600; }
+
+  .arrow-down {
+    text-align: center;
+    padding: 4px 0;
+    color: var(--text-dim);
+    font-size: 18px;
+    opacity: 0.4;
+  }
+
+  .decision-box {
+    background: var(--surface2);
+    border: 2px dashed var(--accent-yellow);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .decision-box .card-title { color: var(--accent-yellow); font-size: 14px; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .two-col .flow-card { margin-bottom: 0; }
+
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    font-size: 13px;
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .checklist li::before {
+    content: '▸';
+    position: absolute;
+    left: 4px;
+    color: var(--accent-teal);
+    font-weight: 700;
+  }
+  .checklist li strong { color: var(--text); }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: rgba(62,207,207,0.08);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--accent-teal);
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+  }
+
+  .mnemonic {
+    background: linear-gradient(135deg, rgba(177,151,252,0.1), rgba(77,171,247,0.1));
+    border: 1px solid rgba(177,151,252,0.25);
+    border-radius: 10px;
+    padding: 14px;
+    margin: 12px 0;
+  }
+  .mnemonic-letter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent-purple);
+    display: inline;
+  }
+
+  .dose-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 12px;
+  }
+  .dose-table th {
+    background: var(--surface2);
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--accent-teal);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .dose-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .dose-table td strong { color: var(--text); }
+  .dose-table tr:last-child td { border-bottom: none; }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .subsection {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-teal);
+    margin: 16px 0 8px;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 24px 16px 40px;
+    opacity: 0.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌀 Vertigo Algorithm</h1>
+  <p>Structured clinical approach to the patient with vertigo</p>
+</div>
+
+<div class="nav-tabs" id="navTabs">
+  <div class="nav-tab active" onclick="showSection(0)">1. Triage</div>
+  <div class="nav-tab" onclick="showSection(1)">2. History</div>
+  <div class="nav-tab" onclick="showSection(2)">3. Examination</div>
+  <div class="nav-tab" onclick="showSection(3)">4. Central vs Peripheral</div>
+  <div class="nav-tab" onclick="showSection(4)">5. Diagnosis</div>
+  <div class="nav-tab" onclick="showSection(5)">6. Treatment</div>
+  <div class="nav-tab" onclick="showSection(6)">7. Red Flags</div>
+</div>
+
+<div class="content">
+
+<!-- ==================== SECTION 0: TRIAGE ==================== -->
+<div class="section active" id="sec0">
+  <div class="section-title">
+    <span class="icon" style="background:rgba(255,77,106,0.15);">🚨</span>
+    Step 1 — Initial ED Triage
+  </div>
+
+  <div class="flow-card emergency">
+    <span class="card-badge badge-red">EXCLUDE FIRST</span>
+    <div class="card-title">Life-Threatening Emergencies</div>
+    <div class="card-text">
+      Before considering vertigo as an isolated symptom, <strong>immediately exclude</strong>:
+    </div>
+    <ul class="checklist">
+      <li><strong>Vertebrobasilar / cerebellar stroke</strong> — HINTS, NIHSS, vascular risk factors</li>
+      <li><strong>Cerebellar haemorrhage</strong> — sudden headache + vomiting + ataxia</li>
+      <li><strong>Vertebral artery dissection</strong> — neck pain + vertigo after trauma/manipulation</li>
+      <li><strong>Myocardial infarction / arrhythmia</strong> — vertigo + chest pain, presyncope, hypotension</li>
+      <li><strong>Hypoglycaemia</strong> — altered GCS, diaphoresis, confusion</li>
+    </ul>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <div class="decision-box">
+    <div class="card-title">Is the patient haemodynamically stable?<br>GCS 15? No obvious focal neurological deficits?</div>
+  </div>
+
+  <div class="two-col">
+    <div class="flow-card emergency">
+      <span class="card-badge badge-red">NO</span>
+      <div class="card-title">Emergency management</div>
+      <div class="card-text">
+        ABC, monitoring, <strong>urgent CT head</strong> (± CT angiography), neurology/neurosurgery consult, ECG, blood glucose, FBC, electrolytes
+      </div>
+    </div>
+    <div class="flow-card safe-card">
+      <span class="card-badge badge-green">YES</span>
+      <div class="card-title">Proceed with structured assessment</div>
+      <div class="card-text">
+        Targeted history → Physical examination → Classification → Diagnosis → Treatment
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 1: HISTORY ==================== -->
+<div class="section" id="sec1">
+  <div class="section-title">
+    <span class="icon" style="background:rgba(62,207,207,0.15);">📋</span>
+    Step 2 — Targeted History
+  </div>
+
+  <div class="mnemonic">
+    <div class="card-text" style="color:var(--text); margin-bottom:6px; font-weight:600;">Mnemonic: <span class="mnemonic-letter">T – I – M – I – N – G</span></div>
+    <div class="card-text" style="font-size:12px;">
+      <strong>T</strong>iming (duration) · <strong>I</strong>nitiation (how it starts) · <strong>M</strong>ovement (positional triggers) · <strong>I</strong>ntensity and associated symptoms · <strong>N</strong>umber (recurrent episodes?) · <strong>G</strong>eneral (past medical history)
+    </div>
+  </div>
+
+  <div class="flow-card info-card">
+    <span class="card-badge badge-blue">KEY QUESTION #1</span>
+    <div class="card-title">How long does each episode last?</div>
+    <table class="dose-table">
+      <tr><th>Duration</th><th>Diagnostic orientation</th></tr>
+      <tr><td><strong>Seconds</strong> (&lt; 1 min)</td><td>BPPV, orthostatic hypotension</td></tr>
+      <tr><td><strong>Minutes–hours</strong> (20 min – 12h)</td><td>Ménière, vertebrobasilar TIA, vestibular migraine</td></tr>
+      <tr><td><strong>Days</strong> (continuous &gt; 24h)</td><td>Vestibular neuritis, cerebellar stroke, labyrinthitis</td></tr>
+      <tr><td><strong>Chronic</strong> (weeks–months)</td><td>PPPD, psychogenic vertigo, ototoxicity, schwannoma</td></tr>
+    </table>
+  </div>
+
+  <div class="flow-card info-card">
+    <span class="card-badge badge-teal">KEY QUESTION #2</span>
+    <div class="card-title">Triggering factors?</div>
+    <ul class="checklist">
+      <li><strong>Head/body position changes</strong> → BPPV (turning in bed, standing up, looking up)</li>
+      <li><strong>Orthostasis</strong> → Orthostatic hypotension (measure BP supine/standing!)</li>
+      <li><strong>Loud sounds / Valsalva manoeuvre</strong> → Tullio phenomenon, superior canal dehiscence</li>
+      <li><strong>Spontaneous, no trigger</strong> → Vestibular neuritis, Ménière, stroke</li>
+      <li><strong>Stress / anxiety / crowded environments</strong> → PPPD, vestibular migraine</li>
+    </ul>
+  </div>
+
+  <div class="flow-card info-card">
+    <span class="card-badge badge-purple">KEY QUESTION #3</span>
+    <div class="card-title">Associated symptoms?</div>
+    <ul class="checklist">
+      <li><strong>Hearing loss + tinnitus + aural fullness</strong> → Ménière</li>
+      <li><strong>Headache + photophobia + phonophobia</strong> → Vestibular migraine</li>
+      <li><strong>Severe nausea/vomiting without focal deficits</strong> → Vestibular neuritis (but also cerebellar!)</li>
+      <li><strong>Diplopia / dysarthria / dysphagia / limb weakness</strong> → STROKE — red flag!</li>
+      <li><strong>Otalgia + otorrhoea + fever</strong> → Labyrinthitis (otogenic), mastoiditis</li>
+    </ul>
+  </div>
+
+  <div class="flow-card warning-card">
+    <span class="card-badge badge-orange">DON'T FORGET</span>
+    <div class="card-title">Medication and medical history</div>
+    <ul class="checklist">
+      <li><strong>Ototoxic medications</strong>: aminoglycosides, cisplatin, furosemide, salicylates</li>
+      <li><strong>Medications causing dizziness</strong>: antiepileptics, antihypertensives, benzodiazepines, antidepressants</li>
+      <li><strong>Vascular risk factors</strong>: hypertension, AF, diabetes, dyslipidaemia, smoking</li>
+      <li><strong>Recent cranial/cervical trauma</strong></li>
+      <li><strong>Previous otological surgery</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== SECTION 2: EXAMINATION ==================== -->
+<div class="section" id="sec2">
+  <div class="section-title">
+    <span class="icon" style="background:rgba(6,214,160,0.15);">🔍</span>
+    Step 3 — Physical Examination
+  </div>
+
+  <div class="flow-card emergency">
+    <span class="card-badge badge-red">GOLD STANDARD</span>
+    <div class="card-title">HINTS Plus (for acute continuous vertigo)</div>
+    <div class="card-text">
+      Use in patients with <strong>acute vestibular syndrome</strong> (continuous vertigo &gt; 24h + nystagmus + nausea/instability). Sensitivity &gt;99% for stroke when performed correctly.
+    </div>
+    <table class="dose-table">
+      <tr><th>Test</th><th>Peripheral (benign)</th><th>Central (dangerous)</th></tr>
+      <tr>
+        <td><strong>H</strong>ead Impulse</td>
+        <td>Positive (corrective saccade) ✓</td>
+        <td>Negative (normal VOR) ⚠️</td>
+      </tr>
+      <tr>
+        <td><strong>N</strong>ystagmus</td>
+        <td>Unidirectional, inhibited by fixation</td>
+        <td>Bidirectional or purely vertical ⚠️</td>
+      </tr>
+      <tr>
+        <td><strong>T</strong>est of <strong>S</strong>kew</td>
+        <td>Absent</td>
+        <td>Present (vertical skew deviation) ⚠️</td>
+      </tr>
+      <tr>
+        <td><strong>Plus</strong>: new hearing loss</td>
+        <td>Possible (labyrinthitis)</td>
+        <td>Acute sensorineural HL → AICA stroke ⚠️</td>
+      </tr>
+    </table>
+    <div class="tag-row">
+      <span class="tag badge-red">⚠️ 1 central sign = urgent neuroimaging</span>
+    </div>
+  </div>
+
+  <div class="flow-card safe-card">
+    <span class="card-badge badge-green">IF EPISODIC</span>
+    <div class="card-title">Dix-Hallpike Manoeuvre (suspected BPPV)</div>
+    <div class="card-text">
+      <strong>Technique</strong>: patient seated → rotate head 45° toward the suspected side → rapid extension with head hanging 20° below the table. Hold 30-60 sec.
+    </div>
+    <ul class="checklist">
+      <li><strong>Positive</strong>: torsional-vertical nystagmus with latency (2-5 sec), crescendo-decrescendo, duration &lt; 60 sec, fatigability → <strong>posterior canal BPPV</strong></li>
+      <li><strong>Bilaterally negative but BPPV suspected</strong> → try <strong>supine roll test</strong> for lateral canal (horizontal nystagmus)</li>
+      <li><strong>Caution</strong>: nystagmus without latency, pure downbeat, persistent &gt; 60 sec → suspect <strong>central cause</strong></li>
+    </ul>
+  </div>
+
+  <div class="flow-card info-card">
+    <span class="card-badge badge-blue">FULL EXAMINATION</span>
+    <div class="card-title">Targeted neurological examination</div>
+    <ul class="checklist">
+      <li><strong>Cranial nerves</strong>: particularly V, VII, VIII, IX-X (brainstem)</li>
+      <li><strong>Cerebellar</strong>: finger-nose, heel-shin, dysmetria, dysdiadochokinesia</li>
+      <li><strong>Gait</strong>: Romberg, Unterberger, tandem gait</li>
+      <li><strong>Otoscopy</strong>: exclude otitis media, cholesteatoma, herpes oticus (Ramsay Hunt)</li>
+      <li><strong>BP supine and standing</strong>: drop in SBP ≥ 20 or DBP ≥ 10 mmHg = orthostatic hypotension</li>
+      <li><strong>Weber and Rinne</strong> (512 Hz tuning fork): conductive vs sensorineural hearing loss</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== SECTION 3: CENTRAL vs PERIPHERAL ==================== -->
+<div class="section" id="sec3">
+  <div class="section-title">
+    <span class="icon" style="background:rgba(255,209,102,0.15);">⚖️</span>
+    Step 4 — Central vs Peripheral
+  </div>
+
+  <div class="decision-box">
+    <div class="card-title">Fundamental question: is it peripheral or central?</div>
+    <div class="card-text" style="font-size: 12px; margin-top: 6px;">This distinction guides <strong>everything</strong>: urgency, imaging, treatment, prognosis</div>
+  </div>
+
+  <div class="two-col">
+    <div class="flow-card safe-card">
+      <span class="card-badge badge-green">PERIPHERAL</span>
+      <div class="card-title">Features</div>
+      <ul class="checklist">
+        <li>Nystagmus <strong>unidirectional</strong> horizontal-torsional</li>
+        <li>Inhibited by <strong>visual fixation</strong></li>
+        <li>Head impulse <strong>positive</strong></li>
+        <li>Skew <strong>absent</strong></li>
+        <li>Auditory symptoms <strong>possible</strong></li>
+        <li><strong>No</strong> focal neurological deficits</li>
+        <li>Nausea/vomiting <strong>severe</strong> (proportionate)</li>
+      </ul>
+    </div>
+    <div class="flow-card emergency">
+      <span class="card-badge badge-red">CENTRAL</span>
+      <div class="card-title">Features</div>
+      <ul class="checklist">
+        <li>Nystagmus <strong>bidirectional / purely vertical / purely torsional</strong></li>
+        <li><strong>Not</strong> inhibited by fixation</li>
+        <li>Head impulse <strong>negative</strong></li>
+        <li>Skew <strong>present</strong></li>
+        <li><strong>Focal neurological deficits</strong></li>
+        <li>Severe ataxia <strong>disproportionate</strong></li>
+        <li><strong>Acute</strong> severe headache</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flow-card warning-card">
+    <span class="card-badge badge-orange">CAUTION</span>
+    <div class="card-title">Diagnostic pitfalls</div>
+    <ul class="checklist">
+      <li><strong>Isolated cerebellar stroke</strong> can mimic vestibular neuritis (vertigo + nausea without obvious focal deficits). HINTS is essential!</li>
+      <li><strong>AICA stroke</strong> can cause hearing loss + vertigo, resembling labyrinthitis</li>
+      <li><strong>CT is poorly sensitive for posterior fossa stroke in the first 24-48h</strong> — if HINTS is central, request MRI-DWI even with negative CT</li>
+      <li><strong>Vestibular migraine</strong> can have spontaneous nystagmus — but migraine history, triggers, and photophobia guide diagnosis</li>
+      <li><strong>Atypical BPPV</strong> (downbeat nystagmus) → exclude craniocervical junction pathology</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== SECTION 4: DIAGNOSIS ==================== -->
+<div class="section" id="sec4">
+  <div class="section-title">
+    <span class="icon" style="background:rgba(77,171,247,0.15);">🎯</span>
+    Step 5 — Pattern-based Diagnosis
+  </div>
+
+  <div class="subsection">A. Brief episodic vertigo (seconds)</div>
+
+  <div class="flow-card safe-card">
+    <span class="card-badge badge-green">BPPV</span>
+    <div class="card-title">Benign Paroxysmal Positional Vertigo</div>
+    <div class="card-text">
+      <strong>Most common cause of vertigo (~30-40%).</strong> Displaced otoconia in the semicircular canals.
+    </div>
+    <ul class="checklist">
+      <li><strong>Duration</strong>: 10-60 seconds per episode</li>
+      <li><strong>Trigger</strong>: head position changes (turning in bed, standing up, hyperextended head)</li>
+      <li><strong>Diagnosis</strong>: positive Dix-Hallpike (posterior canal ~80%) or supine roll test (lateral canal ~15%)</li>
+      <li><strong>Course</strong>: self-limiting over weeks, but recurrence in ~50% within 5 years</li>
+    </ul>
+  </div>
+
+  <div class="subsection">B. Recurrent episodic vertigo (minutes–hours)</div>
+
+  <div class="flow-card info-card">
+    <span class="card-badge badge-blue">MÉNIÈRE</span>
+    <div class="card-title">Ménière's Disease</div>
+    <ul class="checklist">
+      <li><strong>Classic tetrad</strong>: rotatory vertigo (20 min – 12h) + fluctuating hearing loss + tinnitus + aural fullness</li>
+      <li><strong>Diagnosis</strong>: AAO-HNS 2015 criteria: ≥ 2 vertigo episodes 20 min – 12h + documented sensorineural hearing loss + fluctuating aural symptoms</li>
+      <li><strong>Audiometry</strong>: low-frequency hearing loss in early stages</li>
+      <li><strong>Course</strong>: progressive hearing loss; attacks become less intense but hearing worsens</li>
+    </ul>
+  </div>
+
+  <div class="flow-card purple-card">
+    <span class="card-badge badge-purple">VESTIBULAR MIGRAINE</span>
+    <div class="card-title">Vestibular Migraine</div>
+    <div class="card-text">
+      Second most common cause of episodic vertigo. Often <strong>underdiagnosed</strong>.
+    </div>
+    <ul class="checklist">
+      <li><strong>ICHD-3 criteria</strong>: ≥ 5 episodes of vestibular symptoms (5 min – 72h) + migraine history + ≥ 50% of episodes have at least 1 migrainous symptom (headache, photophobia, phonophobia, aura)</li>
+      <li><strong>Caution</strong>: headache may be absent in 30% of episodes!</li>
+      <li><strong>DD with Ménière</strong>: absence of documented hearing loss, migraine history, dietary/hormonal triggers</li>
+    </ul>
+  </div>
+
+  <div class="flow-card warning-card">
+    <span class="card-badge badge-orange">TIA</span>
+    <div class="card-title">Vertebrobasilar TIA</div>
+    <ul class="checklist">
+      <li>Vertigo <strong>+ at least one other neurological symptom</strong> (diplopia, dysarthria, ataxia, visual field defects)</li>
+      <li>Isolated vertigo is rarely TIA (&lt; 1% of cases), but consider if <strong>multiple vascular risk factors</strong> present</li>
+      <li>If suspected → <strong>CT/MRI angiography posterior circulation + ABCD2 score</strong></li>
+    </ul>
+  </div>
+
+  <div class="subsection">C. Acute continuous vertigo (days)</div>
+
+  <div class="flow-card safe-card">
+    <span class="card-badge badge-teal">VESTIBULAR NEURITIS</span>
+    <div class="card-title">Vestibular Neuritis</div>
+    <ul class="checklist">
+      <li><strong>Cause</strong>: inflammation/HSV-1 reactivation in the vestibular ganglion (superior branch &gt; inferior)</li>
+      <li><strong>Clinical</strong>: severe acute rotatory vertigo, nausea/vomiting, instability, lasting days — <strong>without hearing loss</strong></li>
+      <li><strong>HINTS</strong>: positive HI + unidirectional nystagmus + no skew = peripheral</li>
+      <li><strong>Course</strong>: acute phase 1-3 days, progressive improvement over 1-6 weeks via central vestibular compensation</li>
+    </ul>
+  </div>
+
+  <div class="flow-card emergency">
+    <span class="card-badge badge-red">STROKE</span>
+    <div class="card-title">Cerebellar / brainstem stroke</div>
+    <ul class="checklist">
+      <li><strong>PICA / AICA / SCA</strong>: different territories, variable presentations</li>
+      <li><strong>Central HINTS even with negative CT</strong> → <strong>urgent MRI-DWI</strong></li>
+      <li>AICA stroke: vertigo + acute hearing loss + facial deficit → <strong>do not confuse with labyrinthitis</strong></li>
+      <li>Isolated cerebellar stroke: vertigo + severe ataxia (unable to walk) + vomiting → <strong>do not confuse with neuritis</strong></li>
+    </ul>
+  </div>
+
+  <div class="subsection">D. Chronic vertigo (weeks–months)</div>
+
+  <div class="flow-card purple-card">
+    <span class="card-badge badge-pink">PPPD</span>
+    <div class="card-title">Persistent Postural-Perceptual Dizziness</div>
+    <ul class="checklist">
+      <li><strong>Diagnosis of exclusion</strong> + Bárány Society 2017 criteria</li>
+      <li>Dizziness/instability for ≥ 3 months, present most days</li>
+      <li>Worsened by: upright posture, complex visual stimuli, active/passive head movements</li>
+      <li>Often precipitated by an acute vestibular event (e.g. BPPV, neuritis) + failed compensation + anxiety</li>
+      <li>Normal neurological and vestibular examination</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== SECTION 5: TREATMENT ==================== -->
+<div class="section" id="sec5">
+  <div class="section-title">
+    <span class="icon" style="background:rgba(6,214,160,0.15);">💊</span>
+    Step 6 — Treatment
+  </div>
+
+  <div class="flow-card safe-card">
+    <span class="card-badge badge-green">BPPV</span>
+    <div class="card-title">Repositioning manoeuvres</div>
+    <ul class="checklist">
+      <li><strong>Posterior canal</strong>: <strong>Epley manoeuvre</strong> (efficacy ~80% in 1-2 sessions)</li>
+      <li><strong>Lateral canal (geotropic)</strong>: <strong>Lempert/BBQ manoeuvre</strong> (360° rotation toward healthy side)</li>
+      <li><strong>Lateral canal (apogeotropic)</strong>: <strong>Gufoni manoeuvre</strong></li>
+      <li><strong>Do not prescribe vestibular suppressants</strong> for BPPV — they delay compensation</li>
+      <li>Recurrence → repeat manoeuvre; refractory BPPV → ENT assessment (canal plugging?)</li>
+    </ul>
+  </div>
+
+  <div class="flow-card info-card">
+    <span class="card-badge badge-teal">VESTIBULAR NEURITIS</span>
+    <div class="card-title">Acute treatment + rehabilitation</div>
+    <table class="dose-table">
+      <tr><th>Phase</th><th>Treatment</th></tr>
+      <tr>
+        <td><strong>Acute (24-72h)</strong></td>
+        <td>
+          Vestibular suppressants: <strong>dimenhydrinate 50 mg IV/IM</strong> or <strong>metoclopramide 10 mg</strong> for nausea/vomiting.<br>
+          Diazepam 5-10 mg only if symptoms very severe, for max 48-72h.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Subacute (&gt; 72h)</strong></td>
+        <td>
+          <strong>STOP vestibular suppressants</strong> (they slow compensation!).<br>
+          Start <strong>vestibular rehabilitation</strong> as soon as possible.
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Corticosteroids</strong></td>
+        <td>
+          Controversial evidence. If used: <strong>methylprednisolone</strong> 100 mg → taper over 3 weeks. Within 72h of onset.
+        </td>
+      </tr>
+    </table>
+    <div class="tag-row">
+      <span class="tag badge-yellow">⚠️ Antivirals NOT indicated in vestibular neuritis</span>
+    </div>
+  </div>
+
+  <div class="flow-card info-card">
+    <span class="card-badge badge-blue">MÉNIÈRE</span>
+    <div class="card-title">Step-wise treatment</div>
+    <table class="dose-table">
+      <tr><th>Step</th><th>Intervention</th></tr>
+      <tr><td><strong>1st line</strong></td><td>Salt restriction (&lt; 2g/day) + betahistine 24 mg x 2/day + diuretics (hydrochlorothiazide 25 mg)</td></tr>
+      <tr><td><strong>Acute attack</strong></td><td>Vestibular suppressants (dimenhydrinate), antiemetics, rest</td></tr>
+      <tr><td><strong>2nd line</strong></td><td>Intratympanic corticosteroid injection (dexamethasone)</td></tr>
+      <tr><td><strong>3rd line</strong></td><td>Intratympanic gentamicin (chemical vestibular ablation)</td></tr>
+      <tr><td><strong>Surgery</strong></td><td>Endolymphatic sac decompression, labyrinthectomy, vestibular nerve section</td></tr>
+    </table>
+  </div>
+
+  <div class="flow-card purple-card">
+    <span class="card-badge badge-purple">VESTIBULAR MIGRAINE</span>
+    <div class="card-title">Prophylaxis + Acute treatment</div>
+    <ul class="checklist">
+      <li><strong>Prophylaxis</strong> (as for migraine): propranolol 40-160 mg, amitriptyline 10-50 mg, topiramate 50-100 mg, flunarizine 5-10 mg, candesartan 8-16 mg, anti-CGRP antibodies</li>
+      <li><strong>Acute</strong>: triptans (if headache present), NSAIDs, antiemetics</li>
+      <li><strong>Lifestyle</strong>: sleep hygiene, regular exercise, avoid triggers</li>
+      <li><strong>Vestibular rehabilitation</strong>: useful as adjunct</li>
+    </ul>
+  </div>
+
+  <div class="flow-card purple-card">
+    <span class="card-badge badge-pink">PPPD</span>
+    <div class="card-title">Multimodal approach</div>
+    <ul class="checklist">
+      <li><strong>Pharmacotherapy</strong>: SSRI/SNRI (sertraline 50-200 mg, venlafaxine 75-225 mg) — slow titration</li>
+      <li><strong>Vestibular rehabilitation</strong>: personalised programme, gradual exposure</li>
+      <li><strong>CBT</strong>: cognitive-behavioural therapy for anxiety component</li>
+      <li><strong>Psychoeducation</strong>: reassure the patient, explain the mechanism (it's not "all in their head")</li>
+    </ul>
+  </div>
+
+  <div class="flow-card emergency">
+    <span class="card-badge badge-red">STROKE</span>
+    <div class="card-title">Vertebrobasilar stroke management</div>
+    <ul class="checklist">
+      <li><strong>IV thrombolysis</strong>: alteplase 0.9 mg/kg (within 4.5h) if indicated</li>
+      <li><strong>Thrombectomy</strong>: basilar occlusion → extended window (up to 24h in experienced centres)</li>
+      <li><strong>Cerebellar haemorrhage</strong> &gt; 3 cm or with hydrocephalus → <strong>neurosurgical consult for evacuation</strong></li>
+      <li>Admission to Stroke Unit, monitoring, secondary prevention</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== SECTION 6: RED FLAGS ==================== -->
+<div class="section" id="sec6">
+  <div class="section-title">
+    <span class="icon" style="background:rgba(255,77,106,0.15);">🚩</span>
+    Step 7 — Red Flags &amp; When to Escalate
+  </div>
+
+  <div class="flow-card emergency">
+    <span class="card-badge badge-red">RED FLAGS — URGENT NEUROIMAGING</span>
+    <div class="card-title">Indications for urgent MRI-DWI / CT</div>
+    <ul class="checklist">
+      <li><strong>Central HINTS</strong> (even a single component)</li>
+      <li>Purely vertical nystagmus <strong>(downbeat/upbeat)</strong> or <strong>purely torsional</strong></li>
+      <li><strong>Associated focal neurological deficits</strong> (diplopia, dysarthria, limb weakness, hemianopia)</li>
+      <li><strong>Severe ataxia</strong> (unable to walk) disproportionate to vertigo</li>
+      <li><strong>Severe acute headache</strong> of new onset ("worst of life")</li>
+      <li><strong>Acute sensorineural hearing loss + vertigo</strong> (suspected AICA)</li>
+      <li><strong>Altered consciousness</strong></li>
+      <li><strong>Multiple vascular risk factors</strong> + acute vertigo even if HINTS appears peripheral → low threshold for imaging</li>
+    </ul>
+  </div>
+
+  <div class="flow-card warning-card">
+    <span class="card-badge badge-yellow">ESCALATE TO SENIOR</span>
+    <div class="card-title">When to escalate on call</div>
+    <ul class="checklist">
+      <li>Any suspicion of <strong>central aetiology</strong> — always</li>
+      <li><strong>Discordant or unclear HINTS</strong> → always better to get a second opinion</li>
+      <li>Patient with <strong>vertigo + AF</strong> not anticoagulated or with sub-therapeutic INR</li>
+      <li>Acute deterioration or <strong>new neurological symptoms</strong> during observation</li>
+      <li>Need for <strong>thrombolysis / thrombectomy</strong></li>
+      <li>Cerebellar haemorrhage or <strong>acute hydrocephalus</strong></li>
+      <li>Diagnostic uncertainty: <strong>it is always better to call than not to call</strong></li>
+    </ul>
+  </div>
+
+  <div class="flow-card safe-card">
+    <span class="card-badge badge-green">SAFE DISCHARGE</span>
+    <div class="card-title">When discharge from ED is appropriate</div>
+    <ul class="checklist">
+      <li>Complete and reliable <strong>peripheral HINTS</strong></li>
+      <li>BPPV diagnosed and treated with manoeuvre → nystagmus resolved</li>
+      <li><strong>No red flags</strong> and <strong>no neurological deficits</strong></li>
+      <li>Patient <strong>mobilising safely</strong></li>
+      <li>Arrange <strong>follow-up</strong>: ENT/vestibology clinic within 1-2 weeks</li>
+      <li><strong>Written discharge instructions</strong>: when to return to ED (new neurological symptoms, deterioration)</li>
+    </ul>
+  </div>
+
+  <div class="footer-note">
+    Educational algorithm for bedside clinical use · Updated 2025<br>
+    Based on: Bárány Society, AAN, ICHD-3, ESO Guidelines
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+  const tabs = document.querySelectorAll('.nav-tab');
+  const sections = document.querySelectorAll('.section');
+
+  function showSection(idx) {
+    tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+    sections.forEach((s, i) => s.classList.toggle('active', i === idx));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
