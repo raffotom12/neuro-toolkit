@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0B1E35;
+    min-height: 100vh;
+  }
+
+  /* ── STICKY HEADER ── */
+  .top-header {
+    background: #0B1E35;
+    padding: 12px 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .main-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+  }
+  .main-sub {
+    font-size: 9.5px;
+    color: #7A9BB8;
+    margin-top: 2px;
+  }
+  .key-rule {
+    background: #1E3A55;
+    border-radius: 6px;
+    padding: 5px 9px;
+    font-size: 9px;
+    color: #C8DCF0;
+    line-height: 1.6;
+    text-align: right;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+  .key-rule strong { color: #FFD54F; display: block; margin-bottom: 1px; }
+
+  /* ── TABS ── */
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding-bottom: 10px;
+  }
+  .tab {
+    padding: 9px 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: all 0.18s;
+    border: none;
+    outline: none;
+  }
+  .tab.central {
+    background: #1B3F5E;
+    color: #64B5F6;
+  }
+  .tab.central.active {
+    background: #1565C0;
+    color: #fff;
+  }
+  .tab.peripheral {
+    background: #1A3A28;
+    color: #81C784;
+  }
+  .tab.peripheral.active {
+    background: #2E7D32;
+    color: #fff;
+  }
+
+  /* ── DISCRIMINATOR PILL ── */
+  .disc-pill {
+    display: none;
+    background: #F8FAFC;
+    border-left: 4px solid #ccc;
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    margin: 0 0 2px 0;
+    font-size: 10.5px;
+    color: #1A2B3C;
+    line-height: 1.7;
+  }
+  .disc-pill.central  { border-color: #1565C0; background: #E3F0FF; }
+  .disc-pill.peripheral { border-color: #2E7D32; background: #E8F5E9; }
+  .disc-pill strong { display: block; font-size: 11px; margin-bottom: 2px; }
+  .kchip {
+    display: inline-block;
+    background: rgba(0,0,0,0.07);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin: 1px 2px 1px 0;
+    font-size: 9.5px;
+  }
+
+  /* ── CONTENT PANELS ── */
+  .panel {
+    display: none;
+    background: #F2F5F9;
+    padding: 0 0 80px;
+  }
+  .panel.active { display: block; }
+  .disc-pill.active { display: block; }
+
+  /* ── SECTION HEADER ── */
+  .sec-hd {
+    padding: 6px 14px;
+    font-size: 9.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #fff;
+    margin-top: 2px;
+  }
+
+  /* ── ZONE HEADER (peripheral) ── */
+  .zone-hd {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: #DDE5EE;
+    border-top: 1px solid #C8D4E0;
+    border-bottom: 1px solid #C8D4E0;
+    margin-top: 3px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #1A2D40;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+  }
+  .zone-badge {
+    background: #1A2D40;
+    color: #fff;
+    font-size: 9px;
+    border-radius: 3px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .zone-sub {
+    font-size: 9px;
+    font-weight: 400;
+    color: #4A6080;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ── ITEM ROW ── */
+  .item {
+    background: #fff;
+    border-bottom: 1px solid #EEF1F5;
+    padding: 8px 14px 6px 14px;
+  }
+  .item.star { background: #FFFDE7; }
+  .item.top-pick { background: #E8F5E9; }
+
+  .item-main {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .cond {
+    font-size: 13px;
+    color: #0D1E2E;
+    line-height: 1.3;
+    flex: 1;
+  }
+  .item.star .cond  { font-weight: 700; }
+  .item.top-pick .cond { font-weight: 800; }
+  .tag {
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .note {
+    font-size: 10.5px;
+    color: #546E7A;
+    font-style: italic;
+    margin-top: 4px;
+    margin-left: 18px;
+    line-height: 1.45;
+  }
+
+  /* ── PITFALL BLOCK ── */
+  .pitfall {
+    background: #FFF8E1;
+    border-left: 4px solid #FFB300;
+    margin: 6px 0 2px;
+    padding: 9px 14px;
+  }
+  .pitfall-title {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: #E65100;
+    margin-bottom: 5px;
+  }
+  .pitfall-body {
+    font-size: 11px;
+    color: #37474F;
+    line-height: 1.7;
+  }
+
+  /* ── PEARL BLOCK ── */
+  .pearl-block {
+    background: #E8F5E9;
+    border-left: 4px solid #43A047;
+    margin: 4px 0 2px;
+    padding: 9px 14px;
+  }
+  .pearl-title {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: #1B5E20;
+    margin-bottom: 5px;
+  }
+  .pearl-body {
+    font-size: 11px;
+    color: #1A3020;
+    line-height: 1.7;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    background: #0B1E35;
+    padding: 12px 14px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+  }
+  .legend-title {
+    font-size: 8.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #7A9BB8;
+    margin-bottom: 6px;
+  }
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px 10px;
+  }
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9.5px;
+    color: #B8CDE0;
+  }
+  .leg-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* etiology colours */
+  .c-v  { background: #E53935; }
+  .c-n  { background: #8E24AA; }
+  .c-d  { background: #1E88E5; }
+  .c-i  { background: #43A047; }
+  .c-in { background: #F4511E; }
+  .c-t  { background: #6D4C41; }
+  .c-id { background: #546E7A; }
+  .c-s  { background: #00897B; }
+  .c-st { background: #7B1FA2; }
+
+  /* section header colours */
+  .bg-vascular   { background: #B71C1C; }
+  .bg-neoplastic { background: #6A1B9A; }
+  .bg-demyelin   { background: #0D47A1; }
+  .bg-structural { background: #3E2723; }
+  .bg-inflam     { background: #BF360C; }
+  .bg-systemic   { background: #00695C; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ STICKY HEADER + TABS ══════════ -->
+<div class="top-header">
+  <div class="title-row">
+    <div>
+      <div class="main-title">CN VII — Facial Nerve Palsy</div>
+      <div class="main-sub">Etiological Classification · Central vs Peripheral</div>
+    </div>
+    <div class="key-rule">
+      <strong>KEY RULE</strong>
+      Forehead SPARED → Central<br>
+      Forehead INVOLVED → Peripheral
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab central active" onclick="switchTab('central')">⬛ Central (UMN)</button>
+    <button class="tab peripheral" onclick="switchTab('peripheral')">🟢 Peripheral (LMN)</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CENTRAL PANEL
+══════════════════════════════════════════ -->
+<div class="panel active" id="panel-central">
+
+  <div class="disc-pill central active">
+    <strong>Central UMN — Pattern</strong>
+    <span class="kchip">Contralateral lower face only</span>
+    <span class="kchip">Forehead spared — bilateral cortical representation</span>
+    <span class="kchip">± Hemiplegia · hemisensory · aphasia · neglect</span>
+    <span class="kchip">Voluntary palsy only → frontal lesion (emotional smile preserved)</span>
+  </div>
+
+  <!-- Vascular -->
+  <div class="sec-hd bg-vascular">Vascular</div>
+
+  <div class="item star">
+    <div class="item-main">
+      <div class="dot c-v"></div>
+      <div class="cond">Ischaemic stroke — MCA territory</div>
+      <span class="tag c-v">Vascular</span>
+    </div>
+    <div class="note">Posterior limb IC · corona radiata · precentral gyrus (face area)</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-v"></div>
+      <div class="cond">Lacunar infarct — posterior limb IC</div>
+      <span class="tag c-v">Vascular</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-v"></div>
+      <div class="cond">Haemorrhagic stroke (putaminal / lobar)</div>
+      <span class="tag c-v">Vascular</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-v"></div>
+      <div class="cond">TIA</div>
+      <span class="tag c-v">Vascular</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-st"></div>
+      <div class="cond">AVM / Cavernoma — motor cortex / IC</div>
+      <span class="tag c-st">Struct.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-in"></div>
+      <div class="cond">CNS vasculitis</div>
+      <span class="tag c-in">Inflam.</span>
+    </div>
+  </div>
+
+  <!-- Neoplastic -->
+  <div class="sec-hd bg-neoplastic">Neoplastic</div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">High-grade glioma — frontal / parietal</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Cortical / subcortical metastasis</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Parasagittal meningioma</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <!-- Demyelinating -->
+  <div class="sec-hd bg-demyelin">Demyelinating</div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-d"></div>
+      <div class="cond">Multiple sclerosis — cortical / subcortical plaque</div>
+      <span class="tag c-d">Demyelin.</span>
+    </div>
+    <div class="note">UMN pattern is rare in MS — pontine plaque far more common → causes peripheral LMN pattern instead</div>
+  </div>
+
+  <!-- Structural / Traumatic -->
+  <div class="sec-hd bg-structural">Structural / Traumatic</div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-t"></div>
+      <div class="cond">Cortical contusion / TBI</div>
+      <span class="tag c-t">Trauma</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-t"></div>
+      <div class="cond">Subdural / epidural haematoma</div>
+      <span class="tag c-t">Trauma</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-i"></div>
+      <div class="cond">Brain abscess</div>
+      <span class="tag c-i">Infect.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-in"></div>
+      <div class="cond">Viral / autoimmune encephalitis</div>
+      <span class="tag c-in">Inflam.</span>
+    </div>
+  </div>
+
+  <!-- Pitfall -->
+  <div class="pitfall">
+    <div class="pitfall-title">⚠️ Central Palsy — Pitfalls</div>
+    <div class="pitfall-body">
+      • Pontine lesions (AICA, MS, glioma) produce LMN pattern despite CNS location → check Peripheral tab, Zone ①<br>
+      • Frontal lesion: voluntary palsy only; emotional/spontaneous smile preserved (dissociation)<br>
+      • Contralateral UMN signs favour central strongly<br>
+      • Sudden isolated palsy without prodrome — image before labelling Bell's<br>
+      • Bilateral facial palsy is almost never central
+    </div>
+  </div>
+
+</div><!-- /panel-central -->
+
+
+<!-- ══════════════════════════════════════════
+     PERIPHERAL PANEL
+══════════════════════════════════════════ -->
+<div class="panel" id="panel-peripheral">
+
+  <div class="disc-pill peripheral">
+    <strong>Peripheral LMN — Pattern</strong>
+    <span class="kchip">Ipsilateral complete hemiface</span>
+    <span class="kchip">Forehead INVOLVED</span>
+    <span class="kchip">Sub-localise ↓: dry eye → above geniculate · hyperacusis → above stapedius · taste loss → above chorda tympani</span>
+    <span class="kchip">Organized proximal → distal below</span>
+  </div>
+
+  <!-- ZONE 1 — PONS -->
+  <div class="zone-hd">
+    <span class="zone-badge">① PONS</span>
+    <span class="zone-sub">Intra-axial — LMN despite CNS location</span>
+  </div>
+
+  <div class="item star">
+    <div class="item-main">
+      <div class="dot c-v"></div>
+      <div class="cond">AICA stroke — lateral inferior pontine syndrome</div>
+      <span class="tag c-v">Vascular</span>
+    </div>
+    <div class="note">Ipsi CN VI · ipsi Horner · contralateral spinothalamic · ipsi ataxia · vertigo · SNHL</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-d"></div>
+      <div class="cond">MS — pontine demyelinating plaque</div>
+      <span class="tag c-d">Demyelin.</span>
+    </div>
+    <div class="note">Most common CNS cause of peripheral-pattern facial palsy; ± INO</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Pontine glioma / metastasis</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-s"></div>
+      <div class="cond">Wernicke's encephalopathy</div>
+      <span class="tag c-s">Metabolic</span>
+    </div>
+  </div>
+
+  <!-- ZONE 2 — CPA -->
+  <div class="zone-hd">
+    <span class="zone-badge">② CPA</span>
+    <span class="zone-sub">Cerebellopontine angle — CN VII compressed at exit</span>
+  </div>
+
+  <div class="item star">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Vestibular schwannoma (acoustic neuroma)</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+    <div class="note">Progressive SNHL + tinnitus; CN VII palsy is a late finding; bilateral → NF2</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Meningioma — CPA</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Epidermoid cyst</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Leptomeningeal carcinomatosis</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <!-- ZONE 3 — PETROUS -->
+  <div class="zone-hd">
+    <span class="zone-badge">③ PETROUS</span>
+    <span class="zone-sub">Temporal bone — intrapetrous segment</span>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-t"></div>
+      <div class="cond">Temporal bone fracture (transverse &gt; longitudinal)</div>
+      <span class="tag c-t">Trauma</span>
+    </div>
+    <div class="note">Haemotympanum · Battle's sign · SNHL or conductive HL</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-i"></div>
+      <div class="cond">Chronic otitis media + cholesteatoma</div>
+      <span class="tag c-i">Infect.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-i"></div>
+      <div class="cond">Acute mastoiditis / Gradenigo syndrome</div>
+      <span class="tag c-i">Infect.</span>
+    </div>
+    <div class="note">Gradenigo: petrous apex → CN VI + CN VII + retroorbital pain</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Glomus jugulare / tympanicum</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <!-- ZONE 4 — FACIAL CANAL -->
+  <div class="zone-hd">
+    <span class="zone-badge">④ FACIAL CANAL</span>
+    <span class="zone-sub">Intratemporal — most frequent overall site</span>
+  </div>
+
+  <div class="item top-pick">
+    <div class="item-main">
+      <div class="dot c-id"></div>
+      <div class="cond">★ Bell's palsy — HSV-1 reactivation</div>
+      <span class="tag c-id">Idiopath.</span>
+    </div>
+    <div class="note">Most common cause overall · Acute, complete, unilateral · Tx: prednisolone ± aciclovir within 72 h</div>
+  </div>
+
+  <div class="item star">
+    <div class="item-main">
+      <div class="dot c-i"></div>
+      <div class="cond">Ramsay Hunt syndrome — VZV</div>
+      <span class="tag c-i">Infect.</span>
+    </div>
+    <div class="note">Otalgia + auricular/palatal vesicles + SNHL + vertigo · Worse prognosis than Bell's</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-i"></div>
+      <div class="cond">Lyme neuroborreliosis (Borrelia burgdorferi)</div>
+      <span class="tag c-i">Infect.</span>
+    </div>
+    <div class="note">Bilateral in ~25% · Endemic exposure · Erythema migrans · CSF lymphocytic pleocytosis</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-in"></div>
+      <div class="cond">Sarcoidosis — Heerfordt syndrome</div>
+      <span class="tag c-in">Inflam.</span>
+    </div>
+    <div class="note">Uveoparotid fever: uveitis + parotid enlargement + fever ± bilateral CN VII</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-in"></div>
+      <div class="cond">Melkersson-Rosenthal syndrome</div>
+      <span class="tag c-in">Inflam.</span>
+    </div>
+    <div class="note">Recurrent facial palsy + orofacial oedema + fissured tongue (classic triad)</div>
+  </div>
+
+  <!-- ZONE 5 — PAROTID -->
+  <div class="zone-hd">
+    <span class="zone-badge">⑤ PAROTID</span>
+    <span class="zone-sub">Extratemporal — distal branches; partial palsies</span>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Parotid malignancy (mucoepidermoid carcinoma)</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-n"></div>
+      <div class="cond">Pleomorphic adenoma — malignant transformation</div>
+      <span class="tag c-n">Neoplas.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-t"></div>
+      <div class="cond">Parotidectomy / penetrating facial trauma</div>
+      <span class="tag c-t">Trauma</span>
+    </div>
+    <div class="note">Branch-specific territory → partial palsy pattern</div>
+  </div>
+
+  <!-- ZONE 6 — SYSTEMIC -->
+  <div class="zone-hd">
+    <span class="zone-badge">⑥ SYSTEMIC</span>
+    <span class="zone-sub">Bilateral / multifocal — exclude before labelling Bell's</span>
+  </div>
+
+  <div class="item star">
+    <div class="item-main">
+      <div class="dot c-s"></div>
+      <div class="cond">Guillain-Barré syndrome</div>
+      <span class="tag c-s">Systemic</span>
+    </div>
+    <div class="note">Bilateral facial diplegia in ~50% · Ascending areflexic paralysis · Miller Fisher: CN III/IV/VI + ataxia + areflexia</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-i"></div>
+      <div class="cond">HIV (acute seroconversion / late AIDS)</div>
+      <span class="tag c-i">Infect.</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-i"></div>
+      <div class="cond">Leprosy (Mycobacterium leprae)</div>
+      <span class="tag c-i">Infect.</span>
+    </div>
+    <div class="note">Mononeuropathy multiplex · thickened superficial nerves · hypoaesthetic skin lesions</div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-s"></div>
+      <div class="cond">Diabetes mellitus — ischaemic mononeuropathy</div>
+      <span class="tag c-s">Metabolic</span>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-main">
+      <div class="dot c-in"></div>
+      <div class="cond">Sarcoidosis (systemic — without Heerfordt)</div>
+      <span class="tag c-in">Inflam.</span>
+    </div>
+  </div>
+
+  <!-- Pearls -->
+  <div class="pearl-block">
+    <div class="pearl-title">🔑 Peripheral — Clinical Pearls</div>
+    <div class="pearl-body">
+      <strong>Sub-localise by associated features:</strong><br>
+      Dry eye → lesion above geniculate ganglion<br>
+      Hyperacusis → lesion above nerve to stapedius<br>
+      Taste loss (ant ⅔ tongue) → lesion above chorda tympani<br>
+      All spared → distal to stylomastoid foramen<br><br>
+      <strong>Imaging indications (don't wait):</strong><br>
+      Gradual / slow onset · No recovery at 3 months · Recurrent palsy · Associated cranial neuropathies · Trauma · Palpable parotid mass<br><br>
+      <strong>Bilateral = systemic until proven otherwise:</strong><br>
+      GBS · Lyme · Sarcoidosis · HIV · Leptomeningeal mets
+    </div>
+  </div>
+
+</div><!-- /panel-peripheral -->
+
+<!-- ══════════ FIXED LEGEND ══════════ -->
+<div class="legend">
+  <div class="legend-title">Etiology key</div>
+  <div class="legend-grid">
+    <div class="leg-item"><div class="leg-dot c-v"></div>Vascular</div>
+    <div class="leg-item"><div class="leg-dot c-n"></div>Neoplastic</div>
+    <div class="leg-item"><div class="leg-dot c-d"></div>Demyelinating</div>
+    <div class="leg-item"><div class="leg-dot c-i"></div>Infectious</div>
+    <div class="leg-item"><div class="leg-dot c-in"></div>Inflammatory</div>
+    <div class="leg-item"><div class="leg-dot c-t"></div>Traumatic</div>
+    <div class="leg-item"><div class="leg-dot c-id"></div>Idiopathic</div>
+    <div class="leg-item"><div class="leg-dot c-s"></div>Systemic/Metab.</div>
+    <div class="leg-item"><div class="leg-dot c-st"></div>Structural</div>
+  </div>
+</div>
+
+<script>
+  function switchTab(which) {
+    // panels
+    document.getElementById('panel-central').classList.remove('active');
+    document.getElementById('panel-peripheral').classList.remove('active');
+    document.getElementById('panel-' + which).classList.add('active');
+    // tabs
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.tab.' + which).classList.add('active');
+    // scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
