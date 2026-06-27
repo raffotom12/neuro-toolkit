@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ASM Mechanisms of Action | Neuro Toolkit</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#070D1A;color:#E2E8F0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#0D1525}
+::-webkit-scrollbar-thumb{background:#334155;border-radius:3px}
+@keyframes pulse{0%,100%{opacity:.45;r:0}50%{opacity:1}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const MECHS = [
+  { id:"na-fast", label:"Na⁺ Fast Inactivation", color:"#3B82F6", targets:["nav_axon","nav_post"],
+    location:"Voltage-gated Na⁺ channel — axonal & postsynaptic membrane (fast inactivation gate)",
+    mechanism:`Na⁺ channels cycle through three states: OPEN (during AP), FAST-INACTIVATED (inactivation gate swings shut immediately after), and CLOSED/RESTING (ready again). These drugs bind selectively to the fast-inactivated state, prolonging it and extending the refractory period.\n\nThe binding is USE-DEPENDENT and VOLTAGE-DEPENDENT: the more recently a channel fired, the more drug accumulates in the inactivated state. At normal rates (1–10 Hz) the drug has minimal effect. At seizure rates (20–100 Hz) the effect is maximal — an intrinsic seizure-selectivity built into the mechanism.`,
+    effect:"Prolonged refractory period → inability to sustain high-frequency repetitive firing → membrane stabilisation without suppressing normal activity",
+    why:"Seizures require neurons to fire at 20–100 Hz. Use-dependent block accumulates specifically at these pathological rates, making the drug intrinsically seizure-selective.",
+    drugs:[{n:"Carbamazepine",g:1},{n:"Phenytoin / Fosphenytoin",g:1},{n:"Lamotrigine",g:2},{n:"Oxcarbazepine",g:2}],
+    pearl:"Use-dependence: the faster a channel fires, the more drug accumulates in the inactivated state. The drug 'sees' the channel more during a seizure than during normal activity — intrinsic therapeutic selectivity." },
+
+  { id:"na-slow", label:"Na⁺ Slow Inactivation", color:"#06B6D4", targets:["nav_axon","nav_post"],
+    location:"Voltage-gated Na⁺ channel — slow/sustained inactivation gate (distinct from fast gate)",
+    mechanism:`Beyond the fast gate, Na⁺ channels have a SECOND, slower inactivation process that develops over hundreds of milliseconds of sustained depolarisation. Lacosamide and eslicarbazepine selectively enhance and stabilise this slow-inactivated state.\n\nCritically, they have minimal effect on single action potentials — the slow gate requires sustained firing to engage. They only become effective when a neuron has been persistently depolarised, as occurs in focal ictogenic zones.`,
+    effect:"Sustained suppression of persistently firing ictogenic neurons, with minimal impact on neurons engaged in normal phasic activity",
+    why:"Focal seizure zones are defined by sustained persistent depolarisation. Slow inactivation enhancement specifically targets this pathological state. LCM + CBZ/LTG act on DIFFERENT gates of the same channel — pharmacologically additive, not redundant.",
+    drugs:[{n:"Lacosamide",g:3},{n:"Eslicarbazepine acetate",g:3}],
+    pearl:"LCM + CBZ/LTG = rational combination: they enhance slow vs fast inactivation via independent molecular sites on the same channel. Two distinct mechanisms, one target — additive suppression." },
+
+  { id:"na-dual", label:"Na⁺ Dual + GABA-A", color:"#8B5CF6", targets:["nav_axon","nav_post","gabaa"],
+    location:"Na⁺ channels (fast AND slow gates) + GABA-A receptor (novel non-BZD α2/β3 site)",
+    mechanism:`Cenobamate combines THREE independent mechanisms:\n1. Fast Na⁺ inactivation enhancement (like CBZ/LTG)\n2. Slow/persistent Na⁺ inactivation enhancement (like LCM)\n3. Positive allosteric modulation of GABA-A at the non-benzodiazepine α2/β3 subunit interface — a site not engaged by diazepam, clonazepam, or clobazam\n\nThe dual Na⁺ effect maximally suppresses ictogenic neurons via both gates. The separate GABA-A component adds enhanced inhibitory drive through a structurally novel site.`,
+    effect:"Maximal Na⁺ stabilisation (fast + slow) + enhanced inhibition via novel GABA-A site → synergistic anticonvulsant action across three independent mechanisms",
+    why:"A seizure network cannot simultaneously compensate for three independent mechanisms. Convergent multi-target engagement explains the ~21% seizure freedom rate — the highest ever in an add-on ASM trial.",
+    drugs:[{n:"Cenobamate",g:3}],
+    pearl:"The non-BZD GABA-A site (α2/β3) is structurally distinct from the BZD site — cenobamate works even in BZD-tolerant patients where conventional BZD sites are downregulated." },
+
+  { id:"gaba-barb", label:"GABA-A — Barbiturate Site", color:"#7C3AED", targets:["gabaa"],
+    location:"GABA-A receptor — barbiturate site within the β-subunit transmembrane domain",
+    mechanism:`The GABA-A receptor is a pentameric Cl⁻ channel (2α + 2β + 1γ). Three major allosteric sites:\n• BZD site (α–γ interface) → benzodiazepines\n• Barbiturate site (β-subunit TM domain) → phenobarbital\n• Non-BZD site (α2/β3) → cenobamate\n\nPhenobarbital increases the DURATION of each Cl⁻ channel opening event per GABA binding. At high concentrations, phenobarbital can open the channel DIRECTLY without GABA — BZDs cannot do this. This explains why barbiturate overdose causes respiratory arrest while BZD overdose rarely does.`,
+    effect:"Increased Cl⁻ channel opening DURATION → greater Cl⁻ influx per GABA stimulus → stronger hyperpolarisation → raised AP threshold",
+    why:"Enhanced Cl⁻ influx makes postsynaptic neurons harder to depolarise to threshold. Neurons being recruited into ictal networks find the threshold bar higher.",
+    drugs:[{n:"Phenobarbital",g:1}],
+    pearl:"Barbiturates ↑ DURATION; BZDs ↑ FREQUENCY. Different sites, different effects, additive when combined (refractory status epilepticus rationale). At high doses barbiturates bypass GABA entirely — BZDs cannot." },
+
+  { id:"bzd", label:"GABA-A — BZD Site", color:"#9333EA", targets:["gabaa"],
+    location:"GABA-A receptor — benzodiazepine binding site at the α–γ subunit interface",
+    mechanism:`Benzodiazepines are positive allosteric modulators — they require GABA to exert any effect. They bind the α–γ interface and increase the FREQUENCY of Cl⁻ channel openings per GABA binding event. The channel still opens for the same duration, but opens more often.\n\nSubunit selectivity matters:\n• α1 → sedation, amnesia, motor incoordination\n• α2/α3 → anxiolysis, anticonvulsant effect\n• Clobazam (1,5-BZD) has relative α2 selectivity → better anticonvulsant:sedation ratio than classic 1,4-BZDs\n\nTolerance: chronic exposure downregulates GABA-A surface expression — the basis of anticonvulsant tolerance (within weeks to months).`,
+    effect:"Increased Cl⁻ channel opening FREQUENCY → enhanced hyperpolarisation → reduced postsynaptic excitability",
+    why:"Amplified GABAergic inhibition increases the threshold for recruiting neurons into ictal networks. Rapid IV onset makes them first-line for status epilepticus.",
+    drugs:[{n:"Clonazepam",g:1},{n:"Clobazam",g:2}],
+    pearl:"Clobazam's α2 selectivity is why it causes less sedation than clonazepam at anticonvulsant doses — the anticonvulsant effect (α2) is pharmacologically separable from the sedative effect (α1)." },
+
+  { id:"sv2a", label:"SV2A Modulator", color:"#10B981", targets:["sv2a"],
+    location:"Synaptic vesicle membrane — SV2A (Synaptic Vesicle protein 2A) transmembrane glycoprotein",
+    mechanism:`SV2A is a 12-transmembrane domain glycoprotein present on ALL synaptic vesicles. It regulates vesicle priming and docking at the active zone — the step immediately before Ca²⁺-triggered exocytosis.\n\nLEV/BRV bind SV2A and reduce vesicular release specifically during HIGH-FREQUENCY burst firing. At normal rates the effect is minimal; at seizure frequencies, where vesicle pools are under rapid recycling stress, the inhibition is pronounced — a frequency-selective presynaptic mechanism.\n\nBRV has 15–30× higher SV2A affinity than LEV and additionally inhibits Na⁺ channel fast inactivation. Neither has significant CYP drug interactions.`,
+    effect:"Reduced vesicular neurotransmitter exocytosis during high-frequency burst firing → selective presynaptic reduction of excitatory drive during seizure-frequency activity",
+    why:"SV2A modulation is use-dependent at the vesicular level — more suppression during seizure-frequency bursting, minimal during normal activity.",
+    drugs:[{n:"Levetiracetam",g:2},{n:"Brivaracetam",g:3}],
+    pearl:"BRV → LEV switch is possible overnight (same BID dose). BRV has fewer behavioural side effects — higher SV2A affinity means lower required occupancy, less off-target engagement." },
+
+  { id:"ampa", label:"AMPA Antagonist", color:"#F59E0B", targets:["ampa"],
+    location:"Postsynaptic membrane — AMPA-type ionotropic glutamate receptor (non-competitive allosteric site)",
+    mechanism:`AMPA receptors are tetrameric cation channels mediating the majority of fast excitatory neurotransmission. Glutamate binding opens a Na⁺/Ca²⁺ channel → rapid depolarisation.\n\nPerampanel is a NON-COMPETITIVE antagonist — it binds an allosteric site separate from the glutamate binding site and blocks the channel regardless of glutamate concentration. Unlike competitive antagonists, it cannot be displaced by glutamate surges. During seizures, synaptic glutamate rises 100–1000× above baseline — a competitive antagonist would be overwhelmed; perampanel maintains full block.`,
+    effect:"Reduced AMPA-mediated postsynaptic depolarisation → reduced fast excitatory transmission → higher AP threshold in postsynaptic neurons",
+    why:"Glutamate excess drives seizure propagation. Non-competitive block is maintained even during ictal glutamate surges that would displace a competitive antagonist.",
+    drugs:[{n:"Perampanel",g:3}],
+    pearl:"The ONLY AMPA antagonist in clinical use. Post-synaptic mechanism is unique — virtually all other ASMs are presynaptic or axonal. T½ ~105 h: once-nightly dosing; missing one dose is not immediately dangerous." },
+
+  { id:"alpha2d", label:"α2δ Ca²⁺ Channel", color:"#6366F1", targets:["alpha2d"],
+    location:"Presynaptic terminal — α2δ-1 auxiliary subunit of N/P/Q-type voltage-gated Ca²⁺ channels",
+    mechanism:`VGCCs at presynaptic terminals (N-, P/Q-type) trigger vesicle fusion. They have a pore-forming α1 subunit + auxiliary subunits including α2δ-1.\n\nGabapentin and pregabalin bind the α2δ-1 auxiliary subunit. They do NOT block the channel pore directly. Instead:\n1. Reduce trafficking of the α1 subunit to the plasma membrane → fewer functional channels on the surface\n2. Reduce Ca²⁺ influx efficiency through channels that reach the surface\n\n⚠️ Despite the name "gabapentin" — these drugs do NOT act on GABA receptors. The name reflects structural GABA similarity, not mechanism.`,
+    effect:"Reduced presynaptic Ca²⁺ influx → reduced vesicle fusion probability → reduced glutamate/substance P/noradrenaline release per AP in hyperactive synapses",
+    why:"Ca²⁺ influx is the proximate trigger for exocytosis. Blunting it reduces release probability, especially in pathologically hyperactive synapses.",
+    drugs:[{n:"Gabapentin",g:2},{n:"Pregabalin",g:2}],
+    pearl:"Gabapentin: NON-LINEAR absorption (saturable LAT1 gut transporter) → doubling dose ≠ doubling blood level. Pregabalin: LINEAR absorption — more predictable. Both have ZERO CYP drug interactions (no hepatic metabolism)." },
+
+  { id:"tca", label:"T-type Ca²⁺ Channel", color:"#14B8A6", targets:["tca"],
+    location:"Thalamic relay neurons — Cav3 (T-type) low-voltage-activated Ca²⁺ channels",
+    mechanism:`T-type channels (Cav3) activate at negative potentials (−65 to −50 mV). In thalamic relay neurons, they generate a low-threshold Ca²⁺ spike that drives burst firing.\n\nThe absence seizure circuit:\n1. Cortex → activates thalamic reticular (RT) neurons (GABAergic)\n2. RT → inhibits thalamic relay neurons via GABA-B\n3. Hyperpolarisation → deinactivates T-type Ca²⁺ channels\n4. T-Ca²⁺ burst → relay neurons fire → recruit cortex\n5. Repeat at 3 Hz → generalised spike-wave = absence seizure\n\nEthosuximide blocks thalamic T-type Ca²⁺ → prevents step 4 → breaks the 3 Hz loop.`,
+    effect:"Reduced low-threshold Ca²⁺ burst firing → dampened thalamocortical 3 Hz oscillation → absence seizures abolished",
+    why:"The 3 Hz thalamocortical oscillation IS the absence seizure. T-type Ca²⁺ channels are the pacemaker for this rhythm — removing the pacemaker removes the seizure.",
+    drugs:[{n:"Ethosuximide",g:1}],
+    pearl:"Ethosuximide ONLY works for absence — T-type Ca²⁺ burst firing in the thalamus is uniquely required for this seizure type. CHILD trial: ethosuximide = valproate > lamotrigine for childhood absence, with better attention scores." },
+
+  { id:"multi", label:"Multi-target", color:"#EC4899", targets:["nav_axon","nav_post","tca","gabat","alpha2d"],
+    location:"Multiple sites simultaneously: Na⁺ + T-Ca²⁺ + GABA-T + HCN + HDAC (valproate); Na⁺ + GABA-A + AMPA + CA (topiramate)",
+    mechanism:`Valproate engages ≥5 independent mechanisms:\n1. Na⁺ channel fast inactivation → reduces rapid firing\n2. T-type Ca²⁺ blockade → suppresses absence oscillation\n3. GABA-T inhibition → ↑ synaptic GABA\n4. HCN channel modulation → reduces pacemaker Ih current\n5. HDAC inhibition → epigenetic gene regulation\n\nHDAC inhibition explains VPA's unique breadth of efficacy (modulating epileptogenesis gene programs) AND its severe teratogenicity (disrupting developmental gene programs in utero — the same mechanism, two contexts).`,
+    effect:"Convergent suppression across 5 independent mechanisms → the broadest anticonvulsant spectrum of any ASM class",
+    why:"A seizure network can adapt to one blocked mechanism; it cannot simultaneously circumvent five. Multi-target convergence explains VPA's dominance across virtually all epilepsy syndromes.",
+    drugs:[{n:"Sodium Valproate",g:1},{n:"Topiramate",g:2},{n:"Zonisamide",g:2}],
+    pearl:"VPA's HDAC inhibition is both its greatest clinical strength and its Achilles heel: the same epigenetic mechanism that suppresses epileptogenesis gene programs also disrupts developmental gene expression in the embryo." },
+
+  { id:"gabat", label:"GABA-T Inhibitor", color:"#F97316", targets:["gabat"],
+    location:"Presynaptic terminal & glial cells — GABA transaminase enzyme (intracellular)",
+    mechanism:`GABA is catabolised by GABA transaminase (GABA-T): GABA → succinic semialdehyde. Without catabolism, GABA accumulates.\n\nVigabatrin is a SUICIDE SUBSTRATE (mechanism-based inhibitor): structurally similar to GABA, it is processed by GABA-T but forms a covalent, irreversible adduct that permanently inactivates the enzyme. New enzyme must be synthesised from scratch to restore activity.\n\nConsequences:\n• Duration of action >> plasma T½ (T½ ~6 h, effect lasts days)\n• TDM is mechanistically USELESS — plasma level has zero correlation with pharmacodynamic effect\n• Sustained ↑ synaptic GABA → enhanced inhibition`,
+    effect:"Irreversible ↑ synaptic GABA → sustained enhancement of GABAergic inhibition → chronic reduction of network excitability",
+    why:"More GABA = more GABA-A activation = more Cl⁻ influx = sustained hyperpolarisation. Irreversible mechanism sustains GABA elevation without requiring continuous drug presence.",
+    drugs:[{n:"Vigabatrin",g:2}],
+    pearl:"Suicide substrate kinetics → NEVER use TDM for vigabatrin. Plasma levels are mechanistically irrelevant. Pharmacodynamic effect persists for days after drug clearance — enzyme resynthesis, not drug clearance, determines offset." }
+];
+
+const TGTS = {
+  nav_axon: { cx:240, cy:57,  r:27, label:"Na⁺ ch.",  sub:"Axonal membrane"   },
+  alpha2d:  { cx:105, cy:148, r:27, label:"α2δ Ca²⁺", sub:"N/P/Q-type VGCC"   },
+  tca:      { cx:375, cy:148, r:27, label:"T-Ca²⁺",   sub:"Thalamic relay"    },
+  sv2a:     { cx:240, cy:163, r:25, label:"SV2A",      sub:"Vesicle membrane"  },
+  gabat:    { cx:175, cy:185, r:22, label:"GABA-T",    sub:"Enzyme (intracell.)"},
+  nav_post: { cx:240, cy:283, r:23, label:"Na⁺ ch.",  sub:"Postsynaptic"      },
+  gabaa:    { cx:140, cy:348, r:29, label:"GABA-A",    sub:"BZD + Barb sites"  },
+  ampa:     { cx:348, cy:348, r:29, label:"AMPA-R",    sub:"Glu receptor"      },
+};
+
+function SynapseSVG({ active, color }) {
+  return (
+    <svg viewBox="0 0 480 435" style={{width:"100%",maxWidth:460,display:"block"}}>
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      {/* Presynaptic box */}
+      <rect x="48" y="28" width="384" height="202" rx="14" fill="#0D1525" stroke="rgba(148,163,184,.16)" strokeWidth="1.5"/>
+      <text x="240" y="19" textAnchor="middle" fontSize="9" fill="#334155" letterSpacing=".18em">PRESYNAPTIC TERMINAL</text>
+
+      {/* Axon */}
+      <line x1="240" y1="0" x2="240" y2="29" stroke="rgba(148,163,184,.25)" strokeWidth="1.5" strokeDasharray="3,2"/>
+      <text x="255" y="16" fontSize="8" fill="#334155">axon</text>
+
+      {/* Vesicle cluster */}
+      {[0,1,2,3,4,5,6,7].map(i=>{
+        const a=(i/8)*Math.PI*2, r2=i%2===0?19:12;
+        return <circle key={i} cx={240+Math.cos(a)*r2} cy={163+Math.sin(a)*r2} r="5.5"
+          fill="#1A2A45" stroke="rgba(148,163,184,.18)" strokeWidth="1"/>;
+      })}
+
+      {/* GABA-T marker */}
+      <text x="175" y="190" textAnchor="middle" fontSize="13" fill="#223">⬡</text>
+
+      {/* Synaptic cleft */}
+      <rect x="48" y="230" width="384" height="50" fill="#070D1A"/>
+      <line x1="48" y1="230" x2="432" y2="230" stroke="rgba(148,163,184,.1)" strokeWidth="1"/>
+      <line x1="48" y1="280" x2="432" y2="280" stroke="rgba(148,163,184,.1)" strokeWidth="1"/>
+      <text x="240" y="242" textAnchor="middle" fontSize="8" fill="#1E3050" letterSpacing=".15em">SYNAPTIC CLEFT</text>
+      {/* Neurotransmitters */}
+      {[[148,260,"GABA","#8B5CF6"],[280,256,"Glu","#F59E0B"]].map(([x,y,lb,c])=>(
+        <g key={lb}>
+          {[0,1,2].map(j=><circle key={j} cx={x+j*14} cy={y} r="4" fill={c+"25"} stroke={c+"55"} strokeWidth="1"/>)}
+          <text x={x+14} y={y+14} textAnchor="middle" fontSize="8" fill={c+"88"}>{lb}</text>
+        </g>
+      ))}
+
+      {/* Postsynaptic box */}
+      <rect x="48" y="280" width="384" height="148" rx="14" fill="#0D1525" stroke="rgba(148,163,184,.16)" strokeWidth="1.5"/>
+      <text x="240" y="425" textAnchor="middle" fontSize="9" fill="#334155" letterSpacing=".18em">POSTSYNAPTIC NEURON</text>
+
+      {/* Target nodes */}
+      {Object.entries(TGTS).map(([id,t])=>{
+        const on=active.includes(id);
+        return (
+          <g key={id}>
+            {on && <circle cx={t.cx} cy={t.cy} r={t.r+10} fill={color+"12"} stroke={color+"35"} strokeWidth="1.5"/>}
+            <circle cx={t.cx} cy={t.cy} r={t.r}
+              fill={on?color+"1E":"#131F33"}
+              stroke={on?color:"rgba(148,163,184,.22)"}
+              strokeWidth={on?2:1}
+              filter={on?"url(#glow)":"none"}/>
+            <text x={t.cx} y={t.cy-4} textAnchor="middle" fontSize="9.5" fontWeight={on?"700":"400"}
+              fill={on?color:"#3D5066"} fontFamily="monospace">{t.label}</text>
+            <text x={t.cx} y={t.cy+9} textAnchor="middle" fontSize="7.5"
+              fill={on?color+"99":"#1E3050"}>{t.sub}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function NaStateDiagram({ id, color }) {
+  if (!["na-fast","na-slow","na-dual"].includes(id)) return null;
+  const fast = id==="na-fast"||id==="na-dual";
+  const slow = id==="na-slow"||id==="na-dual";
+  return (
+    <div style={{background:"#080F1E",borderRadius:8,padding:"12px 14px",marginTop:12,border:"1px solid rgba(148,163,184,.1)"}}>
+      <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:"#334155",marginBottom:8}}>Na⁺ Channel States</div>
+      <svg viewBox="0 0 440 105" style={{width:"100%"}}>
+        <defs>
+          {["g","w","m"].map((id2,i)=>(
+            <marker key={id2} id={"a"+id2} markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+              <polygon points="0,0 7,2.5 0,5" fill={["#10B981","#94A3B8","#475569"][i]}/>
+            </marker>
+          ))}
+        </defs>
+        {[{x:55,l:"CLOSED",s:"Resting",c:"#334155"},{x:220,l:"OPEN",s:"↑ Na⁺ influx",c:"#10B981"},
+          {x:385,l:"FAST INACT.",s:"Gate shut",c:fast?color:"#334155"}].map((st,i)=>(
+          <g key={i}>
+            <rect x={st.x-45} y="15" width="90" height="55" rx="8" fill={st.c+"18"} stroke={st.c} strokeWidth="1.5"/>
+            <text x={st.x} y="38" textAnchor="middle" fontSize="9" fontWeight="700" fill={st.c} fontFamily="monospace">{st.l}</text>
+            <text x={st.x} y="55" textAnchor="middle" fontSize="8" fill={st.c+"99"}>{st.s}</text>
+          </g>
+        ))}
+        <line x1="102" y1="42" x2="173" y2="42" stroke="#10B981" strokeWidth="1.5" markerEnd="url(#aag)"/>
+        <text x="138" y="37" textAnchor="middle" fontSize="8" fill="#10B981">depol.</text>
+        <line x1="268" y1="42" x2="338" y2="42" stroke="#94A3B8" strokeWidth="1.5" markerEnd="url(#aaw)"/>
+        <text x="303" y="37" textAnchor="middle" fontSize="8" fill="#94A3B8">auto</text>
+        <path d="M 340 75 Q 220 102 98 75" fill="none" stroke="#2D3F55" strokeWidth="1.2" strokeDasharray="3,2" markerEnd="url(#aam)"/>
+        <text x="220" y="100" textAnchor="middle" fontSize="7.5" fill="#2D3F55">recovery (ms)</text>
+        {fast && <><rect x={310} y={0} width={100} height={14} rx={4} fill={color+"20"} stroke={color} strokeWidth="1"/>
+          <text x={360} y={10} textAnchor="middle" fontSize="8" fill={color}>Drug binds → ↑ dwell</text></>}
+        {slow && !fast && <><rect x={285} y={0} width={130} height={14} rx={4} fill={color+"20"} stroke={color} strokeWidth="1"/>
+          <text x={350} y={10} textAnchor="middle" fontSize="8" fill={color}>Slow gate (persistent depol.)</text></>}
+      </svg>
+    </div>
+  );
+}
+
+function GabaADiagram({ id, color }) {
+  if (!["gaba-barb","bzd","na-dual"].includes(id)) return null;
+  const sites = [
+    {l:"BZD site",    c: (id==="bzd"||id==="na-dual")?"#9333EA":"#1E3050", on: id==="bzd"||id==="na-dual",    y:55},
+    {l:"Barb. site",  c: id==="gaba-barb"?"#7C3AED":"#1E3050",             on: id==="gaba-barb",               y:95},
+    {l:"Non-BZD site",c: id==="na-dual"?"#8B5CF6":"#1E3050",              on: id==="na-dual",                y:135},
+  ];
+  return (
+    <div style={{background:"#080F1E",borderRadius:8,padding:"12px 14px",marginTop:12,border:"1px solid rgba(148,163,184,.1)"}}>
+      <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:"#334155",marginBottom:8}}>GABA-A Receptor — Binding Sites</div>
+      <svg viewBox="0 0 340 175" style={{width:"100%"}}>
+        <defs><marker id="acl" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0,0 7,2.5 0,5" fill="#3B82F6"/></marker></defs>
+        {[0,1,2,3,4].map(i=>{const a=(i/5)*Math.PI*2-Math.PI/2;return(
+          <circle key={i} cx={210+52*Math.cos(a)} cy={90+52*Math.sin(a)} r="21" fill="#131F33" stroke="rgba(148,163,184,.22)" strokeWidth="1.5"/>
+        )})}
+        <text x="210" y="87" textAnchor="middle" fontSize="9" fill="#475569">GABA-A</text>
+        <text x="210" y="100" textAnchor="middle" fontSize="8" fill="#334155">Cl⁻ channel</text>
+        <line x1="210" y1="50" x2="210" y2="30" stroke="#3B82F6" strokeWidth="2" markerEnd="url(#acl)"/>
+        <text x="222" y="26" fontSize="8" fill="#3B82F6">Cl⁻ influx</text>
+        {sites.map(s=>(
+          <g key={s.l}>
+            <circle cx="130" cy={s.y} r="9" fill={s.on?s.c+"30":"#0D1525"} stroke={s.on?s.c:"#1E3050"} strokeWidth={s.on?2:1}/>
+            <line x1="140" y1={s.y} x2="186" y2="90" stroke={s.on?s.c+"60":"#1A2535"} strokeWidth={s.on?1.5:0.8} strokeDasharray="3,2"/>
+            <text x="122" y={s.y+4} textAnchor="end" fontSize="9" fill={s.on?s.c:"#334155"}>{s.l}</text>
+          </g>
+        ))}
+        <text x="130" y="163" textAnchor="middle" fontSize="8" fill="#1E3050">↑ Freq (BZD) · ↑ Duration (Barb) · Novel (non-BZD)</text>
+      </svg>
+    </div>
+  );
+}
+
+function ThalamicCircuit({ id, color }) {
+  if (id !== "tca") return null;
+  return (
+    <div style={{background:"#080F1E",borderRadius:8,padding:"12px 14px",marginTop:12,border:"1px solid rgba(148,163,184,.1)"}}>
+      <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:"#334155",marginBottom:8}}>Thalamocortical Absence Circuit (3 Hz)</div>
+      <svg viewBox="0 0 380 140" style={{width:"100%"}}>
+        <defs><marker id="atc" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0,0 7,2.5 0,5" fill="#94A3B8"/></marker>
+          <marker id="abl" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0,0 7,2.5 0,5" fill="#8B5CF6"/></marker>
+          <marker id="atl" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0,0 7,2.5 0,5" fill={color}/></marker>
+        </defs>
+        {[{x:55,y:55,l:"CORTEX",c:"#3B82F6"},{x:190,y:55,l:"RT neuron",sub:"GABAergic",c:"#8B5CF6"},{x:320,y:55,l:"Relay neuron",sub:"T-Ca²⁺ target",c:color}].map((n,i)=>(
+          <g key={i}><ellipse cx={n.x} cy={n.y} rx={42} ry={22} fill={n.c+"18"} stroke={n.c} strokeWidth="1.5"/>
+            <text x={n.x} y={n.y-3} textAnchor="middle" fontSize="9" fontWeight="700" fill={n.c}>{n.l}</text>
+            {n.sub && <text x={n.x} y={n.y+10} textAnchor="middle" fontSize="7.5" fill={n.c+"99"}>{n.sub}</text>}
+          </g>
+        ))}
+        <line x1="99" y1="52" x2="146" y2="52" stroke="#94A3B8" strokeWidth="1.5" markerEnd="url(#atc)"/>
+        <line x1="234" y1="52" x2="276" y2="52" stroke="#8B5CF6" strokeWidth="1.5" markerEnd="url(#abl)"/>
+        <text x="213" y="44" textAnchor="middle" fontSize="7.5" fill="#8B5CF6">GABA-B inhib.</text>
+        <path d="M 320 78 Q 320 118 55 78" fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4,2" markerEnd="url(#atl)"/>
+        <text x="190" y="120" textAnchor="middle" fontSize="8" fill={color}>T-Ca²⁺ burst → fires cortex → 3 Hz loop</text>
+        <rect x="280" y="5" width="95" height="16" rx="4" fill={color+"25"} stroke={color} strokeWidth="1"/>
+        <text x="328" y="16" textAnchor="middle" fontSize="8" fill={color}>ESM blocks here</text>
+      </svg>
+    </div>
+  );
+}
+
+function App() {
+  const [idx, setIdx] = useState(0);
+  const m = MECHS[idx];
+  const C = {
+    bg:"#070D1A", s1:"#0D1525", s2:"#131F33",
+    b:"rgba(148,163,184,.10)", t1:"#E2E8F0", t2:"#94A3B8", t3:"#64748B", acc:"#38BDF8"
+  };
+
+  return (
+    <div style={{background:C.bg,color:C.t1,minHeight:"100vh",fontFamily:"system-ui,-apple-system,'Segoe UI',sans-serif",fontSize:14}}>
+
+      {/* Nav bar */}
+      <div style={{background:C.s1,borderBottom:`1px solid ${C.b}`,padding:"10px 20px",display:"flex",alignItems:"center",gap:16}}>
+        <a href="asm-reference.html" style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:C.acc,textDecoration:"none",
+          padding:"5px 12px",border:`1px solid ${C.acc}30`,borderRadius:20,background:C.acc+"0D"}}>
+          ← Drug Reference
+        </a>
+        <div style={{width:1,height:16,background:C.b}}/>
+        <span style={{fontSize:10,letterSpacing:".18em",textTransform:"uppercase",color:C.t3,fontFamily:"monospace"}}>
+          Neuro Toolkit · ASM Mechanisms of Action
+        </span>
+        <a href="index.html" style={{marginLeft:"auto",fontSize:11,color:C.t3,textDecoration:"none"}}>⌂ Home</a>
+      </div>
+
+      {/* Header */}
+      <div style={{background:`linear-gradient(150deg,#070D1A 0%,#0D1B32 100%)`,borderBottom:`1px solid ${C.b}`,
+        padding:"22px 24px 16px",position:"relative",overflow:"hidden"}}>
+        <div style={{position:"absolute",inset:0,backgroundImage:`linear-gradient(rgba(56,189,248,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.03) 1px,transparent 1px)`,
+          backgroundSize:"36px 36px",pointerEvents:"none"}}/>
+        <div style={{position:"relative",zIndex:1}}>
+          <div style={{fontSize:10,letterSpacing:".22em",textTransform:"uppercase",color:C.acc,marginBottom:5,fontFamily:"monospace"}}>
+            Mechanism of Action · Visual Reference
+          </div>
+          <h1 style={{fontSize:22,fontWeight:700,letterSpacing:"-.5px",marginBottom:4}}>Anti-Seizure Medications</h1>
+          <p style={{fontSize:12,color:C.t3}}>Select a mechanism class — the synapse diagram highlights the exact molecular target</p>
+        </div>
+      </div>
+
+      {/* Mechanism pills */}
+      <div style={{overflowX:"auto",padding:"10px 20px",borderBottom:`1px solid ${C.b}`,scrollbarWidth:"none"}}>
+        <div style={{display:"flex",gap:7,minWidth:"max-content"}}>
+          {MECHS.map((mech,i)=>(
+            <button key={mech.id} onClick={()=>setIdx(i)} style={{
+              padding:"6px 13px",borderRadius:20,cursor:"pointer",fontSize:11,whiteSpace:"nowrap",
+              border:`1px solid ${i===idx?mech.color:"rgba(148,163,184,.16)"}`,
+              background:i===idx?mech.color+"22":"transparent",
+              color:i===idx?mech.color:C.t3,
+              display:"flex",alignItems:"center",gap:6,transition:"all .15s"
+            }}>
+              <span style={{width:7,height:7,borderRadius:"50%",background:mech.color,opacity:i===idx?1:.5,flexShrink:0}}/>
+              {mech.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Main layout */}
+      <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) minmax(0,1.45fr)",maxWidth:1100,margin:"0 auto"}}>
+
+        {/* Left: diagram */}
+        <div style={{padding:"18px 18px 18px 22px",borderRight:`1px solid ${C.b}`,display:"flex",flexDirection:"column",alignItems:"center",gap:0}}>
+          <SynapseSVG active={m.targets} color={m.color}/>
+          <NaStateDiagram id={m.id} color={m.color}/>
+          <GabaADiagram id={m.id} color={m.color}/>
+          <ThalamicCircuit id={m.id} color={m.color}/>
+
+          {/* Legend */}
+          <div style={{width:"100%",marginTop:14,padding:"10px 12px",background:C.s1,borderRadius:8,border:`1px solid ${C.b}`}}>
+            <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:C.t3,marginBottom:8}}>Synapse Legend</div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"4px 10px"}}>
+              {Object.entries({"Na⁺ ch.":"Voltage-gated Na⁺ channel","α2δ Ca²⁺":"α2δ-1 VGCC subunit","T-Ca²⁺":"T-type Ca²⁺ (thalamic)","SV2A":"Synaptic vesicle protein 2A","GABA-T":"GABA transaminase enzyme","GABA-A":"GABA-A receptor","AMPA-R":"AMPA glutamate receptor"}).map(([k,v])=>(
+                <div key={k} style={{display:"flex",gap:4,alignItems:"center",fontSize:10}}>
+                  <span style={{color:C.t3,fontFamily:"monospace",flexShrink:0}}>{k}</span>
+                  <span style={{color:"#1E3050"}}>·</span>
+                  <span style={{color:"#334155"}}>{v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right: description */}
+        <div style={{padding:"18px 22px 24px 18px",overflowY:"auto",maxHeight:"calc(100vh - 168px)"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+            <div style={{width:10,height:10,borderRadius:"50%",background:m.color,flexShrink:0}}/>
+            <h2 style={{fontSize:17,fontWeight:700,color:m.color,lineHeight:1.2}}>{m.label}</h2>
+          </div>
+
+          <div style={{marginBottom:13}}>
+            <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:C.t3,marginBottom:5}}>📍 Target</div>
+            <div style={{fontFamily:"monospace",fontSize:11,color:"#CBD5E1",lineHeight:1.6,
+              background:C.s2,padding:"8px 12px",borderRadius:7,border:`1px solid ${m.color}28`}}>
+              {m.location}
+            </div>
+          </div>
+
+          <div style={{marginBottom:13}}>
+            <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:C.t3,marginBottom:5}}>🔬 Mechanism</div>
+            <div style={{fontSize:12,color:C.t2,lineHeight:1.8,whiteSpace:"pre-line"}}>{m.mechanism}</div>
+          </div>
+
+          <div style={{marginBottom:13,padding:"10px 13px",background:m.color+"0D",borderRadius:8,border:`1px solid ${m.color}22`}}>
+            <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:m.color+"99",marginBottom:5}}>⚡ Net Effect</div>
+            <div style={{fontSize:12,color:"#CBD5E1",lineHeight:1.65}}>{m.effect}</div>
+          </div>
+
+          <div style={{marginBottom:13}}>
+            <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:C.t3,marginBottom:5}}>🧠 Why It Reduces Seizures</div>
+            <div style={{fontSize:12,color:C.t2,lineHeight:1.7}}>{m.why}</div>
+          </div>
+
+          <div style={{marginBottom:16}}>
+            <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:C.t3,marginBottom:7}}>💊 Drugs in This Class</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+              {m.drugs.map(d=>(
+                <span key={d.n} style={{padding:"4px 10px",borderRadius:5,fontFamily:"monospace",fontSize:11,
+                  background:m.color+"16",color:m.color,border:`1px solid ${m.color}38`,
+                  display:"flex",alignItems:"center",gap:6}}>
+                  {d.n}
+                  <span style={{fontSize:9,opacity:.6,background:m.color+"28",padding:"1px 5px",borderRadius:3}}>Gen {d.g}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div style={{padding:"12px 14px",borderRadius:9,background:"rgba(56,189,248,.05)",border:"1px solid rgba(56,189,248,.14)"}}>
+            <div style={{fontSize:9,letterSpacing:".18em",textTransform:"uppercase",color:C.acc,marginBottom:5}}>◆ Key Pearl</div>
+            <div style={{fontSize:12,color:"#CBD5E1",lineHeight:1.7}}>{m.pearl}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>
