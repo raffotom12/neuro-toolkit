@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Anti-Seizure Medications | Neuro Toolkit</title>
+<style>
+:root{--bg:#070D1A;--s1:#0D1525;--s2:#131F33;--b:rgba(148,163,184,.10);--bh:rgba(148,163,184,.20);--t1:#E2E8F0;--t2:#94A3B8;--t3:#64748B;--acc:#38BDF8;--w:#F59E0B;--d:#EF4444;--ok:#10B981;--r:12px;--mono:'Courier New',Courier,monospace;--sans:system-ui,-apple-system,'Segoe UI',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t1);font-family:var(--sans);font-size:14px;line-height:1.6}
+.hdr{background:linear-gradient(150deg,#070D1A 0%,#0D1B32 100%);border-bottom:1px solid var(--b);padding:30px 24px 20px;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.035) 1px,transparent 1px);background-size:36px 36px;pointer-events:none}
+.hi{max-width:1440px;margin:0 auto;position:relative;z-index:1}
+.he{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--acc);margin-bottom:7px}
+.ht{font-size:25px;font-weight:700;letter-spacing:-.5px}
+.hs{color:var(--t2);font-size:13px;margin:3px 0 16px}
+.hcs{display:flex;gap:10px;flex-wrap:wrap}
+.hc{display:flex;align-items:center;gap:5px;background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.15);border-radius:20px;padding:3px 12px;font-size:11px;color:var(--acc)}
+.ctrl{background:var(--s1);border-bottom:1px solid var(--b);padding:12px 24px;position:sticky;top:0;z-index:100}
+.ci{max-width:1440px;margin:0 auto}
+.r1{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.srch{position:relative;flex:1;max-width:360px}
+.srch input{width:100%;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:8px 12px 8px 34px;color:var(--t1);font-size:13px;outline:none;transition:border-color .18s}
+.srch input:focus{border-color:var(--acc)}
+.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:13px;pointer-events:none}
+.gps{display:flex;gap:5px}
+.gp{padding:5px 13px;border-radius:20px;border:1px solid var(--b);font-size:11px;cursor:pointer;color:var(--t2);background:transparent;transition:all .15s}
+.gp.on{background:var(--s2);color:var(--t1);border-color:var(--bh)}
+.vt{display:flex;gap:3px;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:3px}
+.vb{padding:4px 9px;border:none;background:transparent;color:var(--t3);border-radius:5px;cursor:pointer;font-size:11px;transition:all .15s}
+.vb.on{background:var(--s1);color:var(--t1);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.cnt{margin-left:auto;font-size:11px;color:var(--t3)}
+.r2{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.rl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-right:4px}
+.mc{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;border:1px solid;font-size:11px;cursor:pointer;background:transparent;color:var(--t2);white-space:nowrap;transition:all .15s}
+.md{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}
+.eab{margin-left:auto;padding:4px 12px;border-radius:6px;border:1px solid var(--b);background:transparent;color:var(--t2);font-size:11px;cursor:pointer;transition:all .15s}
+.eab:hover{color:var(--t1);border-color:var(--bh)}
+.main{max-width:1440px;margin:0 auto;padding:20px 24px 40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
+.grid.list{grid-template-columns:1fr}
+.card{background:var(--s1);border:1px solid var(--b);border-radius:var(--r);overflow:hidden;transition:border-color .18s,box-shadow .18s,transform .18s;position:relative}
+.card:hover{border-color:var(--bh);transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.ch{padding:15px 15px 12px 18px;cursor:pointer;user-select:none;display:flex;flex-direction:column;gap:10px}
+.cht{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.dnb{flex:1}
+.dn{font-family:var(--mono);font-size:15px;font-weight:700;line-height:1.2}
+.db{font-size:11px;color:var(--t3);margin-top:2px}
+.cbs{display:flex;gap:5px;flex-shrink:0;align-items:center}
+.ba{padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.bg{background:rgba(148,163,184,.1);color:var(--t2);border:1px solid rgba(148,163,184,.2)}
+.ti2{font-size:9px;color:var(--t3);transition:transform .2s;flex-shrink:0;padding:4px}
+.card.exp .ti2{transform:rotate(180deg)}
+.qs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.qi{background:var(--s2);border-radius:6px;padding:7px 8px}
+.ql{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:var(--t3);margin-bottom:3px}
+.qv{font-family:var(--mono);font-size:10px;color:var(--t1);line-height:1.3}
+.cb2{display:none;padding:0 15px 15px 18px;border-top:1px solid var(--b)}
+.card.exp .cb2{display:block}
+.sec{margin-top:13px}
+.st{font-size:9px;text-transform:uppercase;letter-spacing:.2em;color:var(--t3);margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.st::after{content:'';flex:1;height:1px;background:var(--b)}
+.sx{font-size:12px;color:var(--t2);line-height:1.65}
+.dt{width:100%;border-collapse:collapse;font-size:11px;margin-top:4px}
+.dt td{padding:5px 8px;border:1px solid var(--b);vertical-align:top}
+.dt td:first-child{color:var(--t3);white-space:nowrap;width:130px}
+.dt td:last-child{font-family:var(--mono);color:var(--t1)}
+.dt tr:first-child td{background:var(--s2)}
+.tgs{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.tg{padding:2px 8px;border-radius:4px;font-size:11px}
+.tw{background:rgba(245,158,11,.09);color:var(--w);border:1px solid rgba(245,158,11,.2)}
+.td2{background:rgba(239,68,68,.09);color:var(--d);border:1px solid rgba(239,68,68,.2)}
+.ti3{background:rgba(56,189,248,.09);color:var(--acc);border:1px solid rgba(56,189,248,.15)}
+.sl{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin:8px 0 4px}
+.cii{display:flex;gap:8px;padding:7px 10px;border-radius:6px;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.18);font-size:12px;color:#FCA5A5;margin-bottom:4px;align-items:flex-start}
+.xi{border-left:2px solid;background:var(--s2);border-radius:0 6px 6px 0;padding:6px 10px;font-size:11px;margin-bottom:4px}
+.xi.cid{border-left-color:var(--d)}
+.xi.maj{border-left-color:var(--w)}
+.xi.min{border-left-color:var(--acc)}
+.xd{font-family:var(--mono);color:var(--t1);font-size:11px}
+.xe{color:var(--t2);margin-top:1px;font-size:11px}
+.tb{display:inline-flex;align-items:center;gap:6px;background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.15);border-radius:6px;padding:5px 10px;font-family:var(--mono);font-size:11px;color:var(--acc)}
+.pb{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;font-size:11px;margin-bottom:6px}
+.ph{background:rgba(239,68,68,.09);color:#FCA5A5;border:1px solid rgba(239,68,68,.2)}
+.pm{background:rgba(245,158,11,.09);color:#FCD34D;border:1px solid rgba(245,158,11,.2)}
+.pl{background:rgba(16,185,129,.09);color:#6EE7B7;border:1px solid rgba(16,185,129,.2)}
+.pls{list-style:none;display:flex;flex-direction:column;gap:5px}
+.pls li{display:flex;gap:8px;font-size:12px;line-height:1.55;color:var(--t2)}
+.pls li::before{content:'◆';font-size:8px;color:var(--acc);flex-shrink:0;margin-top:5px}
+.vf{font-size:10px;color:var(--w);font-style:italic;margin-top:5px}
+.nr{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--t3)}
+footer{max-width:1440px;margin:0 auto;padding:20px 24px 28px;text-align:center;font-size:11px;color:var(--t3);line-height:1.9;border-top:1px solid var(--b)}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.qs{grid-template-columns:repeat(2,1fr)}.ht{font-size:20px}}
+@media print{.ctrl{display:none}.card{break-inside:avoid;border:1px solid #ccc}.cb2{display:block!important}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<header class="hdr">
+<div class="hi">
+<p class="he">Neuro Toolkit — Pharmacology Reference</p>
+<h1 class="ht">Anti-Seizure Medications</h1>
+<p class="hs">Pharmacodynamics · Dosing · TDM · Monitoring · Side Effects · Contraindications · Drug Interactions</p>
+<div class="hcs">
+<div class="hc">⬡ <span id="totalN">20 agents</span></div>
+<div class="hc">⚡ 3 generations</div>
+<div class="hc">◎ 11 mechanism classes</div>
+</div>
+</div>
+</header>
+<div class="ctrl">
+<div class="ci">
+<div class="r1">
+<div class="srch"><span class="si">&#9741;</span><input id="srch" type="text" placeholder="Search name, mechanism, indication…"></div>
+<div class="gps">
+<button class="gp on" data-g="all">All</button>
+<button class="gp" data-g="1">Gen 1</button>
+<button class="gp" data-g="2">Gen 2</button>
+<button class="gp" data-g="3">Gen 3</button>
+</div>
+<div class="vt">
+<button class="vb on" data-v="grid">⊞ Grid</button>
+<button class="vb" data-v="list">☰ List</button>
+</div>
+<span class="cnt" id="cnt">20 drugs</span>
+</div>
+<div class="r2">
+<span class="rl">Mechanism:</span>
+<div id="mf"></div>
+<button class="eab" id="eab">Expand All</button>
+</div>
+</div>
+</div>
+<div class="main"><div class="grid" id="grid"></div></div>
+<footer>
+<p>⚠ Doses marked <em>*(verify UpToDate)*</em> should be confirmed before clinical use. For educational and clinical orientation only — not a substitute for guidelines, local protocols, or clinical judgment.</p>
+<p style="margin-top:4px">Neuro Toolkit · ASM Reference v1.0 · Raffaele · 2025</p>
+</footer>
+<script>
+const MCH={
+'Na⁺ fast':{c:'#3B82F6',l:'Na⁺ Fast Inactivation'},
+'Na⁺ slow':{c:'#06B6D4',l:'Na⁺ Slow Inactivation'},
+'Na⁺ dual':{c:'#8B5CF6',l:'Na⁺ Dual Inactivation'},
+'GABA-A':{c:'#7C3AED',l:'GABA-A Enhancer (Barbiturate)'},
+'BZD':{c:'#9333EA',l:'Benzodiazepine (GABA-A)'},
+'SV2A':{c:'#10B981',l:'SV2A Modulator'},
+'AMPA':{c:'#F59E0B',l:'AMPA Antagonist'},
+'α2δ':{c:'#6366F1',l:'α2δ Ca²⁺ Channel'},
+'T-Ca':{c:'#14B8A6',l:'T-type Ca²⁺ Channel'},
+'Multi':{c:'#EC4899',l:'Multi-target'},
+'GABA-T':{c:'#F97316',l:'GABA-T Inhibitor'}
+};
+const mc=k=>MCH[k]?.c||'#94A3B8';
+const ml=k=>MCH[k]?.l||k;
+const D=[
+{n:'Brivaracetam',br:'Briviact',g:3,m:'SV2A',
+mx:'High-affinity SV2A binding (15–30× > LEV) → modulates vesicular neurotransmitter release. Also weakly blocks fast Na⁺ channel inactivation — unlike pure SV2A agents.',
+ind:['Focal-onset seizures (adjunct/monotherapy ≥16y)'],
+pk:[['Bioavailability','~100% oral & IV (interchangeable)'],['Half-life','9 h'],['Protein binding','17% (low)'],['Metabolism','CYP2C19 + amidase hydrolysis → inactive metabolites'],['Excretion','Renal (inactive metabolites)'],['Kinetics','Linear']],
+dose:[['IV loading (switch)','100 mg IV over 2–15 min'],['Start','25–50 mg BID'],['Target','50–100 mg BID'],['Max','200 mg/day'],['Hepatic impairment','Severe: max 150 mg/day'],['Renal adjustment','Not required']],
+tdm:{r:'Not established',n:'Not routinely recommended. Dose by clinical response.'},
+mon:['Behavioral side effects — markedly fewer than LEV','Suicidality (standard ASM black-box)','CBC on chronic treatment'],
+se:{dep:['Somnolence','Dizziness','Fatigue','Nausea'],
+idio:['Bronchospasm/angioedema (rare)','Psychiatric symptoms (rare)']},
+ci:['Hypersensitivity to BRV or LEV','Caution: pre-existing psychiatric disorder'],
+ix:[{d:'CBZ/PHT/PHB (inducers)',e:'Reduce BRV ~21–26%',s:'maj'},{d:'Carbamazepine',e:'BRV increases CBZ-epoxide → toxicity risk (monitor)',s:'maj'},{d:'Rifampin',e:'Reduces BRV significantly',s:'maj'}],
+preg:{r:'m',n:'Limited human data. Avoid unless benefit >> risk.'},
+pearls:['Switch from LEV overnight (same BID dose) — no washout needed, shared SV2A mechanism','Fewer psychiatric side effects than LEV — ideal after LEV behavioral intolerance','Weak Na⁺ channel blockade = added mechanistic breadth vs. pure SV2A','No renal dose adjustment — advantage over LEV in CKD']},
+
+{n:'Carbamazepine',br:'Tegretol, Carbagen',g:1,m:'Na⁺ fast',
+mx:'Voltage-gated Na⁺ channel fast inactivation (use- and frequency-dependent). Active metabolite CBZ-10,11-epoxide is anticonvulsant and neurotoxic. Strong autoinducer (CYP3A4) — levels fall after 4–8 weeks.',
+ind:['Focal seizures','Generalized tonic-clonic','Trigeminal neuralgia','Bipolar disorder'],
+pk:[['Bioavailability','70–85% (variable, formulation-dependent)'],['Half-life','Initial 25–65 h → 12–17 h (autoinduction, 2–8 wks)'],['Protein binding','75–85%'],['Metabolism','CYP3A4 → CBZ-10,11-epoxide; strong autoinducer + enzyme inducer'],['Excretion','Renal 72% (metabolites)'],['Kinetics','Linear; unpredictable at initiation due to autoinduction']],
+dose:[['Loading','None — titration required'],['Start','100–200 mg BID'],['↑ by','200 mg/day every 1–2 weeks'],['Target','600–1200 mg/day in 2–3 divided doses'],['Max','1600 mg/day'],['Re-check levels','After 4–8 weeks (autoinduction lowers levels)']],
+tdm:{r:'4–12 μg/mL (parent drug)',n:'Measure CBZ-epoxide separately if toxicity with "normal" CBZ level. Trough sample.'},
+mon:['⚠️ HLA-B*1502 genotyping BEFORE starting in any patient of Han Chinese/SE Asian/S Asian ancestry','Serum Na⁺ (SIADH — common, especially elderly)','CBC with differential at baseline and periodically','LFTs','Drug levels at initiation, dose changes, suspected toxicity','Bone density on long-term use (Vit D catabolism)'],
+se:{dep:['Diplopia','Dizziness/ataxia','Nausea','Hyponatremia (SIADH)','Sedation'],
+idio:['⚠️ SJS/TEN (especially HLA-B*1502 carriers)','DRESS','Aplastic anemia (1/200,000)','Agranulocytosis','Hepatotoxicity']},
+ci:['⚠️ Absence/myoclonic/JME — WORSENS SEIZURES','2nd/3rd degree AV block','Porphyria (acute intermittent)','MAO inhibitors (within 14 days)','HLA-B*1502 positive patients of Asian ancestry'],
+ix:[{d:'CYP3A4 inhibitors (macrolides, azoles, grapefruit)',e:'Increase CBZ → toxicity',s:'cid'},{d:'Oral contraceptives',e:'CBZ reduces OCP efficacy — use alternative contraception',s:'cid'},{d:'Valproate',e:'VPA increases CBZ-epoxide → neurotoxicity without raising parent CBZ',s:'maj'},{d:'Warfarin/ciclosporin/many others',e:'CBZ accelerates metabolism → monitor and adjust doses',s:'maj'},{d:'Lamotrigine',e:'CBZ halves LTG levels; also additive diplopia',s:'maj'}],
+preg:{r:'h',n:'Spina bifida ~0.5–1%; fetal CBZ syndrome. Folic acid 5 mg/day. Monitor levels throughout pregnancy.'},
+pearls:['⚠️ NEVER use in absence/myoclonic/JME — classic clinical and exam trap','Autoinduction: week 1 levels do NOT predict week 6 steady-state — recheck after 4–8 weeks','HLA-B*1502: mandatory before first dose in Asian patients; SJS risk 20× higher','Hyponatremia: check Na⁺ routinely; may be asymptomatic even when severe','CBZ-epoxide: measure if toxicity despite apparently normal CBZ level']},
+
+{n:'Cenobamate',br:'Xcopri, Ontozry',g:3,m:'Na⁺ dual',
+mx:'Dual mechanism: (1) Na⁺ channel blockade — fast AND persistent/slow inactivation; (2) GABA-A positive allosteric modulation at non-benzodiazepine site (α2/β3 subunit selectivity). First-in-class dual-mechanism agent.',
+ind:['Focal-onset seizures (adjunct, adults)'],
+pk:[['Bioavailability','~88%'],['Half-life','50–60 h → once-daily dosing'],['Protein binding','60%'],['Metabolism','CYP3A4/2B6/2C19 (complex — both inducer and inhibitor effects)'],['Kinetics','Linear']],
+dose:[['Loading','⚠️ NONE — MANDATORY slow titration (DRESS prevention)'],['Weeks 1–2','12.5 mg/day'],['Weeks 3–4','25 mg/day'],['Weeks 5–6','50 mg/day'],['Weeks 7–8','100 mg/day'],['↑ by','50 mg/day every 2 weeks'],['Target','200–400 mg/day once daily'],['Max','400 mg/day']],
+tdm:{r:'Not established',n:'Monitor comedicated ASM levels — especially PHT (rises markedly). Check when initiating.'},
+mon:['⚠️ DRESS surveillance — slow titration MANDATORY; stop if rash + fever/lymphadenopathy','⚠️ QTc SHORTENING (unique): baseline ECG; caution with QT-prolonging drugs','LFTs','PHT levels when starting (preemptive PHT dose reduction required)','Sedation/cognitive side effects'],
+se:{dep:['Somnolence (most common)','Dizziness','Cognitive slowing','Fatigue','Diplopia'],
+idio:['⚠️ DRESS (with rapid titration)','QTc shortening ≥100 ms in ~2% (unique — not prolongation)']},
+ci:['Familial short QT syndrome','Severe hepatic impairment','Caution: concurrent QTc-shortening drugs'],
+ix:[{d:'Phenytoin',e:'CBT raises PHT ~50% → REDUCE PHT by ~50% at initiation *(verify UpToDate)*',s:'cid'},{d:'Clobazam',e:'Alters CLB and N-desmethylclobazam levels (monitor)',s:'maj'},{d:'Oral contraceptives',e:'Reduces OCP efficacy — additional contraception required',s:'maj'},{d:'Carbamazepine',e:'Reduces CBZ clearance — monitor CBZ levels',s:'maj'}],
+preg:{r:'h',n:'Avoid. Animal teratogenicity. Reduces OCP efficacy — mandatory contraception counseling.'},
+pearls:['~21% seizure-freedom in Phase 3 refractory focal epilepsy trial — highest ever seen in add-on ASM trials','Dual mechanism: unique combination of persistent Na⁺ current inhibition + non-BZD GABA-A modulation','Slow titration is NOT optional — DRESS occurred with faster escalation in early studies','QTc SHORTENING (not prolongation) — unique cardiac effect; important drug interaction consideration','Proactively reduce PHT by ~50% when starting cenobamate — pharmacokinetically predictable']},
+
+{n:'Clobazam',br:'Frisium, Onfi',g:2,m:'BZD',
+mx:'GABA-A positive allosteric modulator at benzodiazepine binding site (increases Cl⁻ channel opening FREQUENCY). 1,5-benzodiazepine (not 1,4) → relatively α2-subunit selective → less sedation/amnesia than classic BZDs. Active metabolite N-desmethylclobazam (T½ 36–96 h; metabolized by CYP2C19).',
+ind:['Adjunct focal/generalized seizures','Lennox-Gastaut syndrome','Catamenial epilepsy (intermittent)','Dravet syndrome (adjunct)'],
+pk:[['Bioavailability','~87%'],['Half-life','Parent 36–46 h; N-desmethylCLB 36–96 h (active)'],['Protein binding','85%'],['Metabolism','CYP3A4 (CLB→N-desmethylCLB); CYP2C19 (further metabolism)'],['Kinetics','Linear']],
+dose:[['Loading','None'],['Start','5–10 mg nocte or BID'],['Target (adults)','10–40 mg/day in 1–2 doses'],['LGS','0.1–1 mg/kg/day *(verify UpToDate)*'],['Catamenial','Intermittent per protocol *(verify UpToDate)*']],
+tdm:{r:'Not routinely recommended',n:'N-desmethylCLB accumulates in CYP2C19 poor metabolizers (~15–20% East Asians) → toxicity/SJS. Check metabolizer status if unexplained toxicity.'},
+mon:['Tolerance to anticonvulsant effect (weeks to months)','Sedation, cognitive effects, respiratory function','CYP2C19 metabolizer status if toxicity','Dependence — taper plan from initiation','Hypersalivation in children (aspiration risk)'],
+se:{dep:['Sedation (less than classic BZDs)','Cognitive impairment','Ataxia','Hypersalivation/drooling (children)','Paradoxical agitation (children)'],
+idio:['⚠️ SJS/TEN (rare — mainly CYP2C19 poor metabolizers)','Behavioral disinhibition']},
+ci:['Severe respiratory insufficiency','Sleep apnea','Myasthenia gravis','History of drug/alcohol dependence'],
+ix:[{d:'CYP2C19 inhibitors (fluconazole, fluvoxamine, omeprazole)',e:'Markedly increase N-desmethylclobazam → toxicity/SJS risk',s:'cid'},{d:'Alcohol/CNS depressants',e:'Additive sedation and respiratory depression',s:'maj'},{d:'Enzyme inducers (CBZ, PHT)',e:'Reduce CLB levels; may reduce efficacy',s:'maj'},{d:'Cenobamate',e:'Complex interaction — alters both CLB and metabolite levels (monitor)',s:'maj'}],
+preg:{r:'m',n:'Neonatal withdrawal/respiratory depression. Avoid 1st trimester if possible. Neonatal monitoring required.'},
+pearls:['1,5-benzodiazepine structure → less sedating and amnestic than 1,4-BZDs (diazepam, clonazepam)','Tolerance develops more slowly than clonazepam — more suitable for maintenance dosing','CYP2C19 poor metabolizers: N-desmethylclobazam accumulates → risk of SJS; common in East Asian populations (~15–20%)','CYP2C19 inhibitors (e.g. fluconazole) can cause life-threatening accumulation — important interaction','Never stop abruptly — taper over weeks to months to avoid withdrawal seizures']},
+
+{n:'Clonazepam',br:'Klonopin, Rivotril',g:1,m:'BZD',
+mx:'GABA-A positive allosteric modulator at benzodiazepine site (increases Cl⁻ channel opening FREQUENCY). 1,4-benzodiazepine. High potency (more potent than diazepam mg-per-mg). Long half-life allows BID/TID dosing.',
+ind:['Myoclonic seizures (drug of choice)','Absence seizures','Lennox-Gastaut syndrome','Atonic seizures'],
+pk:[['Bioavailability','~90%'],['Half-life','18–50 h'],['Protein binding','85%'],['Metabolism','CYP3A4 (nitroreduction + glucuronidation)'],['Kinetics','Linear']],
+dose:[['Acute (IV, adjunct status)','0.5–1 mg slow IV *(verify UpToDate)*'],['Start (adults)','0.5 mg TID'],['Target','2–8 mg/day in 2–3 divided doses'],['Max','20 mg/day'],['Paediatric','0.01–0.2 mg/kg/day *(verify UpToDate)*']],
+tdm:{r:'20–70 ng/mL',n:'Rarely clinically useful — tolerance is the limiting factor, not serum level.'},
+mon:['Anticonvulsant tolerance (often within weeks to months)','Sedation and cognitive effects','Respiratory function (sleep apnea, respiratory disease)','Dependence assessment — taper plan from initiation','Hypersalivation in children (aspiration)'],
+se:{dep:['Sedation (often dose-limiting)','Ataxia','Cognitive impairment','Hypersalivation/drooling','Paradoxical agitation (children)'],
+idio:['Behavioral disinhibition','Depression']},
+ci:['Acute narrow-angle glaucoma','Severe hepatic disease','Sleep apnea','Respiratory failure'],
+ix:[{d:'Alcohol/opioids/CNS depressants',e:'Additive respiratory and CNS depression — potentially fatal',s:'cid'},{d:'CYP3A4 inhibitors (azoles, macrolides)',e:'Increase CLZ → sedation/toxicity',s:'maj'},{d:'Enzyme inducers (CBZ, PHT, PHB)',e:'Reduce CLZ levels; may need higher doses',s:'maj'}],
+preg:{r:'m',n:'Neonatal withdrawal/floppy infant. Avoid 1st trimester if possible. Taper before delivery or monitor neonate.'},
+pearls:['Drug of CHOICE for MYOCLONUS — more effective than many other agents for this specific seizure type','Tolerance to anticonvulsant effect often develops — chronic use may lose efficacy over time','Higher potency than diazepam mg-per-mg; longer T½ than acute BZDs','NEVER stop abruptly in any patient on chronic benzodiazepine therapy — taper slowly','Hypersalivation in children: can cause aspiration pneumonia — consider dose reduction']},
+
+{n:'Eslicarbazepine acetate',br:'Zebinix, Aptiom',g:3,m:'Na⁺ slow',
+mx:'Prodrug → rapidly hydrolyzed to eslicarbazepine (S-licarbazepine = S-enantiomer of the active MHD metabolite of OXC). Primarily enhances SLOW/sustained inactivation of voltage-gated Na⁺ channels. More selective for slow inactivation than CBZ/OXC. Once-daily formulation.',
+ind:['Focal-onset seizures (adjunct/monotherapy adults; adjunct children ≥6y)'],
+pk:[['Bioavailability','>90% as eslicarbazepine'],['Half-life','13–20 h (once-daily dosing)'],['Protein binding','~30%'],['Metabolism','Rapid hydrolysis → eslicarbazepine; minor glucuronidation; weak CYP2C19 inhibitor'],['Excretion','Renal ~91% as glucuronide'],['Kinetics','Linear']],
+dose:[['Loading','None'],['Start','400 mg once daily × 1–2 weeks'],['Target','800 mg once daily'],['Max','1200 mg once daily'],['Renal adj.','GFR 30–60: reduce dose; GFR <30: avoid or use with caution']],
+tdm:{r:'3–35 μg/mL (eslicarbazepine)',n:'Optional; mainly for adherence/interaction monitoring.'},
+mon:['Serum Na⁺ (hyponatremia — less frequent than OXC but significant)','Thyroid function (T4 reduction in long-term use — especially elderly)','LFTs','PR interval (mild Na⁺ channel effect on conduction)','AED levels if comedicated'],
+se:{dep:['Dizziness','Somnolence','Diplopia','Nausea','Hyponatremia (less than OXC)'],
+idio:['SJS (cross-reactivity with CBZ/OXC ~20%)','DRESS (rare)']},
+ci:['Known hypersensitivity to CBZ or OXC (cross-reactivity)','2nd/3rd degree AV block','HLA-B*1502 consideration (same chemical family)'],
+ix:[{d:'Oral contraceptives',e:'CYP3A4 induction reduces OCP efficacy — use alternative contraception',s:'maj'},{d:'Phenytoin',e:'ESL inhibits CYP2C19 → increases PHT levels (monitor)',s:'maj'},{d:'Warfarin',e:'CYP3A4 induction reduces warfarin → monitor INR',s:'maj'}],
+preg:{r:'m',n:'Limited data; cross-reactive teratogenicity with CBZ/OXC possible. Folic acid supplementation.'},
+pearls:['Once-daily dosing improves adherence vs. TID/BID older agents','Mechanistic advantage: preferential slow inactivation — more selective than CBZ/OXC at normal firing frequencies','Less hyponatremia than OXC (single S-enantiomer vs. racemic MHD mixture)','Cross-reactivity with CBZ/OXC: ~20–25% chance of rash if patient had prior CBZ/OXC rash']},
+
+{n:'Ethosuximide',br:'Emeside, Zarontin',g:1,m:'T-Ca',
+mx:'Selective T-type (low-voltage-activated) Ca²⁺ channel blockade in thalamic relay neurons → reduces thalamocortical 3 Hz spike-wave oscillation underlying absence seizures. Highly selective: no significant Na⁺ channel activity.',
+ind:['Typical absence seizures (FIRST-LINE — CHILD trial)','Juvenile absence epilepsy'],
+pk:[['Bioavailability','~100%'],['Half-life','40–60 h (adults); 30–40 h (children)'],['Protein binding','<10% (minimal)'],['Metabolism','Hepatic (CYP3A4, CYP2E1)'],['Excretion','Renal'],['Kinetics','Linear']],
+dose:[['Loading','None'],['Start (adults)','250 mg/day with food'],['↑ by','250 mg every 4–7 days'],['Target','500–1500 mg/day in 2–3 divided doses'],['Max','2000 mg/day'],['Paediatric','5 mg/kg/day → max 20 mg/kg/day *(verify UpToDate)*']],
+tdm:{r:'40–100 μg/mL',n:'Useful to guide dosing, especially in children. Trough sample before dose.'},
+mon:['CBC (blood dyscrasias — rare)','LFTs','GI symptoms — most common reason for non-adherence (give with food)','⚠️ Does NOT protect against GTCS — if patient has both absence AND GTCS, add VPA or LTG'],
+se:{dep:['Nausea/vomiting (with food — usually transient)','Anorexia','Hiccups','Drowsiness','Headache'],
+idio:['SLE-like syndrome (rare)','Aplastic anemia (rare)','Agranulocytosis (rare)','Psychotic reactions']},
+ci:['Hepatic impairment (relative)','Renal impairment (relative)','History of blood dyscrasia (relative)'],
+ix:[{d:'Valproate',e:'VPA may increase ESM levels; additive absence control',s:'min'},{d:'Isoniazid',e:'Increases ESM levels → CNS toxicity risk',s:'maj'},{d:'Enzyme inducers (CBZ, PHT, PHB)',e:'May reduce ESM levels (minor)',s:'min'}],
+preg:{r:'m',n:'Limited data. Avoid in 1st trimester if alternatives exist.'},
+pearls:['ONLY for absence — NO protection against GTCS: if GTCS co-exist, add VPA or LTG','CHILD trial: ethosuximide = valproate > lamotrigine for childhood absence; better attention scores than VPA','Pure T-type Ca²⁺ mechanism — unique, no overlap with Na⁺ channel agents','Give with food — eliminates most GI side effects (major adherence win)']},
+
+{n:'Gabapentin',br:'Neurontin',g:2,m:'α2δ',
+mx:'Binds α2δ-1 (and α2δ-2) subunit of voltage-gated Ca²⁺ channels → reduces presynaptic Ca²⁺ influx → reduces excitatory neurotransmitter release. Does NOT bind GABA receptors, Na⁺ channels, or benzodiazepine sites despite the name. Non-linear (saturable) gut absorption.',
+ind:['Adjunct focal seizures','Neuropathic pain (PHN, DPN)','Restless legs syndrome'],
+pk:[['Bioavailability','NON-LINEAR: ~60% at 300 mg → ~35% at 1600 mg (saturable gut transporter LAT1)'],['Half-life','5–7 h → TID dosing required'],['Protein binding','<3% (negligible)'],['Metabolism','NONE — excreted unchanged'],['Excretion','Renal 100% unchanged — dose MUST be adjusted in CKD'],['Kinetics','Non-linear absorption (Michaelis-Menten at gut)']],
+dose:[['Loading','None'],['Day 1','300 mg nocte'],['Day 2','300 mg BID'],['Day 3','300 mg TID'],['Target','900–3600 mg/day in 3 divided doses'],['Max','3600 mg/day'],['CKD dosing','GFR 30–59: max 700 mg TID; GFR 15–29: max 350 mg BID; GFR <15: max 300 mg/day *(verify UpToDate)*']],
+tdm:{r:'2–20 μg/mL',n:'Limited clinical value due to non-linear PK and poor CNS correlation. TDM not routinely useful.'},
+mon:['Renal function (dose adjustment required in CKD)','Sedation/dizziness (fall risk in elderly)','Weight and peripheral edema','Misuse/dependence potential','⚠️ Opioid co-prescription: HIGH respiratory depression risk — screen and monitor'],
+se:{dep:['Somnolence (very common)','Dizziness','Ataxia','Fatigue','Weight gain','Peripheral edema','Cognitive effects'],
+idio:['Respiratory depression (especially with opioids)','Multiorgan hypersensitivity (very rare)']},
+ci:['⚠️ Myoclonic seizures — may WORSEN','Caution: respiratory disease (especially with opioids)','Caution: history of substance misuse'],
+ix:[{d:'Opioids',e:'↑ respiratory depression and sedation — potentially fatal combination; FDA black box',s:'cid'},{d:'Antacids (Al/Mg)',e:'Reduce GBP absorption by ~20% — separate by ≥2 h',s:'min'},{d:'CNS depressants',e:'Additive sedation',s:'maj'}],
+preg:{r:'m',n:'Some animal fetal toxicity. Limited human data. Avoid unless clearly necessary.'},
+pearls:['Non-linear absorption: doubling the dose does NOT double the blood level (saturable gut transporter)','Zero hepatic metabolism → no CYP drug interactions: a major advantage in polypharmacy','Opioid + gabapentin: respiratory depression risk is critical — widely flagged by FDA and MHRA','Not effective (may worsen) absence or myoclonic seizures']},
+
+{n:'Lacosamide',br:'Vimpat',g:3,m:'Na⁺ slow',
+mx:'Selective enhancement of SLOW/sustained inactivation of voltage-gated Na⁺ channels — mechanistically distinct from fast-inactivation blockers (CBZ, PHT, LTG). Acts preferentially on neurons in prolonged depolarized states. Also binds CRMP-2 (clinical relevance unclear).',
+ind:['Focal-onset seizures (monotherapy/adjunct ≥4y)','Primary generalized tonic-clonic (adjunct ≥4y)'],
+pk:[['Bioavailability','~100% oral; 100% IV (directly interchangeable 1:1)'],['Half-life','13 h'],['Protein binding','<15%'],['Metabolism','CYP2C19 → O-desmethyl (inactive, 30%); 40% renal unchanged'],['Kinetics','Linear']],
+dose:[['IV loading (acute)','200 mg IV over 15–60 min'],['Start','50 mg BID'],['↑ by','50 mg BID per week'],['Target','100–200 mg BID (200–400 mg/day)'],['Max','400 mg/day approved; up to 600 mg/day in some protocols *(verify UpToDate)*'],['Renal adj.','GFR <30: max 250 mg/day; supplement after HD']],
+tdm:{r:'10–20 μg/mL',n:'Optional; confirms adherence and detects interactions. Trough level.'},
+mon:['⚠️ ECG: baseline PR interval (and when combining with other Na⁺ channel blockers/antiarrhythmics)','Heart rate — LCM may slow AV conduction','AVOID in 2nd/3rd degree AV block','Dizziness/diplopia (dose-related, usually transient)'],
+se:{dep:['Dizziness','Diplopia','Nausea','Headache','PR interval prolongation','Fatigue'],
+idio:['Atrial fibrillation/flutter (rare)','DRESS (rare)','Syncope (rare)']},
+ci:['2nd/3rd degree AV block','Sick sinus syndrome (unless paced)','Caution: combination with other PR-prolonging drugs (CBZ, PHT, β-blockers, Ca²⁺ channel blockers)'],
+ix:[{d:'Enzyme inducers (CBZ, PHT, PHB)',e:'Reduce LCM ~25% — may need higher doses',s:'maj'},{d:'Class Ia/Ic antiarrhythmics / other Na⁺ channel blockers',e:'Additive PR prolongation',s:'maj'},{d:'CYP2C19 inhibitors',e:'Minor increase in LCM levels',s:'min'}],
+preg:{r:'l',n:'Limited human data. Animal developmental toxicity at high doses. Generally preferred over older Na⁺ channel agents in pregnancy.'},
+pearls:['Slow inactivation: acts on persistently depolarized neurons, sparing normal firing — theoretically more selective','IV = oral directly (1:1, same bioavailability) — ideal for NPO patients and acute settings','Growing evidence for IV lacosamide in status epilepticus (2nd/3rd line)','Baseline ECG before starting — PR interval is dose-dependent and clinically relevant','Less enzyme induction than CBZ/OXC/PHT — cleaner pharmacokinetic profile']},
+
+{n:'Lamotrigine',br:'Lamictal',g:2,m:'Na⁺ fast',
+mx:'Voltage-gated Na⁺ channel fast inactivation (use- and voltage-dependent). Also inhibits presynaptic glutamate and aspartate release. Weak T-type and N-type Ca²⁺ channel effects at higher concentrations.',
+ind:['Focal seizures','Generalized tonic-clonic','Absence (adjunct)','Lennox-Gastaut','Juvenile myoclonic epilepsy (adjunct)','Bipolar disorder (mood stabilizer)'],
+pk:[['Bioavailability','~98%'],['Half-life','25–33 h (monotherapy); 12–15 h (with enzyme inducers); 48–70 h (with VPA)'],['Protein binding','55%'],['Metabolism','Hepatic glucuronidation (UGT1A4) — the key interaction point'],['Excretion','Renal (as glucuronide conjugate)'],['Kinetics','Linear']],
+dose:[['Loading','⚠️ NONE — extremely slow titration MANDATORY (rash prevention)'],['Monotherapy','25 mg/day ×2 wks → 50 mg/day ×2 wks → ↑50 mg/q1–2wks → target 100–200 mg/day'],['With VPA (inhibitor)','25 mg EOD ×2 wks → 25 mg/day ×2 wks → ↑25–50 mg/q2wks → target 100–200 mg/day'],['With inducers (CBZ/PHT)','50 mg/day ×2 wks → 100 mg/day ×2 wks → ↑100 mg/q2wks → target 300–500 mg/day']],
+tdm:{r:'2.5–15 μg/mL',n:'Guidance only. Mandatory when comedications change (VPA, inducers, OCP) or in pregnancy (levels fall 40–70% → dose increase needed).'},
+mon:['⚠️ RASH surveillance first 8 weeks — stop IMMEDIATELY if rash develops (especially mucosal involvement)','Drug levels when comedications change','Pregnancy: levels each trimester (progressive decline); post-partum toxicity as levels normalize','Mood (rare hypomania with LTG)'],
+se:{dep:['Dizziness','Diplopia','Ataxia','Headache','Insomnia','Nausea'],
+idio:['⚠️ SJS/TEN (most dangerous — rapid titration + VPA combination highest risk)','DRESS','Hemophagocytic lymphohistiocytosis (HLH — very rare)']},
+ci:['Hypersensitivity to LTG','Rapid dose escalation (SJS risk) — follow titration schedule strictly','Caution: prior aromatic AED rash (cross-reactivity ~30–40%)'],
+ix:[{d:'Valproate',e:'VPA DOUBLES LTG levels (inhibits UGT1A4) → HALVE LTG dose when adding VPA; missed = SJS risk',s:'cid'},{d:'Enzyme inducers (CBZ, PHT, PHB, rifampin)',e:'HALVE LTG levels → double LTG dose when adding inducer',s:'maj'},{d:'Combined OCP / estrogen-containing contraception',e:'Reduces LTG ~50% during active pill days; spike during pill-free week (toxicity)',s:'maj'},{d:'Dofetilide',e:'Serious cardiac arrhythmia — contraindicated combination',s:'cid'}],
+preg:{r:'l',n:'Preferred agent in women of childbearing potential. No major structural defects at standard doses. Manage OCP interaction carefully. Levels fall throughout pregnancy — dose increases typically required.'},
+pearls:['⚠️ LTG ramp: NEVER rush titration — each step matters. Rash risk highest when starting and dose-escalating rapidly','VPA–LTG: HALVE LTG when adding VPA; DOUBLE when removing VPA (the most critical ASM interaction to know)','OCP interaction: LTG levels drop ~50% during active OCP pills; risk of breakthrough seizures','Preferred broad-spectrum agent for women of childbearing potential','Pregnancy: check levels each trimester — dose requirements increase progressively then fall post-partum']},
+
+{n:'Levetiracetam',br:'Keppra',g:2,m:'SV2A',
+mx:'Selective SV2A (synaptic vesicle protein 2A) binding → modulates neurotransmitter vesicle exocytosis, reducing high-frequency synchronous firing. Also inhibits N-type voltage-gated Ca²⁺ channels and reduces allosteric inhibition of GABA-A/glycine receptors.',
+ind:['Focal-onset seizures (adjunct/monotherapy)','Generalized tonic-clonic (adjunct)','Myoclonic seizures in JME (adjunct)','Status epilepticus (IV)'],
+pk:[['Bioavailability','~100%'],['Half-life','6–8 h'],['Protein binding','<10% (minimal)'],['Metabolism','Plasma hydrolysis (SBH) — NOT hepatic CYP → no pharmacokinetic drug interactions'],['Excretion','Renal 66% unchanged — DOSE ADJUSTMENT required in CKD'],['Kinetics','Linear']],
+dose:[['IV loading (status)','1000–3000 mg IV over 15 min *(verify UpToDate)*'],['Start (oral)','250–500 mg BID'],['↑ by','500 mg/BID every 2 weeks'],['Target','500–1500 mg BID (1000–3000 mg/day)'],['Max','3000 mg/day'],['CKD dosing','GFR 50–79: 500–1000 mg BID; GFR 30–49: 250–750 mg BID; GFR <30: 250–500 mg BID; HD: +500–1000 mg after session *(verify UpToDate)*']],
+tdm:{r:'12–46 μg/mL',n:'Optional — mainly for compliance and dosing guidance in CKD/polypharmacy. NOT routinely required.'},
+mon:['⚠️ Behavioral side effects (aggression, irritability — "levi-rage" up to 10–15%)','Renal function (dose adjustment required)','CBC (leukopenia — rare)','Psychiatric history (can exacerbate)','Suicidality (standard ASM black-box)'],
+se:{dep:['Irritability/aggression ("levi-rage") — most clinically important side effect','Somnolence','Asthenia','Dizziness','Headache'],
+idio:['DRESS (rare)','Psychosis (rare)','Leukopenia (rare)']},
+ci:['Hypersensitivity to LEV or BRV','Caution: pre-existing psychiatric disorder or history of aggression'],
+ix:[{d:'Enzyme inducers (CBZ, PHT, PHB)',e:'Increase LEV clearance ~22% — rarely requires dose adjustment',s:'min'},{d:'Valproate',e:'Reduces LEV clearance ~18% — rarely clinically significant',s:'min'}],
+preg:{r:'l',n:'Preferred agent in pregnancy — no major structural defects in registry data. Levels fall during pregnancy; monitor and adjust dose. Post-partum toxicity risk as levels normalize.'},
+pearls:['Zero CYP metabolism → no pharmacokinetic drug interactions: major advantage in polypharmacy patients','Levi-rage: up to 15% irritability/aggression — dose-dependent; try pyridoxine (B6) supplementation or switch to BRV','IV = oral directly interchangeable (same dose) — ideal for acute/ICU settings','Renal clearance: adjust dose in CKD; supplement after hemodialysis','Switch to BRV overnight (same BID dose) if behavioral side effects are limiting']},
+
+{n:'Oxcarbazepine',br:'Trileptal',g:2,m:'Na⁺ fast',
+mx:'Prodrug rapidly converted to active MHD (monohydroxy derivative = racemic S/R eslicarbazepine). MHD blocks voltage-gated Na⁺ channels (fast inactivation). Unlike CBZ: minimal CYP3A4 autoinduction; no epoxide metabolite.',
+ind:['Focal-onset seizures (monotherapy/adjunct)','Generalized tonic-clonic (adjunct)'],
+pk:[['Bioavailability','>95% (as MHD)'],['Half-life','OXC: 2 h; MHD: 9–11 h'],['Protein binding','MHD 40%'],['Metabolism','Rapid keto-reduction to MHD; renal excretion of MHD (mostly)'],['Kinetics','Linear (no autoinduction — unlike CBZ)']],
+dose:[['Loading','None'],['Start','300 mg BID'],['↑ by','300 mg/day per week'],['Target','600–1200 mg/day in 2 doses; some need up to 2400 mg/day'],['Max','2400 mg/day'],['Renal adj.','GFR <30: reduce dose by 50% (MHD renally cleared)']],
+tdm:{r:'MHD: 12–35 μg/mL',n:'Measure MHD (active metabolite), not parent OXC. Trough sample. Monitor if hyponatremia suspected.'},
+mon:['⚠️ Serum Na⁺ — hyponatremia more frequent and severe than CBZ (SIADH; up to 25% of patients)','HLA-B*1502 screening in Asian patients','LFTs','Thyroid function (T4 reduction, long-term)','MHD levels if comedications change'],
+se:{dep:['Dizziness','Ataxia','Diplopia','Nausea','⚠️ Hyponatremia (SIADH — more common than CBZ)'],
+idio:['SJS (cross-reactivity with CBZ ~25%)','DRESS','Aplastic anemia (rare)']},
+ci:['HLA-B*1502 positive Asian patients','Absence/myoclonic epilepsy (may worsen)','Baseline hyponatremia or concurrent diuretics (relative)'],
+ix:[{d:'Oral contraceptives',e:'OXC induces CYP3A4 → reduces OCP efficacy — use alternative contraception',s:'maj'},{d:'Phenytoin',e:'OXC inhibits CYP2C19 → increases PHT levels significantly',s:'maj'},{d:'Enzyme inducers (CBZ, PHT)',e:'Reduce MHD levels ~40%',s:'maj'},{d:'Carbamazepine',e:'Cross-hypersensitivity rash ~25% — avoid if prior CBZ rash',s:'maj'}],
+preg:{r:'m',n:'Limited specific OXC data; extrapolated CBZ risk. Folic acid supplementation. Avoid if safer alternatives available.'},
+pearls:['No autoinduction (unlike CBZ) = more predictable pharmacokinetics','OXC = CBZ variant with better tolerability: less enzyme induction, no CBZ-epoxide toxicity','Hyponatremia: check Na⁺ routinely — especially elderly; can be asymptomatic yet clinically dangerous','~25% cross-reactivity rash with CBZ: if prior CBZ rash, significant OXC rash risk','Always measure MHD level (active metabolite), not parent OXC']},
+
+{n:'Perampanel',br:'Fycompa',g:3,m:'AMPA',
+mx:'First-in-class selective non-competitive AMPA receptor antagonist → reduces fast excitatory glutamatergic neurotransmission. Post-synaptic mechanism (unique among ASMs — most are pre-synaptic). Very long T½ supports once-daily nocte dosing.',
+ind:['Focal-onset seizures (adjunct ≥12y; monotherapy adults)','Primary generalized tonic-clonic (adjunct ≥12y)','Myoclonic seizures in JME (emerging use, adjunct)'],
+pk:[['Bioavailability','~100%'],['Half-life','~105 h (VERY long → QD dosing; steady state 2–3 weeks)'],['Protein binding','95%'],['Metabolism','Hepatic (CYP3A4/3A5, CYP2C8)'],['Kinetics','Linear']],
+dose:[['Loading','None'],['Start','2 mg nocte'],['↑ by','2 mg every 2 weeks (per 1 week if tolerated)'],['Target (without inducers)','4–8 mg nocte'],['Target (with inducers CBZ/PHT/PHB)','8–12 mg nocte (inducers halve PER levels)'],['Max','12 mg/day']],
+tdm:{r:'Not established',n:'Not routinely monitored. Dose-titrate by clinical response. Levels useful if toxicity or adherence concern.'},
+mon:['⚠️ BEHAVIORAL/PSYCHIATRIC effects — aggression, irritability, hostility (dose-dependent; black box warning)','Dizziness and fall risk (especially elderly)','Weight gain','Suicidality','⚠️ Alcohol use (dramatically potentiates behavioral effects — counsel strongly)'],
+se:{dep:['Dizziness (very common)','Somnolence','Irritability/aggression/hostility (up to 20%, dose-dependent)','Ataxia','Weight gain','Diplopia'],
+idio:['Psychosis (rare)','Suicidal ideation']},
+ci:['Severe hepatic impairment','Caution: psychiatric comorbidity (especially aggression history)','⚠️ Alcohol — dramatically worsens behavioral effects'],
+ix:[{d:'Enzyme inducers (CBZ, PHT, OXC, PHB)',e:'Reduce PER ~50–65% — need significantly higher doses with inducers (up to 12 mg)',s:'maj'},{d:'Alcohol',e:'Markedly potentiates aggression/hostility/disinhibition — strongly contraindicate',s:'cid'},{d:'OCP (high-dose PER ≥12 mg)',e:'Reduces levonorgestrel efficacy — use alternative contraception',s:'maj'}],
+preg:{r:'m',n:'Limited data; animal teratogenicity at high doses. Avoid unless benefit > risk. Reduces OCP efficacy at high doses.'},
+pearls:['Only AMPA antagonist in clinical use — unique post-synaptic mechanism targeting fast excitatory transmission','T½ ~105 h: missing one dose is not a crisis; takes 2–3 weeks to reach steady state','Behavioral side effects: counsel patients AND families before starting; start at 2 mg; avoid alcohol','Enzyme inducers halve PER — patients already on CBZ may need 12 mg doses','Broad-spectrum efficacy including GTCS and myoclonic despite focal-onset approval']},
+
+{n:'Phenobarbital',br:'Luminal, Phenobarbitone',g:1,m:'GABA-A',
+mx:'GABA-A receptor positive allosteric modulator: increases Cl⁻ channel opening DURATION (barbiturate site — distinct from BZDs which increase frequency). At high concentrations: direct GABA-A activation, Na⁺ channel blockade, AMPA receptor inhibition. Very long T½ (80–100 h) allows once-daily dosing. Strong enzyme inducer.',
+ind:['Focal and generalized tonic-clonic seizures','Neonatal seizures (first-line IV)','Status epilepticus (IV, 3rd line after BZD + LCM/VPA/LEV/PHT)','Febrile seizure prophylaxis (largely historical)'],
+pk:[['Bioavailability','~100%'],['Half-life','80–100 h (once-daily dosing feasible; very stable levels)'],['Protein binding','45–55%'],['Metabolism','CYP2C9/2C19; strong enzyme INDUCER'],['Excretion','Renal (25% unchanged)'],['Kinetics','Linear']],
+dose:[['IV loading (status)','15–20 mg/kg IV, max 100 mg/min in adults *(verify UpToDate)*'],['Neonatal seizures','20 mg/kg IV (first-line) *(verify UpToDate)*'],['Oral maintenance','60–180 mg once daily (nocte); typical 1–5 mg/kg/day'],['Max','Guided by levels and clinical response']],
+tdm:{r:'10–40 μg/mL (epilepsy: 15–40 μg/mL)',n:'TDM useful. Very long T½ → stable levels. Trough sample (morning before dose).'},
+mon:['Drug levels (especially at initiation)','CBC, LFTs','Folate (enzyme induction → folate deficiency → megaloblastic changes)','Bone density on long-term use (Vit D catabolism)','Sedation and cognitive assessment','⚠️ Never stop abruptly — seizure withdrawal risk; taper over months'],
+se:{dep:['Sedation (tolerance develops over 2–4 weeks)','Cognitive impairment / slow processing','Depression','Diplopia/nystagmus at high levels'],
+idio:['SJS/TEN','DRESS','Aplastic anemia (rare)'],
+chron:['Dependence (GABA receptor downregulation)','Osteoporosis','Dupuytren\'s contracture','Peyronie\'s disease','Shoulder-hand syndrome','Folate deficiency']},
+ci:['Porphyria (acute intermittent)','Severe respiratory depression','Sleep apnea','Caution: cognitive impairment or depression'],
+ix:[{d:'Valproate',e:'VPA inhibits PHB metabolism → PHB levels rise → sedation/toxicity',s:'maj'},{d:'All CYP3A4/2C9/2C19 substrates (warfarin, OCPs, steroids, many others)',e:'Very strong enzyme inducer — accelerates metabolism of dozens of drugs',s:'maj'},{d:'Alcohol/CNS depressants',e:'Dangerous additive CNS and respiratory depression',s:'cid'}],
+preg:{r:'m',n:'Teratogenicity (cardiac, cleft palate). Neonatal hemorrhage (Vit K prophylaxis). Neonatal withdrawal syndrome. Folic acid 5 mg/day mandatory.'},
+pearls:['Longest T½ of any common ASM (80–100 h) → once-daily nocte, extremely stable levels','Neonatal seizures: PHB 20 mg/kg IV remains first-line (strongest evidence in this population)','NEVER stop abruptly — taper over months to avoid life-threatening withdrawal seizures','Very strong enzyme inducer: affects warfarin, OCPs, steroids, HIV medications, ciclosporin, and dozens of others','Sedation tolerance: develops within 2–4 weeks; counsel patients to expect this and persist']},
+
+{n:'Phenytoin / Fosphenytoin',br:'Dilantin / Cerebyx',g:1,m:'Na⁺ fast',
+mx:'Voltage-gated Na⁺ channel fast inactivation (use- and voltage-dependent block). Preferentially blocks depolarized channels at high firing frequencies. NON-LINEAR (Michaelis-Menten/zero-order) kinetics at therapeutic concentrations — small dose changes = large level changes. Fosphenytoin (FOS) = phosphate ester prodrug: 1.5 mg FOS = 1 mg PHT (express as PE = phenytoin equivalents).',
+ind:['Status epilepticus (IV loading)','Focal and generalized tonic-clonic seizures (oral maintenance)','Neurosurgical seizure prophylaxis'],
+pk:[['Bioavailability','~90% oral (variable)'],['Half-life','22 h at low doses; DOSE-DEPENDENT (increases at therapeutic levels — zero-order kinetics)'],['Protein binding','90% albumin — MEASURE FREE LEVEL in hypoalbuminemia, CKD, pregnancy, elderly'],['Metabolism','CYP2C9 (saturable → zero-order at therapeutic levels); strong enzyme inducer'],['Kinetics','⚠️ NON-LINEAR — small dose changes cause large level changes at therapeutic concentrations']],
+dose:[['IV Loading (PHT)','15–20 mg/kg IV; MAX rate 50 mg/min in adults; must use NS (not D5W — precipitates); ECG + BP monitoring *(verify UpToDate)*'],['IV Loading (FOS)','15–20 mg PE/kg IV; MAX rate 150 mg PE/min; can give IM; ECG + BP monitoring *(verify UpToDate)*'],['Oral maintenance','100 mg TID or 300 mg QD (extended release) *(verify UpToDate)*'],['Target','300–400 mg/day (adults); ~5 mg/kg/day'],['Dose changes','⚠️ ONLY 25–50 mg increments at therapeutic levels — nonlinear kinetics']],
+tdm:{r:'Total: 10–20 μg/mL; FREE: 1–2 μg/mL',n:'⚠️ CRITICAL: Measure FREE phenytoin in hypoalbuminemia, CKD, pregnancy, elderly. Corrected PHT = measured/(0.2×albumin + 0.1). Trough sample.'},
+mon:['⚠️ ECG and BP monitoring during IV loading (cardiac arrhythmia, hypotension)','Drug levels — total AND free (in appropriate patients)','CBC (blood dyscrasias)','LFTs (hepatotoxicity)','Folate and B12','Bone density (long-term)','HLA-B*1502 in Asian patients (SJS)'],
+se:{dep:['Nystagmus (earliest sign of toxicity, level >20 μg/mL)','Diplopia','Ataxia','Cognitive impairment','Slurred speech'],
+chron:['Gingival hyperplasia','Hirsutism (facial)','Coarsening of facial features','Peripheral neuropathy','Cerebellar atrophy','Osteoporosis','Folate deficiency/megaloblastic anemia'],
+idio:['SJS/TEN','DRESS','Aplastic anemia','Hepatotoxicity'],
+iv_se:['Hypotension (rate-dependent)','AV block / ventricular fibrillation (rapid infusion)','Purple glove syndrome (IV extravasation — necrosis)']},
+ci:['SA block, 2nd/3rd degree AV block, Adams-Stokes syndrome','Porphyria','⚠️ Absence/myoclonic seizures — WORSENS (classic trap)','IV: never use D5W (precipitates)'],
+ix:[{d:'Valproate',e:'VPA displaces PHT from protein AND inhibits CYP2C9 → total level unchanged but FREE level rises (toxicity)',s:'cid'},{d:'Isoniazid / fluconazole / amiodarone',e:'Inhibit CYP2C9 → PHT rises → toxicity',s:'maj'},{d:'Enzyme inducers (CBZ, PHB, rifampin)',e:'Accelerate PHT metabolism → reduced levels',s:'maj'},{d:'OCP / warfarin / ciclosporin / many others',e:'PHT induces metabolism → reduced efficacy; adjust and monitor',s:'maj'},{d:'Antacids (Ca²⁺/Mg²⁺)',e:'Reduce PHT absorption — separate by ≥2 h',s:'min'}],
+preg:{r:'h',n:'Fetal hydantoin syndrome: cleft palate, cardiac defects, digit hypoplasia, cognitive impairment. Avoid in pregnancy if possible. If used: folic acid 5 mg/day; monitor FREE PHT levels; Vit K for neonate.'},
+pearls:['⚠️ Nonlinear kinetics: at therapeutic levels, 50 mg extra can change level from 15 to 25 μg/mL — always increase slowly','FREE phenytoin is what matters in hypoalbuminemia/CKD/pregnancy — total level is unreliable in these patients','Fosphenytoin preferred for IV loading: safer (no purple glove), can give IM, faster rate (150 vs 50 mg/min)','Nystagmus on lateral gaze = first sign of toxicity; ataxia = moderate toxicity; altered consciousness = severe','NEVER use in absence or myoclonic epilepsy — one of the most important contraindications in epilepsy practice','IV PHT: NS only, never D5W; ECG and BP monitoring mandatory throughout infusion']},
+
+{n:'Pregabalin',br:'Lyrica',g:2,m:'α2δ',
+mx:'Binds α2δ-1 and α2δ-2 subunits of voltage-gated Ca²⁺ channels → reduces presynaptic Ca²⁺ influx → reduces excitatory neurotransmitter release. Same mechanism as gabapentin but with LINEAR absorption — more predictable dose-response at all doses.',
+ind:['Adjunct focal seizures','Neuropathic pain (DPN, PHN)','Fibromyalgia','Generalized anxiety disorder'],
+pk:[['Bioavailability','>90% across entire dose range (LINEAR — key difference from gabapentin)'],['Half-life','5–7 h'],['Protein binding','<3% (negligible)'],['Metabolism','NONE — excreted unchanged'],['Excretion','Renal 100% unchanged — dose MUST be adjusted in CKD'],['Kinetics','Linear']],
+dose:[['Loading','None'],['Start','75 mg BID or 50 mg TID'],['Target','150–600 mg/day in 2–3 doses'],['Max','600 mg/day'],['CKD dosing','GFR 30–60: max 300 mg/day; GFR 15–29: max 150 mg/day; GFR <15: max 75 mg/day *(verify UpToDate)*']],
+tdm:{r:'2.8–8.2 μg/mL',n:'TDM rarely indicated. Dose by clinical response and tolerability.'},
+mon:['Renal function (mandatory — dose adjustment)','Sedation in elderly (fall risk)','Weight gain and peripheral edema','⚠️ Misuse potential (euphoric effects; controlled substance in UK/EU/many jurisdictions)','Respiratory depression if combined with opioids'],
+se:{dep:['Somnolence','Dizziness','Ataxia','Weight gain','Peripheral edema','Blurred vision','Cognitive effects'],
+idio:['Respiratory depression (with opioids)','Myopathy/CK elevation (rare)','Angioedema (rare)']},
+ci:['Myoclonic seizures (may worsen)','Caution: respiratory disease (especially with opioids)','Caution: history of substance misuse'],
+ix:[{d:'Opioids',e:'Additive respiratory depression — dangerous; FDA/MHRA black box warning',s:'cid'},{d:'CNS depressants/alcohol',e:'Additive sedation',s:'maj'},{d:'ACE inhibitors',e:'Additive angioedema risk (rare)',s:'min'}],
+preg:{r:'m',n:'Animal skeletal malformations at high doses. Limited human data. Avoid 1st trimester unless clearly necessary.'},
+pearls:['Linear absorption (unlike gabapentin) = predictable dose-response across the entire dose range','Zero hepatic metabolism → no CYP pharmacokinetic drug interactions','Opioid + pregabalin: FDA/MHRA black box respiratory depression warning — increasingly prevalent and dangerous combination','Misuse potential: produces euphoria at high doses; controlled substance in UK, EU, Australia']},
+
+{n:'Sodium Valproate / Valproic acid',br:'Epilim, Depakote',g:1,m:'Multi',
+mx:'Multiple mechanisms: (1) Na⁺ channel fast inactivation; (2) T-type Ca²⁺ blockade (thalamocortical — absence mechanism); (3) GABA-transaminase inhibition → ↑ GABA; (4) Potentiation of GABA synthesis; (5) HCN channel modulation; (6) HDAC inhibition (epigenetic — likely underlies teratogenicity). The most effective broad-spectrum ASM.',
+ind:['All generalized epilepsy syndromes (first-line)','Absence seizures','JME (historically drug of choice)','Focal seizures','Status epilepticus (IV)','Migraine prophylaxis','Bipolar disorder'],
+pk:[['Bioavailability','~100%'],['Half-life','9–16 h'],['Protein binding','90% (saturable — free fraction increases at high doses)'],['Metabolism','Hepatic glucuronidation + β-oxidation; CYP minor; BROAD METABOLIC INHIBITOR (not inducer)'],['Kinetics','Linear at low doses; non-linear protein binding at high doses']],
+dose:[['IV loading (status/acute)','25–40 mg/kg IV over 30 min; rate 3–6 mg/kg/min *(verify UpToDate)*'],['Oral start','500 mg/day in 2 divided doses (IR) or once daily (ER)'],['↑ by','200–500 mg/week'],['Target','500–2000 mg/day (higher in refractory cases)'],['Max','60 mg/kg/day or limited by tolerance/levels']],
+tdm:{r:'50–100 μg/mL (up to 125 μg/mL in refractory epilepsy)',n:'Total VPA used in practice. Measure FREE VPA in hypoalbuminemia or suspected toxicity. Clinical response is primary guide.'},
+mon:['⚠️⚠️ PREGNANCY PREVENTION: mandatory counseling + contraception in ALL WOCBP. EU/UK Valproate Pregnancy Prevention Programme','LFTs at baseline, 6 weeks, 3 months, then annually (fulminant hepatotoxicity — especially children <2 on polypharmacy)','CBC + coagulation (thrombocytopenia, fibrinogen reduction)','Ammonia if altered consciousness (hyperammonemic encephalopathy — even with normal LFTs)','Weight (weight gain common)','Hormonal profile in young women (PCOS, menstrual irregularities)','Pancreatic enzymes if abdominal pain','⚠️ POLG mutations: exclude mitochondrial disease before use in children/young adults'],
+se:{dep:['Tremor (postural, dose-dependent)','Weight gain','Hair thinning/alopecia (reversible)','Nausea/GI (use SR formulation; take with food)','Sedation (mild)'],
+idio:['⚠️ Fulminant hepatotoxicity (especially children <2 on polypharmacy — potentially fatal)','Pancreatitis (potentially fatal)','Thrombocytopenia','Hyperammonemic encephalopathy (even with normal LFTs)','DRESS (rare)'],
+terat:['Neural tube defects (~1–2%)','Autism spectrum disorder (~5× background risk)','Cognitive/IQ impairment (8–10 point reduction, dose-dependent)','Congenital malformations (cardiac, urogenital, limb)','Facial dysmorphisms']},
+ci:['⚠️⚠️ PREGNANCY or planning pregnancy without robust contraception — MOST TERATOGENIC ASM','Any significant hepatic disease','POLG mutations / mitochondrial disease (catastrophic liver failure)','Urea cycle disorders (hyperammonemia)','Personal/family history of hepatic porphyria'],
+ix:[{d:'Lamotrigine',e:'VPA DOUBLES LTG levels (inhibits UGT1A4) → HALVE LTG dose; missed = SJS/TEN risk',s:'cid'},{d:'Carbapenem antibiotics (meropenem, imipenem)',e:'Drop VPA levels by 50–100% within hours — avoid combination or switch ASM; life-threatening breakthrough seizures',s:'cid'},{d:'Carbamazepine',e:'VPA increases CBZ-epoxide → neurotoxicity without raising parent CBZ',s:'maj'},{d:'Phenobarbital',e:'VPA inhibits PHB metabolism → PHB levels rise → sedation/toxicity',s:'maj'},{d:'Phenytoin',e:'VPA displaces PHT from protein + inhibits CYP2C9 → monitor FREE PHT',s:'maj'},{d:'Topiramate',e:'VPA + TPM → hyperammonemic encephalopathy (even without urea cycle disorder)',s:'maj'},{d:'Aspirin',e:'Displaces VPA from protein → transient rise in free VPA',s:'min'}],
+preg:{r:'h',n:'⚠️⚠️ HIGHEST TERATOGENIC RISK of all ASMs. Neural tube defects, autism, IQ impairment, congenital malformations. EU/UK MANDATORY PREGNANCY PREVENTION PROGRAMME — only use if no alternative and under specialist guidance.'},
+pearls:['⚠️ Most effective broad-spectrum ASM but most teratogenic — this clinical tension defines its use in women of childbearing potential','Carbapenem interaction: VPA levels can drop to ZERO within 24 h — potentially fatal if missed; avoid combination','Hyperammonemic encephalopathy: can occur with NORMAL liver enzymes — check ammonia in any encephalopathic VPA patient','VPA–LTG interaction: halve LTG when adding VPA. Failure to do this has caused SJS deaths','POLG mutations: VPA causes catastrophic hepatic failure — screen children before starting, especially with family history','JME: VPA most effective but LTG, LEV, or TPM preferred in women of childbearing potential']},
+
+{n:'Topiramate',br:'Topamax, Trokendi XR',g:2,m:'Multi',
+mx:'Multiple mechanisms: (1) Na⁺ channel blockade (slow inactivation); (2) GABA-A positive allosteric modulation; (3) AMPA/kainate glutamate receptor blockade; (4) Carbonic anhydrase (type II and IV) inhibition → metabolic acidosis, weight loss, paresthesias, kidney stones.',
+ind:['Focal-onset seizures (adjunct/monotherapy)','Primary generalized tonic-clonic','Lennox-Gastaut syndrome','Migraine prophylaxis','Weight management (Qsymia combination)'],
+pk:[['Bioavailability','~80%'],['Half-life','21–23 h'],['Protein binding','15% (low)'],['Metabolism','Hepatic ~50% (CYP3A4); ~50% renal excretion unchanged'],['Kinetics','Linear']],
+dose:[['Loading','None'],['Start','25–50 mg nocte'],['↑ by','25–50 mg/day every 1–2 weeks'],['Target','100–400 mg/day in 2 divided doses'],['Migraine prophylaxis','25–200 mg/day (lower doses)'],['Max','400 mg/day (epilepsy)'],['Renal adj.','GFR <70: reduce dose by 50% *(verify UpToDate)*']],
+tdm:{r:'2–25 μg/mL',n:'Optional — mainly to confirm adherence. Clinical response guides dose adjustment.'},
+mon:['Serum bicarbonate (metabolic acidosis — common; carbonic anhydrase inhibition)','Renal ultrasound / urinalysis if symptoms of kidney stones','Weight (weight loss — often significant)','Cognitive side effects ("dopamax" — word-finding, psychomotor slowing)','⚠️ Eye exam if eye pain or sudden visual change (acute angle-closure glaucoma — emergency)','Sweating (oligohidrosis — especially children during heat exposure)'],
+se:{dep:['⚠️ Cognitive slowing/word-finding difficulty ("dopamax") — major quality-of-life issue','Paresthesias (hands/feet — carbonic anhydrase)','Metabolic acidosis','Weight loss (~5–10%)','Oligohidrosis','Nephrolithiasis (2–4%)'],
+idio:['⚠️ Acute angle-closure glaucoma (rare, first month — OPHTHALMOLOGICAL EMERGENCY)','Acute myopia (rare)']},
+ci:['History of nephrolithiasis (relative)','Concurrent carbonic anhydrase inhibitors (additive metabolic acidosis)','Caution: ketogenic diet (additive metabolic acidosis)','Caution: pregnancy 1st trimester (oral cleft risk)'],
+ix:[{d:'Valproate',e:'VPA + TPM → hyperammonemic encephalopathy (even with normal LFTs) — check ammonia',s:'maj'},{d:'Enzyme inducers (CBZ, PHT, PHB)',e:'Reduce TPM ~50%',s:'maj'},{d:'Oral contraceptives',e:'TPM may reduce OCP efficacy at high doses (>200 mg)',s:'maj'},{d:'Other carbonic anhydrase inhibitors',e:'Additive metabolic acidosis and kidney stone risk',s:'maj'}],
+preg:{r:'m',n:'Oral cleft risk ~1–1.4% (4–5× background). Fetal growth restriction. Avoid 1st trimester especially. Folic acid supplementation; monitor fetal growth.'},
+pearls:['"Dopamax": cognitive slowing is the dose-limiting side effect — slow titration and lower maintenance doses reduce incidence','Weight loss: ~5–10% body weight loss common — benefit in overweight patients with epilepsy or migraine','⚠️ Acute angle-closure glaucoma: emergency within first month — any new visual symptoms → urgent ophthalmology','VPA + TPM hyperammonemia: check ammonia in any encephalopathic patient on this combination (even if LFTs normal)','Adequate hydration (>2 L/day) reduces kidney stone risk; citrate supplementation may help']},
+
+{n:'Vigabatrin',br:'Sabril',g:2,m:'GABA-T',
+mx:'Irreversible inhibitor of GABA transaminase (GABA-T) → prevents GABA catabolism → ↑ synaptic GABA. Mechanism = enzyme inhibition (not receptor binding). Duration of action >> plasma T½ (irreversible inactivation; enzyme must be resynthesized). Structural GABA analogue.',
+ind:['West syndrome / infantile spasms (especially tuberous sclerosis — first-line)','Adjunct refractory focal seizures (adults)'],
+pk:[['Bioavailability','~100%'],['Half-life','5–8 h (IRREVERSIBLE mechanism → duration >> T½)'],['Protein binding','<10%'],['Metabolism','Minimal; mostly renal elimination unchanged'],['Excretion','Renal >70% unchanged'],['Kinetics','Linear; TDM clinically USELESS (irreversible mechanism)']],
+dose:[['Loading','None'],['Adults (focal adjunct)','Start 500 mg BID → target 1000–3000 mg/day *(verify UpToDate)*'],['Infantile spasms','50 mg/kg/day → increase to 100–150 mg/kg/day *(verify UpToDate)*'],['Renal adj.','GFR <50: reduce dose proportionally']],
+tdm:{r:'Not useful (irreversible mechanism)',n:'Plasma levels do NOT correlate with pharmacodynamic effect. Do NOT use TDM to guide dosing.'},
+mon:['⚠️⚠️ VISUAL FIELDS: ophthalmological assessment (Goldmann or automated perimetry) at BASELINE and every 6 months throughout treatment — permanent concentric VF loss is the major risk','MRI brain in young children (signal changes BG/thalamus/brainstem — usually reversible)','Behavioral effects (agitation, aggression — especially children)','Weight (weight gain common)','Renal function (dose adjustment)'],
+se:{dep:['Sedation','Dizziness','Fatigue','Weight gain'],
+idio:['⚠️⚠️ PERMANENT CONCENTRIC VISUAL FIELD DEFECTS (up to 30–40% with long-term use — bilateral, irreversible — THE major limitation)','MRI signal changes in BG/thalamus in infants (usually reversible)','Behavioral disturbances in children']},
+ci:['Pre-existing visual field defect (any)','Unable to reliably undergo visual field testing (relative)','History of psychosis (relative)'],
+ix:[{d:'Phenytoin',e:'VGB reduces PHT levels ~30% (mechanism unclear) — monitor PHT',s:'maj'},{d:'Clonazepam',e:'May reduce CLZ levels',s:'min'}],
+preg:{r:'h',n:'Animal teratogenicity; limited human data. Avoid. Visual field monitoring is particularly problematic in pregnancy.'},
+pearls:['⚠️⚠️ Visual field loss is PERMANENT and IRREVERSIBLE — all patients must understand this BEFORE starting','TSC-associated infantile spasms: vigabatrin is first-line (>50% complete spasm cessation in TSC-related IS)','Irreversible mechanism: TDM is meaningless — pharmacodynamic effect persists after drug is cleared from plasma','Balance the permanent visual risk against the devastating developmental consequences of uncontrolled IS','Monitoring protocol is non-negotiable — 6-monthly formal VF assessment throughout treatment']},
+
+{n:'Zonisamide',br:'Zonegran',g:2,m:'Multi',
+mx:'Multiple mechanisms: (1) Na⁺ channel blockade (fast inactivation); (2) T-type Ca²⁺ channel blockade; (3) Weak carbonic anhydrase (type II/IV) inhibition; (4) Weak dopaminergic/serotonergic modulation. Sulfonamide derivative. Very long T½ supports once-daily dosing.',
+ind:['Adjunct focal seizures (adults)','Broad-spectrum potential: generalized/myoclonic (off-label adjunct)'],
+pk:[['Bioavailability','~100%'],['Half-life','50–68 h (once- or twice-daily dosing)'],['Protein binding','40–50%'],['Metabolism','CYP3A4 + acetylation'],['Excretion','Renal (metabolites)'],['Kinetics','Linear']],
+dose:[['Loading','None'],['Start','50–100 mg QD nocte'],['↑ by','50–100 mg/day every 2 weeks'],['Target','200–500 mg/day in 1–2 doses'],['Max','600 mg/day'],['Renal adj.','GFR <50: use with caution; dose reduction recommended']],
+tdm:{r:'10–40 μg/mL',n:'Optional — useful to confirm adherence and guide dosing. Trough sample.'},
+mon:['Serum bicarbonate (metabolic acidosis — less common than topiramate but possible)','Renal function / urinalysis (kidney stones — sulfonamide + carbonic anhydrase)','Sweating (oligohidrosis — especially children)','Weight (weight loss common)','Cognitive side effects','CBC (aplastic anemia — rare but reported)'],
+se:{dep:['Cognitive slowing','Word-finding difficulty','Paresthesias','Anorexia / weight loss','Dizziness','Somnolence','Oligohidrosis','Metabolic acidosis','Nephrolithiasis'],
+idio:['SJS (rare — sulfonamide cross-reactivity)','DRESS (rare)','Aplastic anemia (rare)']},
+ci:['Sulfonamide hypersensitivity (cross-reactivity — controversial but possible)','History of nephrolithiasis (relative)','Concurrent carbonic anhydrase inhibitors'],
+ix:[{d:'Enzyme inducers (CBZ, PHT, PHB)',e:'Reduce ZNS ~50%',s:'maj'},{d:'Valproate',e:'VPA + ZNS → hyperammonemia risk (monitor ammonia)',s:'maj'},{d:'Other carbonic anhydrase inhibitors',e:'Additive metabolic acidosis and kidney stone risk',s:'maj'}],
+preg:{r:'m',n:'Animal teratogenicity. Limited human data. Avoid 1st trimester. Folic acid supplementation.'},
+pearls:['Long T½ (50–68 h): once-daily dosing feasible — good adherence profile like phenobarbital','Side effect profile similar to topiramate (carbonic anhydrase effects: paresthesias, weight loss, acidosis, stones) but generally milder','Oligohidrosis + hyperthermia in children: educate parents about heat exposure and adequate hydration','Sulfonamide structure: theoretical cross-reactivity with sulfonamide antibiotics — clinical relevance debated','Useful add-on in refractory focal epilepsy with minimal pharmacokinetic interactions at receptor level']}
+];
+
+// ════════════ STATE ════════════
+let activeMech='all',activeGen='all',searchQ='',curView='grid',allExpanded=false;
+
+// ════════════ HELPERS ════════════
+const trunc=(s,n)=>s.length>n?s.slice(0,n)+'…':s;
+const pregClass={h:'ph',m:'pm',l:'pl'};
+const pregLabel={h:'🔴 HIGH RISK',m:'🟡 Moderate Risk',l:'🟢 Low Risk'};
+
+function getFiltered(){
+  return D.filter(d=>{
+    const mm=activeMech==='all'||d.m===activeMech;
+    const gm=activeGen==='all'||d.g===parseInt(activeGen);
+    const q=searchQ.toLowerCase();
+    const sm=!q||d.n.toLowerCase().includes(q)||d.br.toLowerCase().includes(q)||
+      ml(d.m).toLowerCase().includes(q)||d.mx.toLowerCase().includes(q)||
+      d.ind.some(i=>i.toLowerCase().includes(q));
+    return mm&&gm&&sm;
+  });
+}
+
+// ════════════ RENDER CARD ════════════
+function mkCard(d){
+  const col=mc(d.m);
+  const lddose=d.dose.find(r=>r[0].toLowerCase().includes('loading')||r[0].toLowerCase().includes('iv load'));
+  const tgdose=d.dose.find(r=>r[0].toLowerCase().includes('target'));
+  const div=document.createElement('div');
+  div.className='card';
+  div.style.borderLeft=`3px solid ${col}`;
+
+  // Quick stats
+  const ld=lddose?trunc(lddose[1],38):'—';
+  const td2=tgdose?trunc(tgdose[1],38):'—';
+
+  div.innerHTML=`
+<div class="ch" onclick="this.parentElement.classList.toggle('exp')">
+  <div class="cht">
+    <div class="dnb">
+      <div class="dn" style="color:${col}">${d.n}</div>
+      <div class="db">${d.br}</div>
+    </div>
+    <div class="cbs">
+      <span class="ba bg">Gen ${d.g}</span>
+      <span class="ba" style="background:${col}22;color:${col};border:1px solid ${col}44">${ml(d.m)}</span>
+    </div>
+    <div class="ti2">▼</div>
+  </div>
+  <div class="qs">
+    <div class="qi"><div class="ql">Loading Dose</div><div class="qv">${ld}</div></div>
+    <div class="qi"><div class="ql">Target Dose</div><div class="qv">${td2}</div></div>
+    <div class="qi"><div class="ql">TDM Range</div><div class="qv">${d.tdm.r}</div></div>
+  </div>
+</div>
+<div class="cb2">${mkBody(d,col)}</div>`;
+  return div;
+}
+
+function mkBody(d,col){
+  const se=d.se;
+  const hasChron=se.chron||se.iv_se||se.terat;
+  let seHtml=``;
+  if(se.dep?.length){seHtml+=`<div class="sl">Dose-dependent</div><div class="tgs">${se.dep.map(s=>`<span class="tg tw">${s}</span>`).join('')}</div>`;}
+  if(se.idio?.length){seHtml+=`<div class="sl">Idiosyncratic</div><div class="tgs">${se.idio.map(s=>`<span class="tg td2">${s}</span>`).join('')}</div>`;}
+  if(se.chron?.length){seHtml+=`<div class="sl">Chronic</div><div class="tgs">${se.chron.map(s=>`<span class="tg ti3">${s}</span>`).join('')}</div>`;}
+  if(se.iv_se?.length){seHtml+=`<div class="sl">IV-specific</div><div class="tgs">${se.iv_se.map(s=>`<span class="tg td2">${s}</span>`).join('')}</div>`;}
+  if(se.terat?.length){seHtml+=`<div class="sl" style="color:#FCA5A5">⚠️ Teratogenic</div><div class="tgs">${se.terat.map(s=>`<span class="tg td2">${s}</span>`).join('')}</div>`;}
+
+  return `
+<div class="sec">
+  <div class="st" style="color:${col}99">Pharmacodynamics</div>
+  <div class="sx">${d.mx}</div>
+</div>
+<div class="sec">
+  <div class="st">Indications</div>
+  <div class="tgs">${d.ind.map(i=>`<span class="tg ti3">${i}</span>`).join('')}</div>
+</div>
+<div class="sec">
+  <div class="st">Pharmacokinetics</div>
+  <table class="dt">${d.pk.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>
+</div>
+<div class="sec">
+  <div class="st">Dosing</div>
+  <table class="dt">${d.dose.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table>
+  <div class="vf">*(verify UpToDate)* — confirm doses before clinical use</div>
+</div>
+<div class="sec">
+  <div class="st">Therapeutic Drug Monitoring</div>
+  <div class="tb">⊙ ${d.tdm.r}</div>
+  <div class="sx" style="margin-top:6px">${d.tdm.n}</div>
+</div>
+<div class="sec">
+  <div class="st">Clinical Monitoring</div>
+  <ul class="pls">${d.mon.map(m=>`<li>${m}</li>`).join('')}</ul>
+</div>
+<div class="sec">
+  <div class="st">Side Effects</div>
+  ${seHtml}
+</div>
+<div class="sec">
+  <div class="st">Contraindications</div>
+  ${d.ci.map(c=>`<div class="cii"><span>⊘</span><span>${c}</span></div>`).join('')}
+</div>
+<div class="sec">
+  <div class="st">Key Drug Interactions</div>
+  ${d.ix.map(x=>`<div class="xi ${x.s}"><div class="xd">${x.d}</div><div class="xe">${x.e}</div></div>`).join('')}
+</div>
+<div class="sec">
+  <div class="st">Pregnancy</div>
+  <span class="pb ${pregClass[d.preg.r]}">${pregLabel[d.preg.r]}</span>
+  <div class="sx">${d.preg.n}</div>
+</div>
+<div class="sec">
+  <div class="st" style="color:${col}99">Clinical Pearls</div>
+  <ul class="pls">${d.pearls.map(p=>`<li>${p}</li>`).join('')}</ul>
+</div>`;
+}
+
+// ════════════ RENDER GRID ════════════
+function renderGrid(){
+  const g=document.getElementById('grid');
+  const f=getFiltered();
+  document.getElementById('cnt').textContent=`${f.length} drug${f.length!==1?'s':''}`;
+  g.innerHTML='';
+  if(!f.length){
+    g.innerHTML='<div class="nr"><div style="font-size:32px;margin-bottom:12px">⊘</div><div>No drugs match your filters</div></div>';
+    return;
+  }
+  f.forEach(d=>{
+    const card=mkCard(d);
+    if(allExpanded) card.classList.add('exp');
+    g.appendChild(card);
+  });
+}
+
+// ════════════ MECHANISM FILTERS ════════════
+function buildMechFilters(){
+  const c=document.getElementById('mf');
+  const classes=[...new Set(D.map(d=>d.m))];
+  const allBtn=document.createElement('button');
+  allBtn.className='mc active-m';
+  allBtn.dataset.m='all';
+  allBtn.style.borderColor='rgba(148,163,184,.3)';
+  allBtn.style.background='rgba(148,163,184,.15)';
+  allBtn.style.color='#fff';
+  allBtn.innerHTML=`<span class="md" style="background:#94A3B8"></span>All`;
+  allBtn.onclick=()=>setMech('all');
+  c.appendChild(allBtn);
+  classes.forEach(cls=>{
+    const col=mc(cls);
+    const btn=document.createElement('button');
+    btn.className='mc';
+    btn.dataset.m=cls;
+    btn.style.borderColor=col+'44';
+    btn.innerHTML=`<span class="md" style="background:${col}"></span>${ml(cls)}`;
+    btn.onclick=()=>setMech(cls);
+    c.appendChild(btn);
+  });
+}
+
+function setMech(m){
+  activeMech=m;
+  document.querySelectorAll('.mc').forEach(b=>{
+    const on=b.dataset.m===m;
+    if(on){const col=m==='all'?'#94A3B8':mc(m);b.style.background=col+'22';b.style.color='#fff';b.classList.add('active-m');}
+    else{b.style.background='transparent';b.style.color='var(--t2)';b.classList.remove('active-m');}
+  });
+  renderGrid();
+}
+
+// ════════════ INIT ════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('totalN').textContent=`${D.length} agents`;
+  buildMechFilters();
+  renderGrid();
+
+  document.getElementById('srch').addEventListener('input',e=>{searchQ=e.target.value;renderGrid();});
+
+  document.querySelectorAll('.gp').forEach(b=>{
+    b.addEventListener('click',()=>{
+      activeGen=b.dataset.g;
+      document.querySelectorAll('.gp').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      renderGrid();
+    });
+  });
+
+  document.querySelectorAll('.vb').forEach(b=>{
+    b.addEventListener('click',()=>{
+      curView=b.dataset.v;
+      document.querySelectorAll('.vb').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      const g=document.getElementById('grid');
+      g.className='grid'+(curView==='list'?' list':'');
+    });
+  });
+
+  document.getElementById('eab').addEventListener('click',function(){
+    allExpanded=!allExpanded;
+    this.textContent=allExpanded?'Collapse All':'Expand All';
+    document.querySelectorAll('.card').forEach(c=>c.classList.toggle('exp',allExpanded));
+  });
+});
+</script>
+</body>
+</html>
