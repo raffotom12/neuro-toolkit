@@ -139,6 +139,70 @@ body{background:var(--bg);color:var(--t1);font-family:var(--sans);font-size:14px
 
 footer{max-width:1400px;margin:0 auto;padding:16px 24px 28px;text-align:center;font-size:11px;color:var(--t3);border-top:1px solid var(--b);line-height:1.8}
 @media(max-width:768px){.cards{grid-template-columns:1fr}.cmp{grid-template-columns:1fr}.mup-grid{grid-template-columns:1fr 1fr}}
+
+/* ── FLOWCHART (s-algo) ── */
+.fc{display:flex;flex-direction:column;gap:6px}
+.fc-step{background:var(--s1);border:1px solid var(--b);border-radius:10px;overflow:hidden}
+.fc-split{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fc-step-h{padding:13px 16px 11px;display:flex;align-items:center;gap:12px}
+.fc-ico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;font-weight:700}
+.fc-qtxt{font-size:14px;font-weight:700;line-height:1.3}
+.fc-qtxt strong{color:var(--t1)}
+.fc-qsub{display:block;font-size:11px;font-weight:400;color:var(--t3);margin-top:2px}
+.fc-brs{border-top:1px solid var(--b);display:flex;flex-direction:column;gap:0}
+.fc-br{display:flex;gap:10px;align-items:flex-start;padding:10px 14px 10px 16px;border-bottom:1px solid rgba(148,163,184,.06)}
+.fc-br:last-child{border-bottom:none}
+.fc-lbl{padding:3px 9px;border-radius:4px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:3px;font-family:var(--mono);letter-spacing:.04em}
+.fc-lbl.y{background:rgba(16,185,129,.18);color:var(--sns);border:1px solid rgba(16,185,129,.3)}
+.fc-lbl.n{background:rgba(239,68,68,.18);color:var(--axn);border:1px solid rgba(239,68,68,.3)}
+.fc-lbl.m{background:rgba(59,130,246,.18);color:var(--mot);border:1px solid rgba(59,130,246,.3)}
+.fc-lbl.s{background:rgba(16,185,129,.18);color:var(--sns);border:1px solid rgba(16,185,129,.3)}
+.fc-lbl.b{background:rgba(148,163,184,.12);color:var(--t2);border:1px solid rgba(148,163,184,.25)}
+.fc-lbl.ax{background:rgba(239,68,68,.18);color:var(--axn);border:1px solid rgba(239,68,68,.3)}
+.fc-lbl.dm{background:rgba(139,92,246,.18);color:var(--dem);border:1px solid rgba(139,92,246,.3)}
+.fc-content{flex:1}
+.fc-title{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:3px}
+.fc-detail{font-size:12px;color:var(--t2);line-height:1.65}
+.fc-arrow-down{text-align:center;font-size:20px;color:var(--t3);line-height:1.4;margin:1px 0}
+.fc-outcomes{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:6px;margin-top:6px}
+.fc-outcome{padding:8px 10px;border-radius:7px;border:1px solid}
+.fc-ot{font-size:11px;font-weight:700;margin-bottom:3px}
+.fc-od{font-size:10px;line-height:1.55}
+/* Key Rule Banner */
+.kr-banner{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.kr-item{display:flex;align-items:flex-start;gap:8px;padding:9px 13px;border-radius:8px;border:1px solid;background:rgba(148,163,184,.04);font-size:12px;color:var(--t2);flex:1;min-width:260px;line-height:1.6}
+.kr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+/* Wave panel (s-ncs) */
+.wave-panel{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px}
+.wave-col{background:var(--s1);border:1px solid var(--b);border-radius:9px;padding:12px 14px}
+.wave-title{font-size:11px;font-weight:700;margin-bottom:8px;letter-spacing:.04em}
+.wave-svg{width:100%;display:block}
+.wave-params{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.wp{padding:2px 7px;border-radius:4px;font-size:10px}
+.wp-mot{background:rgba(59,130,246,.12);color:var(--mot);border:1px solid rgba(59,130,246,.25)}
+.wp-sns{background:rgba(16,185,129,.12);color:var(--sns);border:1px solid rgba(16,185,129,.25)}
+.wp-lat{background:rgba(148,163,184,.1);color:var(--t2);border:1px solid rgba(148,163,184,.2)}
+.wp-cv{background:rgba(139,92,246,.12);color:var(--dem);border:1px solid rgba(139,92,246,.25)}
+.wp-dur{background:rgba(245,158,11,.1);color:var(--ndl);border:1px solid rgba(245,158,11,.2)}
+/* 3-waveform grid (s-axvdem) */
+.wf3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.wf3-col{background:var(--s1);border:1px solid var(--b);border-radius:9px;padding:12px 12px 10px;text-align:center}
+.wf3-title{font-size:12px;font-weight:700;margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase}
+.wf3-svg{width:100%;display:block;max-width:200px;margin:0 auto}
+.wf3-bullets{margin-top:8px;display:flex;flex-direction:column;gap:3px}
+.wf3-b{font-size:11px}
+/* MUP compare (s-needle) */
+.mup-compare{background:var(--s1);border:1px solid var(--b);border-radius:9px;padding:14px 16px;margin-bottom:18px}
+.mup-compare-title{font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--t3);margin-bottom:12px}
+.mup-compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.mup-col{text-align:center}
+.mup-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.recruit-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid var(--b);padding-top:12px}
+.rc-col{}
+.rc-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+/* discharge card with waveform side-by-side */
+@media(max-width:860px){.wave-panel{grid-template-columns:1fr}.wf3-grid{grid-template-columns:1fr}.fc-split{grid-template-columns:1fr}.mup-compare-grid{grid-template-columns:1fr}.recruit-compare{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -174,116 +238,366 @@ footer{max-width:1400px;margin:0 auto;padding:16px 24px 28px;text-align:center;f
 <!-- ══════════════════════════════════════════════════════════════════════════
   SECTION 1 — MASTER ALGORITHM
 ══════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+  SECTION 1 — MASTER ALGORITHM  (visual flowchart)
+═══════════════════════════════════════════════════════════════ -->
 <div class="section on" id="s-algo">
 <div class="sec-h">
-<h2 class="sec-title">Master Diagnostic Algorithm</h2>
-<p class="sec-sub">Sequential decision tree from referral question to electrodiagnostic conclusion</p>
+  <h2 class="sec-title">Master Diagnostic Algorithm</h2>
+  <p class="sec-sub">Follow each decision node top-to-bottom — the SNAP localisation rule is the single most critical step</p>
 </div>
 
-<div class="alert a-info" style="margin-bottom:20px">
-⚠️ Start with the <strong>clinical question</strong> — the test is an extension of the clinical examination, not a fishing expedition. The pattern of abnormality must fit the clinical syndrome.
+<!-- KEY RULE banner -->
+<div class="kr-banner">
+  <div class="kr-item" style="border-color:rgba(16,185,129,.4)">
+    <span class="kr-dot" style="background:var(--sns)"></span>
+    <span><strong style="color:var(--sns)">SNAP normal</strong> → lesion <em>at or proximal to DRG</em> → root / AHC / UMN</span>
+  </div>
+  <div class="kr-item" style="border-color:rgba(239,68,68,.4)">
+    <span class="kr-dot" style="background:var(--axn)"></span>
+    <span><strong style="color:var(--axn)">SNAP abnormal</strong> → lesion <em>post-ganglionic</em> → plexus / peripheral nerve / DRG</span>
+  </div>
 </div>
 
-<div class="algo-box">
-<div class="algo-q">Step 1 — Are the NCS (motor + sensory) NORMAL?</div>
-<div class="algo-branches">
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(16,185,129,.15);color:var(--sns);border:1px solid rgba(16,185,129,.3)">YES — NCS normal</span>
-<div class="algo-result">Pathology confined to: <strong>muscle</strong> (myopathy) · <strong>NMJ</strong> (MG/LEMS) · <strong>very early/mild neuropathy</strong> · <strong>UMN</strong> (NCS always normal in UMN disease) → proceed to <strong>needle EMG</strong> and/or <strong>RNS</strong></div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(239,68,68,.15);color:var(--axn);border:1px solid rgba(239,68,68,.3)">NO — NCS abnormal</span>
-<div class="algo-result">→ proceed to Step 2</div>
-</div>
-</div>
-</div>
+<div class="fc">
 
-<div class="algo-box">
-<div class="algo-q">Step 2 — Which modality is affected?</div>
-<div class="algo-branches">
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(59,130,246,.15);color:var(--mot);border:1px solid rgba(59,130,246,.3)">Motor only (↓ CMAP, normal SNAP)</span>
-<div class="algo-result">Motor neuropathy · Radiculopathy (prox to DRG) · MND · MMNCB · GBS (early, sensory relatively spared)</div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(16,185,129,.15);color:var(--sns);border:1px solid rgba(16,185,129,.3)">Sensory only (↓ SNAP, normal CMAP)</span>
-<div class="algo-result">Pure sensory neuropathy · Ganglionopathy (DRG lesion) · Early length-dependent polyneuropathy · Carcinomatous sensory neuropathy</div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(148,163,184,.15);color:var(--t2);border:1px solid rgba(148,163,184,.3)">Both (↓ CMAP + ↓ SNAP)</span>
-<div class="algo-result">Sensorimotor neuropathy (most common) · → proceed to Step 3</div>
-</div>
-</div>
-</div>
+  <!-- STEP 1 -->
+  <div class="fc-step" style="border-left:3px solid var(--acc)">
+    <div class="fc-step-h">
+      <div class="fc-ico" style="background:rgba(56,189,248,.15);color:var(--acc)">①</div>
+      <div>
+        <div class="fc-qtxt">Are the NCS (motor + sensory) <strong>NORMAL</strong>?</div>
+        <small class="fc-qsub">Check CMAP amplitude, SNAP amplitude, CV, and distal latency in at least 2–3 nerves per limb</small>
+      </div>
+    </div>
+    <div class="fc-brs">
+      <div class="fc-br">
+        <span class="fc-lbl y">YES →</span>
+        <div class="fc-content">
+          <div class="fc-title">Focus on Needle EMG + Repetitive Nerve Stimulation</div>
+          <div class="fc-outcomes" style="margin-top:6px">
+            <div class="fc-outcome" style="border-color:rgba(6,182,212,.3);background:rgba(6,182,212,.06)">
+              <div class="fc-ot" style="color:var(--nmj)">NMJ Disease</div>
+              <div class="fc-od" style="color:var(--t3)">RNS decrement (MG) or post-exercise increment (LEMS). Normal NCS at rest.</div>
+            </div>
+            <div class="fc-outcome" style="border-color:rgba(236,72,153,.3);background:rgba(236,72,153,.06)">
+              <div class="fc-ot" style="color:var(--myo)">Myopathy</div>
+              <div class="fc-od" style="color:var(--t3)">Small short polyphasic MUPs + early recruitment. NCS typically normal.</div>
+            </div>
+            <div class="fc-outcome" style="border-color:rgba(148,163,184,.25);background:rgba(148,163,184,.05)">
+              <div class="fc-ot" style="color:var(--t2)">UMN / CNS Disease</div>
+              <div class="fc-od" style="color:var(--t3)">NCS always normal in pure UMN pathology. Needle EMG: normal or UMN pattern.</div>
+            </div>
+            <div class="fc-outcome" style="border-color:rgba(148,163,184,.25);background:rgba(148,163,184,.05)">
+              <div class="fc-ot" style="color:var(--t2)">Very Early Neuropathy</div>
+              <div class="fc-od" style="color:var(--t3)">NCS may lag behind clinical/symptoms. Repeat in 4–6 weeks if high suspicion.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-br">
+        <span class="fc-lbl n">NO ↓</span>
+        <div class="fc-content">
+          <div class="fc-title">NCS abnormal → continue to Step 2</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="algo-box">
-<div class="algo-q">Step 3 — Axonal or Demyelinating? (see Axonal vs Demyelinating section for full criteria)</div>
-<div class="algo-branches">
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(239,68,68,.15);color:var(--axn);border:1px solid rgba(239,68,68,.3)">AXONAL</span>
-<div class="algo-result">↓↓ CMAP/SNAP amplitude · CV relatively preserved (may be mildly ↓ from loss of fastest fibers) · Distal latency normal · No conduction block · Needle EMG: denervation → proceed to Step 4</div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(139,92,246,.15);color:var(--dem);border:1px solid rgba(139,92,246,.3)">DEMYELINATING</span>
-<div class="algo-result">↓↓ CV · ↑↑ Distal latency · Temporal dispersion · ± Conduction block · F-waves absent/prolonged · → proceed to Step 4, then ask: uniform vs non-uniform?</div>
-</div>
-</div>
-</div>
+  <div class="fc-arrow-down">↓</div>
 
-<div class="algo-box">
-<div class="algo-q">Step 4 — What is the distribution?</div>
-<div class="algo-branches">
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(148,163,184,.12);color:var(--t2);border:1px solid rgba(148,163,184,.25)">Length-dependent</span>
-<div class="algo-result">Worse distally · Sural → peroneal → tibial → upper limb (in that order) · Typical: DSPN, CMT, chronic axonal polyneuropathy · Etiology: metabolic, toxic, hereditary</div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(148,163,184,.12);color:var(--t2);border:1px solid rgba(148,163,184,.25)">Non-length-dependent</span>
-<div class="algo-result">Asymmetric or proximal-predominant · Think: vasculitic, CIDP, plexopathy, ganglionopathy, GBS · Proximal and distal affected similarly</div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(148,163,184,.12);color:var(--t2);border:1px solid rgba(148,163,184,.25)">Focal / Multifocal</span>
-<div class="algo-result">Mononeuropathy: compressive (CTS, ulnar at elbow) · Multiple mononeuropathies: vasculitic, MMNCB, hereditary neuropathy with pressure palsies (HNPP)</div>
-</div>
-</div>
-</div>
+  <!-- STEP 2 -->
+  <div class="fc-step" style="border-left:3px solid var(--mot)">
+    <div class="fc-step-h">
+      <div class="fc-ico" style="background:rgba(59,130,246,.15);color:var(--mot)">②</div>
+      <div>
+        <div class="fc-qtxt">Which modality is affected?</div>
+        <small class="fc-qsub">Compare CMAP (motor) vs SNAP (sensory) — one or both?</small>
+      </div>
+    </div>
+    <div class="fc-brs">
+      <div class="fc-br">
+        <span class="fc-lbl m">MOTOR ONLY</span>
+        <div class="fc-content">
+          <div class="fc-title">↓ CMAP · Normal SNAP</div>
+          <div class="fc-detail">Anterior horn cell disease (ALS) · Pure motor neuropathy (MMNCB) · Radiculopathy (proximal to DRG, motor root) · GBS axonal variant (AMAN) · Poliomyelitis</div>
+        </div>
+      </div>
+      <div class="fc-br">
+        <span class="fc-lbl s">SENSORY ONLY</span>
+        <div class="fc-content">
+          <div class="fc-title">Normal CMAP · ↓ SNAP</div>
+          <div class="fc-detail">Sensory ganglionopathy (paraneoplastic, Sjögren's, cisplatin) · Pure sensory neuropathy · Very early length-dependent polyneuropathy · Sensory CIDP variant</div>
+        </div>
+      </div>
+      <div class="fc-br">
+        <span class="fc-lbl b">BOTH ↓</span>
+        <div class="fc-content">
+          <div class="fc-title">↓ CMAP + ↓ SNAP → Sensorimotor neuropathy</div>
+          <div class="fc-detail">The most common pattern. → Proceed to Step 3 to characterise as axonal or demyelinating.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="algo-box">
-<div class="algo-q">Step 5 — Needle EMG: integrate the picture</div>
-<div class="algo-branches">
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(245,158,11,.15);color:var(--ndl);border:1px solid rgba(245,158,11,.3)">Active denervation (fibs, PSWs)</span>
-<div class="algo-result">Axonal loss (neuropathic) · Denervation timeline: paraspinals 7–10d → distal limb 2–4wks · Also in inflammatory myopathy, IBM</div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(245,158,11,.15);color:var(--ndl);border:1px solid rgba(245,158,11,.3)">Chronic reinnervation (large polyphasic MUPs)</span>
-<div class="algo-result">Long-standing neuropathic process · Surviving axons have collateral sprouted extensively → giant MUPs · ALS signature</div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(236,72,153,.15);color:var(--myo);border:1px solid rgba(236,72,153,.3)">Small short-duration polyphasic MUPs + early recruitment</span>
-<div class="algo-result">Myopathy · ± fibs (inflammatory, necrotizing, IBM) · NCS normal</div>
-</div>
-<div class="algo-branch">
-<span class="algo-cond" style="background:rgba(6,182,212,.15);color:var(--nmj);border:1px solid rgba(6,182,212,.3)">Variable MUP morphology + normal NCS</span>
-<div class="algo-result">NMJ disorder · Confirm with RNS · SFEMG most sensitive</div>
-</div>
-</div>
-</div>
+  <div class="fc-arrow-down">↓</div>
 
-<div class="alert a-warn" style="margin-top:16px">
-<strong>The most important localizing distinction:</strong> Is the SNAP normal or abnormal?<br>
-Normal SNAP → lesion is at or proximal to the DRG (root lesion, anterior horn cell, UMN) <br>
-Abnormal SNAP → lesion is at or distal to the DRG (plexus, peripheral nerve, sensory ganglion)
-</div>
-</div>
+  <!-- STEP 3 -->
+  <div class="fc-step" style="border-left:3px solid var(--dem)">
+    <div class="fc-step-h">
+      <div class="fc-ico" style="background:rgba(139,92,246,.15);color:var(--dem)">③</div>
+      <div>
+        <div class="fc-qtxt">Axonal <span style="color:var(--t3);font-weight:400;font-size:13px">or</span> Demyelinating?</div>
+        <small class="fc-qsub">Key criteria: amplitude (axonal) vs CV / latency / dispersion / conduction block (demyelinating) — see Section 3 for full criteria</small>
+      </div>
+    </div>
+    <div class="fc-brs">
+      <div class="fc-br">
+        <span class="fc-lbl ax">AXONAL ↓</span>
+        <div class="fc-content">
+          <div class="fc-title">↓↓ Amplitude · CV normal or mildly ↓ · No conduction block · No temporal dispersion</div>
+          <div class="fc-detail">Needle EMG: fibrillations + PSWs + large polyphasic MUPs (chronic reinnervation) → Proceed to Step 4A</div>
+        </div>
+      </div>
+      <div class="fc-br">
+        <span class="fc-lbl dm">DEMYELINATING ↓</span>
+        <div class="fc-content">
+          <div class="fc-title">↓↓ CV · ↑↑ Latency · ± Temporal dispersion · ± Conduction block · Absent/prolonged F-waves</div>
+          <div class="fc-detail">Needle EMG: often relatively normal MUPs (axons intact); ↓ recruitment if conduction block → Proceed to Step 4B</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- ══════════════════════════════════════════════════════════════════════════
-  SECTION 2 — NCS PARAMETERS
-══════════════════════════════════════════════════════════════════════════ -->
+  <!-- STEP 4 — two parallel paths -->
+  <div class="fc-split">
+
+    <!-- 4A Axonal -->
+    <div class="fc-step" style="border-left:3px solid var(--axn)">
+      <div class="fc-step-h">
+        <div class="fc-ico" style="background:rgba(239,68,68,.15);color:var(--axn)">④A</div>
+        <div>
+          <div class="fc-qtxt">Axonal — <strong>Distribution?</strong></div>
+          <small class="fc-qsub">Does severity follow nerve length, or is it asymmetric / multifocal?</small>
+        </div>
+      </div>
+      <div class="fc-brs">
+        <div class="fc-br">
+          <span class="fc-lbl ax">LENGTH-DEP.</span>
+          <div class="fc-content">
+            <div class="fc-title">Distal &gt; proximal · Symmetric · Sock-glove</div>
+            <div class="fc-detail">Diabetic DSPN · Alcohol · Toxic (chemo) · Uremic · Nutritional (B12/B1) · CMT2 · CIAP</div>
+          </div>
+        </div>
+        <div class="fc-br">
+          <span class="fc-lbl b">NON-LENGTH-DEP.</span>
+          <div class="fc-content">
+            <div class="fc-title">Proximal + distal · Asymmetric · Rapid onset</div>
+            <div class="fc-detail">Vasculitic neuropathy · GBS (AMAN variant) · Paraneoplastic · Sarcoidosis · POEMS</div>
+          </div>
+        </div>
+        <div class="fc-br">
+          <span class="fc-lbl b">FOCAL / MULTIFOCAL</span>
+          <div class="fc-content">
+            <div class="fc-title">Individual nerve(s) · Compression sites</div>
+            <div class="fc-detail">CTS · Ulnar at elbow · Peroneal at fibular head · Vasculitic mononeuropathy multiplex · MMNCB (add demyelination check) · HNPP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4B Demyelinating -->
+    <div class="fc-step" style="border-left:3px solid var(--dem)">
+      <div class="fc-step-h">
+        <div class="fc-ico" style="background:rgba(139,92,246,.15);color:var(--dem)">④B</div>
+        <div>
+          <div class="fc-qtxt">Demyelinating — <strong>Uniform or Non-uniform?</strong></div>
+          <small class="fc-qsub">Do all nerves show the same degree of slowing, or is it patchy / variable between nerves?</small>
+        </div>
+      </div>
+      <div class="fc-brs">
+        <div class="fc-br">
+          <span class="fc-lbl b">UNIFORM</span>
+          <div class="fc-content">
+            <div class="fc-title">All nerves equally slowed · No conduction block · No temporal dispersion</div>
+            <div class="fc-detail"><strong>Hereditary neuropathy:</strong> CMT1A (PMP22 dup) · CMT1B (MPZ) · CMT4 subtypes · HNPP. CV typically 15–30 m/s throughout.</div>
+          </div>
+        </div>
+        <div class="fc-br">
+          <span class="fc-lbl dm">NON-UNIFORM</span>
+          <div class="fc-content">
+            <div class="fc-title">Patchy slowing · Conduction block · Temporal dispersion · Variable between nerves</div>
+            <div class="fc-detail"><strong>Acquired (immune-mediated):</strong> CIDP · GBS / AIDP · MMN (motor-only + conduction block) · POEMS · Paraproteinaemic neuropathy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end fc-split -->
+
+  <div class="fc-arrow-down">↓</div>
+
+  <!-- STEP 5 — Integrate needle EMG -->
+  <div class="fc-step" style="border-left:3px solid var(--ndl)">
+    <div class="fc-step-h">
+      <div class="fc-ico" style="background:rgba(245,158,11,.15);color:var(--ndl)">⑤</div>
+      <div>
+        <div class="fc-qtxt">Integrate Needle EMG findings</div>
+        <small class="fc-qsub">Confirms mechanism, estimates chronicity, localises to root / nerve / muscle level</small>
+      </div>
+    </div>
+    <div class="fc-brs">
+      <div class="fc-br">
+        <span class="fc-lbl ax">Fibs + PSWs</span>
+        <div class="fc-content">
+          <div class="fc-title">Active denervation — axonal loss is occurring now</div>
+          <div class="fc-detail">Timeline: paraspinals 7–10 days · distal limb 2–4 weeks after injury. Also seen in inflammatory myopathy and IBM.</div>
+        </div>
+      </div>
+      <div class="fc-br">
+        <span class="fc-lbl ax">Large polyphasic MUPs + satellite potentials</span>
+        <div class="fc-content">
+          <div class="fc-title">Chronic reinnervation — neuropathic process is long-standing</div>
+          <div class="fc-detail">Surviving axons have sprouted, adopted orphaned fibres → giant MUPs. Hallmark of ALS, chronic radiculopathy, old nerve injury.</div>
+        </div>
+      </div>
+      <div class="fc-br">
+        <span class="fc-lbl b">Fasciculations</span>
+        <div class="fc-content">
+          <div class="fc-title">Spontaneous whole motor unit discharge</div>
+          <div class="fc-detail">Complex fasciculations + active denervation + chronic reinnervation → ALS. Simple isolated fasciculations → may be benign.</div>
+        </div>
+      </div>
+      <div class="fc-br">
+        <span class="fc-lbl" style="background:rgba(236,72,153,.18);color:var(--myo);border:1px solid rgba(236,72,153,.3)">Small short MUPs + early recruitment</span>
+        <div class="fc-content">
+          <div class="fc-title">Myopathic pattern — muscle disease</div>
+          <div class="fc-detail">Full interference pattern at low force, but with small MUPs. ± Fibrillations if inflammatory. NCS normal.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .fc -->
+</div><!-- end s-algo -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+  SECTION 2 — NCS PARAMETERS  (annotated waveform + detail cards)
+═══════════════════════════════════════════════════════════════ -->
 <div class="section" id="s-ncs">
 <div class="sec-h">
-<h2 class="sec-title">NCS Parameters</h2>
-<p class="sec-sub">What each parameter measures, what it reflects, and what changes it in pathology</p>
+  <h2 class="sec-title">NCS Parameters</h2>
+  <p class="sec-sub">Anatomy of the CMAP and SNAP — what each parameter measures and what pathology changes it</p>
+</div>
+
+<!-- Annotated waveform SVG -->
+<div class="wave-panel">
+  <div class="wave-col">
+    <div class="wave-title" style="color:var(--mot)">● Motor NCS — CMAP</div>
+    <svg viewBox="0 0 340 160" class="wave-svg">
+      <defs>
+        <marker id="ah" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="#94A3B8"/></marker>
+        <marker id="ab" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="var(--mot)"/></marker>
+        <marker id="ag" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="var(--sns)"/></marker>
+        <marker id="aw" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="var(--ndl)"/></marker>
+      </defs>
+      <!-- Baseline -->
+      <line x1="20" y1="108" x2="320" y2="108" stroke="#1E3050" strokeWidth="1.2"/>
+      <!-- Stimulus marker -->
+      <line x1="40" y1="95" x2="40" y2="121" stroke="#475569" strokeWidth="1.5"/>
+      <text x="40" y="132" textAnchor="middle" fontSize="9" fill="#475569">S</text>
+      <!-- CMAP waveform: onset at x=100, trough at x=160, return at x=220, small positive at x=255, baseline x=275 -->
+      <path d="M 40 108 L 100 108 C 108 108 112 42 155 42 C 185 42 195 108 210 108 C 220 108 225 120 245 120 C 262 120 268 108 280 108" fill="none" stroke="#3B82F6" strokeWidth="2.5"/>
+      <!-- Distal latency bracket -->
+      <line x1="40" y1="140" x2="100" y2="140" stroke="#94A3B8" strokeWidth="1" markerEnd="url(#ah)"/>
+      <line x1="100" y1="140" x2="40" y2="140" stroke="#94A3B8" strokeWidth="1" markerEnd="url(#ah)"/>
+      <text x="70" y="153" textAnchor="middle" fontSize="9" fill="#94A3B8">Distal latency</text>
+      <!-- Amplitude arrow -->
+      <line x1="295" y1="108" x2="295" y2="42" stroke="var(--mot)" strokeWidth="1.2" markerEnd="url(#ab)"/>
+      <line x1="295" y1="42" x2="295" y2="108" stroke="var(--mot)" strokeWidth="1.2" markerEnd="url(#ab)"/>
+      <text x="315" y="78" textAnchor="middle" fontSize="9" fill="var(--mot)" transform="rotate(-90 315 78)">Amplitude</text>
+      <!-- Duration bracket -->
+      <line x1="100" y1="118" x2="280" y2="118" stroke="#94A3B8" strokeWidth="0.8" strokeDasharray="2,1"/>
+      <text x="190" y="128" textAnchor="middle" fontSize="9" fill="#475569">Duration</text>
+      <!-- Labels -->
+      <text x="155" y="35" textAnchor="middle" fontSize="9" fill="#3B82F6">peak</text>
+    </svg>
+    <div class="wave-params">
+      <span class="wp wp-mot">Amplitude = axon count</span>
+      <span class="wp wp-lat">Latency = distal segment</span>
+      <span class="wp wp-cv">CV = fastest fibres</span>
+      <span class="wp wp-dur">Duration = synchrony</span>
+    </div>
+  </div>
+  <div class="wave-col">
+    <div class="wave-title" style="color:var(--sns)">● Sensory NCS — SNAP</div>
+    <svg viewBox="0 0 340 160" class="wave-svg">
+      <!-- Baseline -->
+      <line x1="20" y1="108" x2="320" y2="108" stroke="#1E3050" strokeWidth="1.2"/>
+      <!-- Stimulus marker -->
+      <line x1="40" y1="97" x2="40" y2="119" stroke="#475569" strokeWidth="1.5"/>
+      <text x="40" y="132" textAnchor="middle" fontSize="9" fill="#475569">S</text>
+      <!-- SNAP waveform: smaller amplitude, triphasic -->
+      <path d="M 40 108 L 95 108 C 100 108 103 93 108 93 C 113 93 116 108 120 108 C 125 108 128 68 148 65 C 165 62 175 108 185 108 C 192 108 195 118 205 118 C 215 118 218 108 230 108" fill="none" stroke="#10B981" strokeWidth="2.5"/>
+      <!-- Peak latency bracket (to peak) -->
+      <line x1="40" y1="140" x2="148" y2="140" stroke="#94A3B8" strokeWidth="1" markerEnd="url(#ah)"/>
+      <text x="94" y="153" textAnchor="middle" fontSize="9" fill="#94A3B8">Peak latency</text>
+      <!-- Amplitude -->
+      <line x1="295" y1="108" x2="295" y2="65" stroke="var(--sns)" strokeWidth="1.2" markerEnd="url(#ag)"/>
+      <line x1="295" y1="65" x2="295" y2="108" stroke="var(--sns)" strokeWidth="1.2" markerEnd="url(#ag)"/>
+      <text x="315" y="90" textAnchor="middle" fontSize="9" fill="var(--sns)" transform="rotate(-90 315 90)">Amplitude</text>
+      <!-- Note on size -->
+      <text x="170" y="22" textAnchor="middle" fontSize="9" fill="#475569">Much smaller than CMAP (μV vs mV)</text>
+      <text x="170" y="33" textAnchor="middle" fontSize="9" fill="#1E3050">Normal SNAP = intact DRG + peripheral axon</text>
+    </svg>
+    <div class="wave-params">
+      <span class="wp wp-sns">Amplitude = sensory axon count</span>
+      <span class="wp wp-lat">Peak latency = distal segment</span>
+      <span class="wp wp-cv">CV = fastest sensory fibres</span>
+      <span class="wp" style="background:rgba(239,68,68,.1);color:#FCA5A5;border:1px solid rgba(239,68,68,.2)">Normal in ROOT lesions (pre-ganglionic)</span>
+    </div>
+  </div>
+  <div class="wave-col">
+    <div class="wave-title" style="color:var(--dem)">● CV Measurement (Motor)</div>
+    <svg viewBox="0 0 340 160" class="wave-svg">
+      <defs>
+        <marker id="ad" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0,0 8,3 0,6" fill="var(--dem)"/></marker>
+      </defs>
+      <!-- Baseline -->
+      <line x1="20" y1="90" x2="320" y2="90" stroke="#1E3050" strokeWidth="1.2"/>
+      <!-- Distal stim S1 -->
+      <line x1="45" y1="78" x2="45" y2="100" stroke="#06B6D4" strokeWidth="1.5"/>
+      <text x="45" y="113" textAnchor="middle" fontSize="9" fill="#06B6D4">S1 (distal)</text>
+      <!-- CMAP1 small -->
+      <path d="M 45 90 L 85 90 C 90 90 95 60 108 60 C 120 60 124 90 130 90" fill="none" stroke="#06B6D4" strokeWidth="2"/>
+      <!-- Proximal stim S2 -->
+      <line x1="175" y1="78" x2="175" y2="100" stroke="#8B5CF6" strokeWidth="1.5"/>
+      <text x="175" y="113" textAnchor="middle" fontSize="9" fill="#8B5CF6">S2 (proximal)</text>
+      <!-- CMAP2 same shape but different onset latency -->
+      <path d="M 175 90 L 210 90 C 215 90 220 60 233 60 C 246 60 250 90 256 90" fill="none" stroke="#8B5CF6" strokeWidth="2"/>
+      <!-- Distance arrow -->
+      <line x1="45" y1="135" x2="175" y2="135" stroke="var(--dem)" strokeWidth="1.2" markerEnd="url(#ad)"/>
+      <line x1="175" y1="135" x2="45" y2="135" stroke="var(--dem)" strokeWidth="1.2" markerEnd="url(#ad)"/>
+      <text x="110" y="148" textAnchor="middle" fontSize="9" fill="var(--dem)">Distance (mm)</text>
+      <!-- Onset latency markers -->
+      <line x1="85" y1="60" x2="85" y2="100" stroke="#06B6D4" strokeWidth="0.8" strokeDasharray="2,2"/>
+      <line x1="210" y1="60" x2="210" y2="100" stroke="#8B5CF6" strokeWidth="0.8" strokeDasharray="2,2"/>
+      <!-- Formula -->
+      <rect x="205" y="5" width="128" height="36" rx="5" fill="#0D1525" stroke="#334155" strokeWidth="1"/>
+      <text x="269" y="20" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="var(--dem)">CV = Distance</text>
+      <line x1="212" y1="24" x2="326" y2="24" stroke="#334155" strokeWidth="0.8"/>
+      <text x="269" y="35" textAnchor="middle" fontSize="9.5" fill="var(--dem)">Lat S2 − Lat S1</text>
+    </svg>
+    <div class="wave-params">
+      <span class="wp" style="background:rgba(139,92,246,.1);color:var(--dem);border:1px solid rgba(139,92,246,.25)">↓↓ CV = demyelination</span>
+      <span class="wp" style="background:rgba(239,68,68,.1);color:var(--axn);border:1px solid rgba(239,68,68,.2)">CV mildly ↓ = axonal (fastest fibres lost)</span>
+    </div>
+  </div>
+</div>
+
+<div class="sec-h" style="margin-top:22px;margin-bottom:14px">
+  <h3 style="font-size:14px;font-weight:700;color:var(--t2)">Parameter Reference</h3>
 </div>
 
 <div class="param-card">
@@ -292,277 +606,416 @@ Abnormal SNAP → lesion is at or distal to the DRG (plexus, peripheral nerve, s
 <div><div class="param-name">CMAP — Compound Motor Action Potential</div><div class="param-sub">Recorded over muscle belly after motor nerve stimulation</div></div>
 </div>
 <div class="param-body">
-<div class="param-row"><span class="param-key">Amplitude (mV)</span><span class="param-val">Sum of all simultaneously activated muscle fiber APs. <strong>Reflects the number of functional motor axons</strong> (and the muscle fibers they innervate). ↓ in axonal loss, conduction block, NMJ failure, severe myopathy.</span></div>
-<div class="param-row"><span class="param-key">Distal latency (ms)</span><span class="param-val">Time from <em>distal</em> stimulation site to CMAP onset. Includes terminal axon conduction + NMJ delay + muscle fiber activation. <strong>Reflects distal nerve segment function.</strong> ↑ in distal demyelination (e.g. CTS), ↑ slightly in axonal loss.</span></div>
-<div class="param-row"><span class="param-key">Conduction velocity (m/s)</span><span class="param-val">Calculated between two <em>proximal</em> stimulation points: distance ÷ latency difference. <strong>Reflects the fastest conducting (largest diameter, most myelinated) fibers.</strong> ↓↓ in demyelination; ↓ mildly in axonal loss (loss of fastest fibers).</span></div>
-<div class="param-row"><span class="param-key">Duration (ms)</span><span class="param-val">Total CMAP duration. <strong>↑ (temporal dispersion)</strong> when different fibers arrive asynchronously due to non-uniform demyelination. Key indicator of acquired (non-hereditary) demyelination.</span></div>
-<div class="param-row"><span class="param-key">Area under curve</span><span class="param-val">Integrates amplitude × duration. Can detect conduction block even when proximal CMAP amplitude looks normal but temporal dispersion is present. Area drop > amplitude drop = dispersion predominant.</span></div>
-<div class="alert a-info" style="margin-top:4px">Conduction block: ≥50% proximal-to-distal CMAP amplitude reduction (with distal CMAP >1 mV) in a segment not prone to compression, without excessive temporal dispersion. Implies reversible demyelination — potential for recovery.</div>
+<div class="param-row"><span class="param-key">Amplitude (mV)</span><span class="param-val">Sum of all simultaneously activated muscle fibre APs. <strong>Reflects the number of functional motor axons.</strong> ↓ in axonal loss, conduction block, NMJ failure, severe myopathy.</span></div>
+<div class="param-row"><span class="param-key">Distal latency (ms)</span><span class="param-val">Time from <em>distal</em> stimulation to CMAP onset. Includes terminal axon conduction + NMJ delay + muscle activation. <strong>Reflects distal nerve segment function.</strong> ↑↑ in distal demyelination (e.g. CTS).</span></div>
+<div class="param-row"><span class="param-key">Conduction velocity (m/s)</span><span class="param-val">Distance ÷ latency difference between two stimulation points. <strong>Reflects the fastest conducting (largest-diameter, most-myelinated) fibres.</strong> ↓↓ in demyelination; ↓ mildly in axonal loss (loss of fast fibres).</span></div>
+<div class="param-row"><span class="param-key">Duration (ms)</span><span class="param-val">Total CMAP duration. ↑ (temporal dispersion) when fibres arrive asynchronously — non-uniform demyelination. Key indicator of acquired vs hereditary demyelination.</span></div>
+<div class="alert a-info" style="margin-top:6px">Conduction block: ≥50% proximal-to-distal CMAP amplitude reduction (with distal CMAP >1 mV), without excessive temporal dispersion. Implies reversible demyelination — potential for rapid recovery.</div>
 </div>
 </div>
 
 <div class="param-card">
 <div class="param-h">
 <div class="param-icon" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3)">🟢</div>
-<div><div class="param-name">SNAP — Sensory Nerve Action Potential</div><div class="param-sub">Recorded over sensory nerve after antidromic or orthodromic stimulation</div></div>
+<div><div class="param-name">SNAP — Sensory Nerve Action Potential</div><div class="param-sub">Much smaller than CMAP (μV vs mV) — the most sensitive early marker of sensory axon loss</div></div>
 </div>
 <div class="param-body">
-<div class="param-row"><span class="param-key">Amplitude (μV)</span><span class="param-val"><strong>Reflects the number of functional sensory axons.</strong> Much smaller than CMAP (μV vs mV). ↓ in sensory axonal loss and distal to a DRG lesion. NORMAL in root lesions (pre-ganglionic) — the key localizing distinction.</span></div>
-<div class="param-row"><span class="param-key">Peak latency (ms)</span><span class="param-val">From stimulus to SNAP peak. Most commonly used for sensory latency measurements (e.g. CTS: median digit 2 peak latency).</span></div>
-<div class="param-row"><span class="param-key">Conduction velocity (m/s)</span><span class="param-val">Calculated from onset latency. Reflects fastest sensory fibers. ↓↓ in sensory demyelination; ↓ mildly with axonal loss.</span></div>
-<div class="param-row"><span class="param-key">Temperature effect</span><span class="param-val">CRITICAL: cold limb → ↑ amplitude, ↑ latency, ↓ CV (mimics pathology in reverse). Always warm limb to ≥32°C (surface) before testing.</span></div>
-<div class="alert a-warn" style="margin-top:4px"><strong>Absent SNAP ≠ radiculopathy.</strong> Root lesions are pre-ganglionic → DRG cell body + peripheral axon intact → SNAP preserved. Absent SNAP in the same distribution = plexus or peripheral nerve (post-ganglionic). This is the single most important NCS localizing principle.</div>
+<div class="param-row"><span class="param-key">Amplitude (μV)</span><span class="param-val"><strong>Reflects number of functional sensory axons.</strong> ↓ post-ganglionic sensory loss. NORMAL in root lesions (pre-ganglionic) — the critical localising principle.</span></div>
+<div class="param-row"><span class="param-key">Peak latency (ms)</span><span class="param-val">From stimulus to SNAP peak. Most commonly used for sensory latency comparisons (e.g. CTS median digit 2 peak latency &gt;3.5 ms).</span></div>
+<div class="param-row"><span class="param-key">Temperature</span><span class="param-val">Cold limb → ↑ amplitude, ↑ latency, ↓ CV (mimics pathology). Always warm limb to ≥32°C surface before testing.</span></div>
+<div class="alert a-warn" style="margin-top:6px"><strong>Absent SNAP ≠ radiculopathy.</strong> Root lesions are pre-ganglionic → DRG + peripheral axon intact → SNAP preserved. Absent SNAP = lesion at or distal to DRG (plexus, peripheral nerve, ganglionopathy).</div>
 </div>
 </div>
 
 <div class="param-card">
 <div class="param-h">
 <div class="param-icon" style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3)">🟣</div>
-<div><div class="param-name">F-waves</div><div class="param-sub">Late motor responses — antidromic activation of anterior horn cells</div></div>
+<div><div class="param-name">F-waves</div><div class="param-sub">Late motor response — antidromic activation of anterior horn cells — assesses proximal motor conduction</div></div>
 </div>
 <div class="param-body">
-<div class="param-row"><span class="param-key">Mechanism</span><span class="param-val">Motor nerve supramaximal stimulation → antidromic AP travels to spinal cord → backfires a small % of anterior horn cells → orthodromic AP returns down motor axon to muscle. NOT a reflex.</span></div>
-<div class="param-row"><span class="param-key">Measures</span><span class="param-val"><strong>Proximal motor conduction</strong> (roots, plexus, proximal nerve) — the segment inaccessible to direct NCS stimulation. Minimum F-wave latency used (fastest conducting motor unit).</span></div>
-<div class="param-row"><span class="param-key">Abnormalities</span><span class="param-val">Absent or prolonged minimum latency (>ULN): proximal demyelination (early GBS — often the only abnormality initially), radiculopathy, plexopathy. Low persistence (<50%) also significant.</span></div>
-<div class="param-row"><span class="param-key">Normal values</span><span class="param-val">Median ≤31 ms · Ulnar ≤32 ms · Tibial ≤56 ms · Peroneal ≤53 ms (height-dependent; see normal values table)</span></div>
-</div>
-</div>
-
-<div class="param-card">
-<div class="param-h">
-<div class="param-icon" style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3)">🟤</div>
-<div><div class="param-name">H-reflex</div><div class="param-sub">Electrical equivalent of the ankle jerk (monosynaptic S1 arc)</div></div>
-</div>
-<div class="param-body">
-<div class="param-row"><span class="param-key">Mechanism</span><span class="param-val">Submaximal tibial nerve stimulation → Ia sensory fibers (not motor) → spinal cord → synapse on S1 motor neurons → response in soleus. Tests the complete S1 arc.</span></div>
-<div class="param-row"><span class="param-key">Clinical value</span><span class="param-val">Absent or asymmetric (>1.5 ms side-to-side difference): S1 radiculopathy, peripheral polyneuropathy (lost early in length-dependent neuropathies). More sensitive than EMG paraspinals for S1 root assessment.</span></div>
-<div class="param-row"><span class="param-key">Limitation</span><span class="param-val">Only routinely recordable from soleus (S1). Absent in healthy elderly (>60y) in up to 20% — must compare sides. Cannot distinguish central from peripheral S1 arc lesion in isolation.</span></div>
+<div class="param-row"><span class="param-key">Mechanism</span><span class="param-val">Supramaximal stimulation → antidromic AP to spinal cord → backfires a small % of anterior horn cells → orthodromic AP returns to muscle. NOT a reflex — no synapse involved.</span></div>
+<div class="param-row"><span class="param-key">Clinical use</span><span class="param-val">Assesses proximal motor conduction (roots, plexus, proximal nerve) — the segment inaccessible to direct NCS. <strong>Absent or prolonged F-waves = early GBS (often the ONLY early finding)</strong>, radiculopathy, plexopathy.</span></div>
+<div class="param-row"><span class="param-key">Normal latencies</span><span class="param-val">Median ≤31 ms · Ulnar ≤32 ms · Tibial ≤56 ms · Peroneal ≤53 ms (height-dependent)</span></div>
 </div>
 </div>
 
 <div class="param-card">
 <div class="param-h">
 <div class="param-icon" style="background:rgba(6,182,212,.15);border:1px solid rgba(6,182,212,.3)">🔵</div>
-<div><div class="param-name">Repetitive Nerve Stimulation (RNS)</div><div class="param-sub">Tests neuromuscular junction — essential for suspected MG or LEMS</div></div>
+<div><div class="param-name">Repetitive Nerve Stimulation (RNS)</div><div class="param-sub">Tests neuromuscular junction — slow (3 Hz) vs fast (50 Hz) RNS distinguish postsynaptic from presynaptic NMJ failure</div></div>
 </div>
 <div class="param-body">
-<div class="param-row"><span class="param-key">Slow RNS (2–3 Hz)</span><span class="param-val">Delivers 6–10 stimuli at 3 Hz. <strong>Decrement ≥10%</strong> in CMAP amplitude (4th–5th vs 1st) = postsynaptic NMJ failure. Sensitivity: ~70% in MG (higher in proximal muscles). Decrement corrects transiently after brief (10s) exercise (post-tetanic potentiation).</span></div>
-<div class="param-row"><span class="param-key">Fast RNS (50 Hz) or post-exercise</span><span class="param-val"><strong>Increment ≥100%</strong> in CMAP amplitude = presynaptic NMJ failure (LEMS). 10s of maximal voluntary contraction followed by immediate CMAP recording also shows dramatic increment (post-exercise facilitation) — safer than 50 Hz.</span></div>
-<div class="param-row"><span class="param-key">SFEMG</span><span class="param-val">Single fiber EMG: measures jitter (variability in consecutive discharge intervals between two muscle fibers of same MU). <strong>Most sensitive NMJ test</strong> (~95% MG). Increased jitter ± blocking = NMJ transmission failure.</span></div>
-<div class="alert a-info" style="margin-top:4px">Key distinction: slow RNS decrement = postsynaptic (MG) · fast RNS/post-exercise increment = presynaptic (LEMS). Both can show decrement on slow RNS — the increment on fast RNS is specific to LEMS.</div>
+<div class="param-row"><span class="param-key">Slow RNS (3 Hz)</span><span class="param-val"><strong>Decrement ≥10%</strong> (4th vs 1st CMAP) = postsynaptic NMJ failure → <strong>Myasthenia Gravis</strong>. Partial correction after 10s exercise (post-tetanic potentiation). Sensitivity ~70% in MG.</span></div>
+<div class="param-row"><span class="param-key">Fast RNS (50 Hz) or post-exercise facilitation</span><span class="param-val"><strong>Increment ≥100%</strong> in CMAP amplitude = presynaptic NMJ failure → <strong>LEMS</strong>. Check CMAP amplitude at rest first — LEMS has low resting CMAP; MG does not.</span></div>
+<div class="alert a-info" style="margin-top:6px">SFEMG (single fibre EMG): measures jitter between two fibres of same MU. Most sensitive NMJ test (~95% MG). Increased jitter ± blocking = NMJ transmission failure.</div>
 </div>
 </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════════════════════
-  SECTION 3 — AXONAL VS DEMYELINATING
-══════════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════════
+  SECTION 3 — AXONAL VS DEMYELINATING  (waveform visuals + tables)
+═══════════════════════════════════════════════════════════════ -->
 <div class="section" id="s-axvdem">
 <div class="sec-h">
-<h2 class="sec-title">Axonal vs. Demyelinating</h2>
-<p class="sec-sub">The fundamental NCS distinction — drives the entire differential diagnosis</p>
+  <h2 class="sec-title">Axonal vs. Demyelinating</h2>
+  <p class="sec-sub">The fundamental NCS distinction — amplitude reduction vs conduction slowing</p>
 </div>
 
-<div class="cmp">
+<!-- Three waveform comparison -->
+<div class="wf3-grid">
+  <!-- Normal -->
+  <div class="wf3-col">
+    <div class="wf3-title" style="color:var(--sns)">NORMAL</div>
+    <svg viewBox="0 0 200 130" class="wf3-svg">
+      <line x1="10" y1="90" x2="190" y2="90" stroke="#1E3050" strokeWidth="1"/>
+      <line x1="30" y1="78" x2="30" y2="100" stroke="#475569" strokeWidth="1.2"/>
+      <path d="M 30 90 L 65 90 C 70 90 74 28 90 28 C 106 28 110 90 120 90 C 126 90 130 104 142 104 C 153 104 156 90 164 90" fill="none" stroke="#10B981" strokeWidth="2.5"/>
+      <text x="90" y="18" textAnchor="middle" fontSize="9" fill="#10B981">Normal amp</text>
+      <text x="75" y="116" textAnchor="middle" fontSize="8.5" fill="#334155">Normal latency</text>
+    </svg>
+    <div class="wf3-bullets">
+      <div class="wf3-b" style="color:var(--sns)">✓ Amplitude normal</div>
+      <div class="wf3-b" style="color:var(--sns)">✓ CV &gt;50 m/s (UL)</div>
+      <div class="wf3-b" style="color:var(--sns)">✓ Latency normal</div>
+    </div>
+  </div>
+  <!-- Axonal -->
+  <div class="wf3-col">
+    <div class="wf3-title" style="color:var(--axn)">AXONAL</div>
+    <svg viewBox="0 0 200 130" class="wf3-svg">
+      <line x1="10" y1="90" x2="190" y2="90" stroke="#1E3050" strokeWidth="1"/>
+      <line x1="30" y1="78" x2="30" y2="100" stroke="#475569" strokeWidth="1.2"/>
+      <!-- Same timing, reduced amplitude -->
+      <path d="M 30 90 L 65 90 C 70 90 74 60 90 60 C 106 60 110 90 120 90 C 126 90 130 97 142 97 C 153 97 156 90 164 90" fill="none" stroke="#EF4444" strokeWidth="2.5"/>
+      <!-- Ghost of normal -->
+      <path d="M 30 90 L 65 90 C 70 90 74 28 90 28 C 106 28 110 90 120 90" fill="none" stroke="#334155" strokeWidth="1" strokeDasharray="3,2"/>
+      <text x="90" y="53" textAnchor="middle" fontSize="9" fill="#EF4444">↓↓ amp</text>
+      <text x="90" y="18" textAnchor="middle" fontSize="8.5" fill="#334155">Normal shape / timing</text>
+    </svg>
+    <div class="wf3-bullets">
+      <div class="wf3-b" style="color:var(--axn)">↓↓ Amplitude (axon loss)</div>
+      <div class="wf3-b" style="color:var(--t2)">CV mildly ↓ at most</div>
+      <div class="wf3-b" style="color:var(--t2)">Latency normal/near-normal</div>
+      <div class="wf3-b" style="color:var(--t2)">No conduction block</div>
+    </div>
+  </div>
+  <!-- Demyelinating -->
+  <div class="wf3-col">
+    <div class="wf3-title" style="color:var(--dem)">DEMYELINATING</div>
+    <svg viewBox="0 0 200 130" class="wf3-svg">
+      <line x1="10" y1="90" x2="190" y2="90" stroke="#1E3050" strokeWidth="1"/>
+      <line x1="30" y1="78" x2="30" y2="100" stroke="#475569" strokeWidth="1.2"/>
+      <!-- Prolonged latency onset, broader/lower waveform (temporal dispersion) -->
+      <path d="M 30 90 L 90 90 C 96 90 100 55 115 52 C 130 49 136 90 148 90 C 155 90 158 100 167 100 C 175 100 178 90 188 90" fill="none" stroke="#8B5CF6" strokeWidth="2.5"/>
+      <!-- Ghost of normal onset -->
+      <line x1="65" y1="84" x2="65" y2="96" stroke="#334155" strokeWidth="1" strokeDasharray="2,2"/>
+      <text x="48" y="110" textAnchor="middle" fontSize="7.5" fill="#334155">expected</text>
+      <!-- prolonged latency bracket -->
+      <line x1="30" y1="118" x2="90" y2="118" stroke="#8B5CF6" strokeWidth="0.8"/>
+      <text x="60" y="127" textAnchor="middle" fontSize="8" fill="#8B5CF6">↑↑ latency</text>
+      <text x="140" y="18" textAnchor="middle" fontSize="8.5" fill="#8B5CF6">broader = dispersion</text>
+    </svg>
+    <div class="wf3-bullets">
+      <div class="wf3-b" style="color:var(--dem)">↓↓ CV (&lt;75% LLN)</div>
+      <div class="wf3-b" style="color:var(--dem)">↑↑ Distal latency (&gt;130% ULN)</div>
+      <div class="wf3-b" style="color:var(--dem)">Temporal dispersion</div>
+      <div class="wf3-b" style="color:var(--dem)">± Conduction block</div>
+    </div>
+  </div>
+</div>
+
+<div class="cmp" style="margin-top:18px">
 <div class="cmp-col" style="border-top:3px solid var(--axn)">
 <div class="cmp-h" style="color:var(--axn)">AXONAL PATTERN</div>
 <div class="cmp-row"><span class="cmp-k">CMAP amplitude</span><span class="cmp-v" style="color:var(--axn)">↓↓ (loss of axons)</span></div>
 <div class="cmp-row"><span class="cmp-k">SNAP amplitude</span><span class="cmp-v" style="color:var(--axn)">↓↓ (loss of axons)</span></div>
-<div class="cmp-row"><span class="cmp-k">Conduction velocity</span><span class="cmp-v">Normal or mildly ↓ (loss of fast fibers)</span></div>
+<div class="cmp-row"><span class="cmp-k">Conduction velocity</span><span class="cmp-v">Normal or mildly ↓</span></div>
 <div class="cmp-row"><span class="cmp-k">Distal latency</span><span class="cmp-v">Normal or mildly ↑</span></div>
 <div class="cmp-row"><span class="cmp-k">Temporal dispersion</span><span class="cmp-v">Absent</span></div>
 <div class="cmp-row"><span class="cmp-k">Conduction block</span><span class="cmp-v">Absent</span></div>
-<div class="cmp-row"><span class="cmp-k">F-waves</span><span class="cmp-v">Normal or mildly prolonged / absent (if severe)</span></div>
+<div class="cmp-row"><span class="cmp-k">F-waves</span><span class="cmp-v">Normal or mildly prolonged</span></div>
 <div class="cmp-row"><span class="cmp-k">Needle EMG</span><span class="cmp-v">Fibs/PSWs + neurogenic MUPs</span></div>
 <div class="cmp-row"><span class="cmp-k">Recovery</span><span class="cmp-v">Slow (axon regrowth 1–3 mm/day)</span></div>
-<div style="margin-top:8px;font-size:11px;color:var(--t3)">Common causes: DM, alcohol, axonal GBS (AMAN), vasculitic, toxic, uremic, nutritional</div>
+<div style="margin-top:8px;font-size:11px;color:var(--t3)">Causes: DM, alcohol, axonal GBS, vasculitic, toxic, uremic, nutritional</div>
 </div>
 <div class="cmp-col" style="border-top:3px solid var(--dem)">
 <div class="cmp-h" style="color:var(--dem)">DEMYELINATING PATTERN</div>
 <div class="cmp-row"><span class="cmp-k">CMAP amplitude</span><span class="cmp-v">Relatively preserved (early); ↓ if conduction block</span></div>
 <div class="cmp-row"><span class="cmp-k">SNAP amplitude</span><span class="cmp-v">Relatively preserved (early)</span></div>
-<div class="cmp-row"><span class="cmp-k">Conduction velocity</span><span class="cmp-v" style="color:var(--dem)">↓↓ (&lt;75% LLN = moderate; &lt;60% = definite)</span></div>
+<div class="cmp-row"><span class="cmp-k">Conduction velocity</span><span class="cmp-v" style="color:var(--dem)">↓↓ (&lt;75% LLN moderate; &lt;60% definite)</span></div>
 <div class="cmp-row"><span class="cmp-k">Distal latency</span><span class="cmp-v" style="color:var(--dem)">↑↑ (&gt;130% ULN)</span></div>
-<div class="cmp-row"><span class="cmp-k">Temporal dispersion</span><span class="cmp-v" style="color:var(--dem)">Present (duration &gt;130% ULN)</span></div>
+<div class="cmp-row"><span class="cmp-k">Temporal dispersion</span><span class="cmp-v" style="color:var(--dem)">Present (acquired demyelination)</span></div>
 <div class="cmp-row"><span class="cmp-k">Conduction block</span><span class="cmp-v" style="color:var(--dem)">Present (acquired demyelination)</span></div>
 <div class="cmp-row"><span class="cmp-k">F-waves</span><span class="cmp-v" style="color:var(--dem)">Absent or markedly prolonged (early sign)</span></div>
-<div class="cmp-row"><span class="cmp-k">Needle EMG</span><span class="cmp-v">Often relatively normal MUPs (axons intact); ↓ recruitment if conduction block</span></div>
+<div class="cmp-row"><span class="cmp-k">Needle EMG</span><span class="cmp-v">Often relatively normal MUPs; ↓ recruitment if block</span></div>
 <div class="cmp-row"><span class="cmp-k">Recovery</span><span class="cmp-v">Faster (remyelination weeks–months)</span></div>
-<div style="margin-top:8px;font-size:11px;color:var(--t3)">Common causes: GBS (AIDP), CIDP, CMT1, MMN, POEMS</div>
+<div style="margin-top:8px;font-size:11px;color:var(--t3)">Causes: GBS (AIDP), CIDP, CMT1, MMN, POEMS</div>
 </div>
 </div>
 
-<div style="margin-top:20px">
-<h3 style="font-size:14px;font-weight:700;margin-bottom:12px">Demyelination: Hereditary vs. Acquired</h3>
+<div style="margin-top:18px">
+<h3 style="font-size:14px;font-weight:700;margin-bottom:12px">Hereditary vs. Acquired Demyelination</h3>
 <div class="cmp">
 <div class="cmp-col" style="border-top:3px solid #475569">
-<div class="cmp-h" style="color:var(--t2)">HEREDITARY (e.g. CMT1A)</div>
-<div class="cmp-row"><span class="cmp-k">Slowing pattern</span><span class="cmp-v">UNIFORM across all nerves</span></div>
-<div class="cmp-row"><span class="cmp-k">CV</span><span class="cmp-v">15–30 m/s in ALL nerves</span></div>
+<div class="cmp-h" style="color:var(--t2)">HEREDITARY (CMT1A)</div>
+<div class="cmp-row"><span class="cmp-k">Slowing</span><span class="cmp-v">UNIFORM across ALL nerves</span></div>
+<div class="cmp-row"><span class="cmp-k">CV</span><span class="cmp-v">15–30 m/s in ALL nerves (same)</span></div>
 <div class="cmp-row"><span class="cmp-k">Conduction block</span><span class="cmp-v">Absent</span></div>
-<div class="cmp-row"><span class="cmp-k">Temporal dispersion</span><span class="cmp-v">Absent (uniform slowing = all fibers slow equally)</span></div>
-<div class="cmp-row"><span class="cmp-k">F-waves</span><span class="cmp-v">Prolonged (uniform)</span></div>
-<div class="cmp-row"><span class="cmp-k">Pattern</span><span class="cmp-v">All nerves equally and symmetrically affected from childhood</span></div>
-<div class="cmp-row"><span class="cmp-k">Mechanism</span><span class="cmp-v">Dysmyelination — myelin never forms properly (PMP22 duplication in CMT1A)</span></div>
+<div class="cmp-row"><span class="cmp-k">Temporal dispersion</span><span class="cmp-v">Absent (uniform = synchronous slowing)</span></div>
+<div class="cmp-row"><span class="cmp-k">Mechanism</span><span class="cmp-v">Dysmyelination — myelin never forms normally</span></div>
 </div>
 <div class="cmp-col" style="border-top:3px solid var(--dem)">
-<div class="cmp-h" style="color:var(--dem)">ACQUIRED (e.g. CIDP, GBS)</div>
-<div class="cmp-row"><span class="cmp-k">Slowing pattern</span><span class="cmp-v">NON-UNIFORM, multifocal</span></div>
+<div class="cmp-h" style="color:var(--dem)">ACQUIRED (CIDP / GBS)</div>
+<div class="cmp-row"><span class="cmp-k">Slowing</span><span class="cmp-v">NON-UNIFORM, multifocal</span></div>
 <div class="cmp-row"><span class="cmp-k">CV</span><span class="cmp-v">Varies between and within nerves</span></div>
-<div class="cmp-row"><span class="cmp-k">Conduction block</span><span class="cmp-v">Present (focal demyelination blocks impulse)</span></div>
-<div class="cmp-row"><span class="cmp-k">Temporal dispersion</span><span class="cmp-v">Present (fibers with different degrees of demyelination)</span></div>
-<div class="cmp-row"><span class="cmp-k">F-waves</span><span class="cmp-v">Absent or very prolonged (disproportionate to CV)</span></div>
-<div class="cmp-row"><span class="cmp-k">Pattern</span><span class="cmp-v">Patchy, asymmetric, any age of onset</span></div>
-<div class="cmp-row"><span class="cmp-k">Mechanism</span><span class="cmp-v">Immune-mediated myelin destruction — previously normal myelin attacked</span></div>
+<div class="cmp-row"><span class="cmp-k">Conduction block</span><span class="cmp-v" style="color:var(--dem)">Present</span></div>
+<div class="cmp-row"><span class="cmp-k">Temporal dispersion</span><span class="cmp-v" style="color:var(--dem)">Present</span></div>
+<div class="cmp-row"><span class="cmp-k">Mechanism</span><span class="cmp-v">Immune-mediated destruction of normal myelin</span></div>
 </div>
 </div>
-</div>
-
-<div class="alert a-warn" style="margin-top:16px">
-<strong>CV thresholds for demyelination (upper limb):</strong> &lt;50 m/s motor = significant · &lt;40 m/s = definite · &lt;30 m/s = severe<br>
-<strong>Lower limb:</strong> &lt;40 m/s motor = significant · &lt;30 m/s = definite<br>
-These thresholds apply to acquired demyelination. In CMT1A, CV 15–30 m/s does NOT necessarily mean "severe" — the nerve is structurally dysmyelinated from birth.
 </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════════════════════
-  SECTION 4 — NEEDLE EMG
-══════════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════════
+  SECTION 4 — NEEDLE EMG  (waveform sketches + existing content)
+═══════════════════════════════════════════════════════════════ -->
 <div class="section" id="s-needle">
 <div class="sec-h">
-<h2 class="sec-title">Needle EMG</h2>
-<p class="sec-sub">Spontaneous activity · MUP analysis · Recruitment patterns</p>
+  <h2 class="sec-title">Needle EMG</h2>
+  <p class="sec-sub">Spontaneous activity · MUP analysis · Recruitment patterns</p>
 </div>
 
-<h3 style="font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Spontaneous Activity</h3>
+<!-- MUP comparison visual -->
+<div class="mup-compare">
+  <div class="mup-compare-title">MUP Morphology at a Glance</div>
+  <div class="mup-compare-grid">
+    <div class="mup-col">
+      <div class="mup-col-title" style="color:var(--sns)">NORMAL MUP</div>
+      <svg viewBox="0 0 160 80" style="width:100%;max-width:160px;display:block;margin:0 auto">
+        <line x1="5" y1="55" x2="155" y2="55" stroke="#1E3050" strokeWidth="1"/>
+        <path d="M 20 55 L 55 55 C 58 55 60 44 65 44 C 70 44 72 55 75 55 C 78 55 80 20 90 18 C 100 16 103 55 108 55 C 112 55 114 65 120 65 C 126 65 128 55 140 55" fill="none" stroke="#10B981" strokeWidth="2"/>
+        <text x="80" y="12" textAnchor="middle" fontSize="8" fill="#10B981">Triphasic · 5–15 ms · 100–2000 μV</text>
+      </svg>
+    </div>
+    <div class="mup-col">
+      <div class="mup-col-title" style="color:var(--axn)">NEUROPATHIC MUP</div>
+      <svg viewBox="0 0 160 80" style="width:100%;max-width:160px;display:block;margin:0 auto">
+        <line x1="5" y1="55" x2="155" y2="55" stroke="#1E3050" strokeWidth="1"/>
+        <path d="M 10 55 L 40 55 C 43 55 45 38 50 38 C 55 38 57 55 60 55 C 63 55 65 2 75 0 C 85 -2 88 55 95 55 C 98 55 100 62 104 62 C 107 62 108 55 111 55 L 115 55 C 117 55 119 68 122 68 C 125 68 127 55 130 55 L 148 55" fill="none" stroke="#EF4444" strokeWidth="2"/>
+        <text x="80" y="76" textAnchor="middle" fontSize="8" fill="#EF4444">↑ Amplitude · ↑ Duration · Polyphasic</text>
+      </svg>
+    </div>
+    <div class="mup-col">
+      <div class="mup-col-title" style="color:var(--myo)">MYOPATHIC MUP</div>
+      <svg viewBox="0 0 160 80" style="width:100%;max-width:160px;display:block;margin:0 auto">
+        <line x1="5" y1="50" x2="155" y2="50" stroke="#1E3050" strokeWidth="1"/>
+        <path d="M 30 50 L 58 50 C 61 50 63 43 67 43 C 71 43 73 50 76 50 C 79 50 81 32 87 31 C 93 30 95 50 99 50 C 102 50 104 56 108 56 C 112 56 114 50 118 50 L 130 50" fill="none" stroke="#EC4899" strokeWidth="2"/>
+        <text x="80" y="66" textAnchor="middle" fontSize="8" fill="#EC4899">↓ Amplitude · ↓ Duration · Polyphasic</text>
+      </svg>
+    </div>
+  </div>
+  <!-- Recruitment comparison visual -->
+  <div class="recruit-compare">
+    <div class="rc-col">
+      <div class="rc-title" style="color:var(--axn)">NEUROPATHIC Recruitment</div>
+      <svg viewBox="0 0 280 60" style="width:100%;display:block">
+        <line x1="0" y1="30" x2="280" y2="30" stroke="#1E3050" strokeWidth="0.8"/>
+        <!-- Few MUPs at intervals, same large shape -->
+        <path d="M 20 30 L 28 30 C 30 30 31 10 35 10 C 39 10 40 30 44 30 C 46 30 47 38 50 38 C 53 38 54 30 56 30" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+        <path d="M 95 30 L 103 30 C 105 30 106 10 110 10 C 114 10 115 30 119 30 C 121 30 122 38 125 38 C 128 38 129 30 131 30" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+        <path d="M 172 30 L 180 30 C 182 30 183 10 187 10 C 191 10 192 30 196 30 C 198 30 199 38 202 38 C 205 38 206 30 208 30" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+        <text x="240" y="35" fontSize="9" fill="#EF4444">Few MUs · fast</text>
+      </svg>
+      <div style="font-size:10px;color:var(--t3);text-align:center;margin-top:3px">Discrete · "picket fence" · firing rapidly (&gt;20 Hz)</div>
+    </div>
+    <div class="rc-col">
+      <div class="rc-title" style="color:var(--myo)">MYOPATHIC Recruitment</div>
+      <svg viewBox="0 0 280 60" style="width:100%;display:block">
+        <line x1="0" y1="30" x2="280" y2="30" stroke="#1E3050" strokeWidth="0.8"/>
+        <!-- Many small MUPs crowded -->
+        <path d="M 5 30 L 10 30 C 11 30 12 22 14 21 C 16 20 17 30 19 30 C 20 30 21 34 23 34 C 25 34 26 30 28 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 30 30 L 35 30 C 36 30 37 20 39 19 C 41 18 42 30 44 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 48 30 L 52 30 C 53 30 54 24 56 23 C 58 22 59 30 62 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 66 30 L 70 30 C 71 30 72 21 74 20 C 76 19 77 30 80 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 84 30 L 88 30 C 89 30 90 23 92 22 C 94 21 95 30 98 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 104 30 L 108 30 C 109 30 110 22 112 21 C 114 20 115 30 118 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 122 30 L 126 30 C 127 30 128 20 130 19 C 132 18 133 30 136 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 138 30 L 142 30 C 143 30 144 23 146 22 C 148 21 149 30 153 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 157 30 L 161 30 C 162 30 163 21 165 20 C 167 19 168 30 172 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 176 30 L 180 30 C 181 30 182 22 184 21 C 186 20 187 30 190 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 196 30 L 200 30 C 201 30 202 21 204 20 C 206 19 207 30 210 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 214 30 L 218 30 C 219 30 220 23 222 22 C 224 21 225 30 228 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 234 30 L 238 30 C 239 30 240 22 242 21 C 244 20 245 30 248 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+        <path d="M 253 30 L 257 30 C 258 30 259 21 261 20 C 263 19 264 30 267 30" fill="none" stroke="#EC4899" strokeWidth="1.4"/>
+      </svg>
+      <div style="font-size:10px;color:var(--t3);text-align:center;margin-top:3px">Full interference · many MUs · but small amplitude</div>
+    </div>
+  </div>
+</div>
+
+<h3 style="font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.1em;margin:18px 0 12px">Spontaneous Activity</h3>
 
 <div class="discharge-card" style="border-left-color:var(--axn)">
+<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+<div style="flex:1;min-width:220px">
 <div class="dc-title" style="color:var(--axn)">Fibrillation Potentials (Fibs)</div>
 <div class="dc-row">
-<span class="dc-lbl">Morphology</span><span class="dc-val">Biphasic or triphasic, positive initial deflection. Amplitude 20–300 μV. Duration 1–5 ms. Regular firing rate 0.5–15 Hz.</span>
-<span class="dc-lbl">Sound</span><span class="dc-val">"Rain on a tin roof" — regular, high-pitched click</span>
-<span class="dc-lbl">Mechanism</span><span class="dc-val">Denervated single muscle fiber — spontaneous oscillation of resting membrane potential. Also loss of terminal motor axon → fiber fires autonomously.</span>
-<span class="dc-lbl">Significance</span><span class="dc-val">Denervation (neuropathic) · Inflammatory myopathy (PM, DM) · Necrotizing myopathy · IBM · Muscular dystrophy (some)</span>
-<span class="dc-lbl">Timing</span><span class="dc-val">Appear 1–4 weeks after nerve injury: paraspinals 7–10 days → distal limb 2–4 weeks (related to Wallerian degeneration speed)</span>
-<span class="dc-lbl">Grading</span><span class="dc-val">0 = none · 1+ = occasional (≥2 sites) · 2+ = moderate (most sites) · 3+ = many in all areas · 4+ = continuous</span>
+<span class="dc-lbl">Morphology</span><span class="dc-val">Biphasic/triphasic · 20–300 μV · 1–5 ms · Regular 0.5–15 Hz</span>
+<span class="dc-lbl">Sound</span><span class="dc-val">"Rain on tin roof" — high-pitched, regular click</span>
+<span class="dc-lbl">Mechanism</span><span class="dc-val">Denervated single muscle fibre fires autonomously</span>
+<span class="dc-lbl">Significance</span><span class="dc-val">Denervation · Inflammatory myopathy (PM/DM) · IBM · Necrotizing myopathy</span>
+<span class="dc-lbl">Timing</span><span class="dc-val">Paraspinals 7–10d · distal limb 2–4 wks after injury</span>
+<span class="dc-lbl">Grading</span><span class="dc-val">0 = none · 1+ = occasional · 2+ = moderate · 3+ = many · 4+ = continuous</span>
+</div>
+</div>
+<svg viewBox="0 0 180 80" style="width:160px;flex-shrink:0;align-self:center">
+<line x1="5" y1="50" x2="175" y2="50" stroke="#1E3050" strokeWidth="1"/>
+<!-- Fibrillation spike x3 -->
+<path d="M 20 50 C 22 50 23 30 25 28 C 27 26 28 50 30 50" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+<path d="M 65 50 C 67 50 68 30 70 28 C 72 26 73 50 75 50" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+<path d="M 110 50 C 112 50 113 30 115 28 C 117 26 118 50 120 50" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+<path d="M 155 50 C 157 50 158 30 160 28 C 162 26 163 50 165 50" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+<text x="90" y="70" textAnchor="middle" fontSize="8" fill="#EF4444">Regular, small, sharp</text>
+</svg>
 </div>
 </div>
 
 <div class="discharge-card" style="border-left-color:var(--axn)">
+<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+<div style="flex:1;min-width:220px">
 <div class="dc-title" style="color:var(--axn)">Positive Sharp Waves (PSWs)</div>
 <div class="dc-row">
-<span class="dc-lbl">Morphology</span><span class="dc-val">Sharp positive deflection followed by long negative tail. Same significance as fibs — they coexist almost always.</span>
+<span class="dc-lbl">Morphology</span><span class="dc-val">Sharp initial positive deflection → long negative tail. Same significance as fibs — almost always coexist.</span>
 <span class="dc-lbl">Sound</span><span class="dc-val">"Dull thud" — lower frequency than fibs</span>
-<span class="dc-lbl">Significance</span><span class="dc-val">Same as fibrillations — denervation, inflammatory myopathy. Grade on same 0–4+ scale.</span>
-<span class="dc-lbl">Note</span><span class="dc-val">PSWs appear slightly earlier after nerve injury than fibrillations (possibly from mechanically irritated fibers).</span>
+<span class="dc-lbl">Significance</span><span class="dc-val">Same as fibrillations — denervation, inflammatory myopathy. PSWs may precede fibs slightly after injury.</span>
+</div>
+</div>
+<svg viewBox="0 0 180 80" style="width:160px;flex-shrink:0;align-self:center">
+<line x1="5" y1="42" x2="175" y2="42" stroke="#1E3050" strokeWidth="1"/>
+<path d="M 15 42 C 16 42 17 18 20 16 C 23 14 24 42 30 48 C 36 54 42 65 55 65 C 65 65 68 42 72 42" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+<path d="M 90 42 C 91 42 92 18 95 16 C 98 14 99 42 105 48 C 111 54 117 65 130 65 C 140 65 143 42 147 42" fill="none" stroke="#EF4444" strokeWidth="1.8"/>
+<text x="90" y="76" textAnchor="middle" fontSize="8" fill="#EF4444">+initial deflection, long tail</text>
+</svg>
 </div>
 </div>
 
 <div class="discharge-card" style="border-left-color:var(--ndl)">
+<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+<div style="flex:1;min-width:220px">
 <div class="dc-title" style="color:var(--ndl)">Fasciculation Potentials</div>
 <div class="dc-row">
-<span class="dc-lbl">Morphology</span><span class="dc-val">MUP-like (involves entire motor unit). Variable amplitude and duration. Irregular firing rate.</span>
-<span class="dc-lbl">Sound</span><span class="dc-val">Irregular "pop" — the visible/palpable muscle twitch you see clinically</span>
-<span class="dc-lbl">Mechanism</span><span class="dc-val">Spontaneous discharge of an ENTIRE motor unit (vs. fibrillations = single fiber). Can originate anywhere along the motor unit — anterior horn cell, axon, NMJ.</span>
-<span class="dc-lbl">Significance</span><span class="dc-val"><strong>Complex fasciculations</strong> (long duration, polyphasic, firing >3 Hz) + other abnormalities → ALS. <strong>Simple fasciculations</strong> alone → may be benign (benign fasciculation syndrome).</span>
-<span class="dc-lbl">Key rule</span><span class="dc-val">Fasciculations ALONE are not diagnostic of ALS — need chronic reinnervation MUPs + fibs/PSWs in multiple regions.</span>
+<span class="dc-lbl">Morphology</span><span class="dc-val">MUP-like — whole motor unit. Variable, irregular firing rate.</span>
+<span class="dc-lbl">Sound</span><span class="dc-val">Irregular "pop" — the clinically visible muscle twitch</span>
+<span class="dc-lbl">Significance</span><span class="dc-val"><strong>Complex fasciculations</strong> (long, polyphasic, &gt;3 Hz) + denervation + reinnervation → ALS. Simple fasciculations alone may be benign.</span>
+</div>
+</div>
+<svg viewBox="0 0 180 80" style="width:160px;flex-shrink:0;align-self:center">
+<line x1="5" y1="55" x2="175" y2="55" stroke="#1E3050" strokeWidth="1"/>
+<path d="M 15 55 L 35 55 C 37 55 38 42 42 42 C 46 42 47 55 50 55 C 52 55 53 12 60 10 C 67 8 69 55 74 55 C 77 55 79 65 84 65 C 89 65 91 55 96 55 L 120 55" fill="none" stroke="#F59E0B" strokeWidth="1.8"/>
+<text x="90" y="76" textAnchor="middle" fontSize="8" fill="#F59E0B">Large, irregular, MUP-like</text>
+</svg>
 </div>
 </div>
 
 <div class="discharge-card" style="border-left-color:var(--t3)">
+<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+<div style="flex:1;min-width:220px">
 <div class="dc-title" style="color:var(--t2)">Complex Repetitive Discharges (CRDs)</div>
 <div class="dc-row">
-<span class="dc-lbl">Morphology</span><span class="dc-val">Stereotyped, high-frequency (5–100 Hz), complex waveform. Abrupt onset AND abrupt offset (like flipping a switch).</span>
-<span class="dc-lbl">Sound</span><span class="dc-val">"Machine gun" or "motorcycle engine" — uniform, monotonous</span>
-<span class="dc-lbl">Mechanism</span><span class="dc-val">Circular discharge between adjacent muscle fibers via ephaptic transmission — one fiber re-excites the next in a loop, indefinitely sustaining until the loop breaks (abrupt offset).</span>
-<span class="dc-lbl">Significance</span><span class="dc-val">Chronic denervation OR chronic myopathy. Non-specific for cause but indicates chronicity. Common in radiculopathy, CIAP, chronic myopathies.</span>
+<span class="dc-lbl">Morphology</span><span class="dc-val">Stereotyped, high-frequency (5–100 Hz). <strong>Abrupt onset AND abrupt offset</strong> — like a switch.</span>
+<span class="dc-lbl">Sound</span><span class="dc-val">"Machine gun" — uniform, monotonous</span>
+<span class="dc-lbl">Significance</span><span class="dc-val">Chronic denervation OR chronic myopathy (non-specific for cause — indicates chronicity).</span>
+</div>
+</div>
+<svg viewBox="0 0 180 80" style="width:160px;flex-shrink:0;align-self:center">
+<line x1="5" y1="50" x2="175" y2="50" stroke="#1E3050" strokeWidth="1"/>
+<!-- CRD: rapid stereotyped bursts -->
+<path d="M 25 50 C 26 50 27 30 29 28 C 31 26 32 35 33 42 C 34 48 35 50 36 50" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
+<path d="M 36 50 C 37 50 38 30 40 28 C 42 26 43 35 44 42 C 45 48 46 50 47 50" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
+<path d="M 47 50 C 48 50 49 30 51 28 C 53 26 54 35 55 42 C 56 48 57 50 58 50" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
+<path d="M 58 50 C 59 50 60 30 62 28 C 64 26 65 35 66 42 C 67 48 68 50 69 50" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
+<path d="M 69 50 C 70 50 71 30 73 28 C 75 26 76 35 77 42 C 78 48 79 50 80 50" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
+<line x1="80" y1="35" x2="95" y2="35" stroke="#1E3050" strokeWidth="0.8"/>
+<path d="M 95 50 C 96 50 97 30 99 28 C 101 26 102 35 103 42 C 104 48 105 50 106 50" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
+<path d="M 106 50 C 107 50 108 30 110 28 C 112 26 113 35 114 42 C 115 48 116 50 117 50" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
+<path d="M 117 50 C 118 50 119 30 121 28 C 123 26 124 35 125 42 C 126 48 127 50 128 50" fill="none" stroke="#94A3B8" strokeWidth="1.5"/>
+<text x="90" y="70" textAnchor="middle" fontSize="8" fill="#94A3B8">Abrupt on/off · stereotyped</text>
+</svg>
 </div>
 </div>
 
 <div class="discharge-card" style="border-left-color:var(--sns)">
+<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+<div style="flex:1;min-width:220px">
 <div class="dc-title" style="color:var(--sns)">Myotonic Discharges</div>
 <div class="dc-row">
-<span class="dc-lbl">Morphology</span><span class="dc-val">Repetitive single muscle fiber APs with WAXING AND WANING amplitude AND frequency. This distinguishes from CRDs (which are stereotyped).</span>
-<span class="dc-lbl">Sound</span><span class="dc-val">"Dive bomber" — characteristic rising and falling pitch and amplitude</span>
-<span class="dc-lbl">Mechanism</span><span class="dc-val">Unstable muscle fiber membrane → repetitive firing after mechanical (needle) or electrical stimulation. Caused by Na⁺ channel or Cl⁻ channel dysfunction.</span>
-<span class="dc-lbl">Significance</span><span class="dc-val">Myotonic dystrophy (DM1, DM2) · Myotonia congenita (Becker, Thomsen) · Periodic paralysis (paramyotonia) · Sodium channelopathy · IBM (electrical myotonia without clinical grip myotonia)</span>
+<span class="dc-lbl">Morphology</span><span class="dc-val">Waxing AND waning amplitude AND frequency — distinguishes from CRDs (stereotyped) and fasciculations (irregular).</span>
+<span class="dc-lbl">Sound</span><span class="dc-val">"Dive bomber" — classic rising and falling pitch</span>
+<span class="dc-lbl">Significance</span><span class="dc-val">Myotonic dystrophy DM1/DM2 · Myotonia congenita · Periodic paralysis · IBM (electrical myotonia without clinical grip myotonia)</span>
+</div>
+</div>
+<svg viewBox="0 0 180 80" style="width:160px;flex-shrink:0;align-self:center">
+<line x1="5" y1="50" x2="175" y2="50" stroke="#1E3050" strokeWidth="1"/>
+<!-- Myotonic: waxing then waning amplitude -->
+<path d="M 15 50 C 16 50 17 46 19 46 C 21 46 22 50 23 50" fill="none" stroke="#10B981" strokeWidth="1.2"/>
+<path d="M 24 50 C 25 50 26 42 28 41 C 30 40 31 50 33 50" fill="none" stroke="#10B981" strokeWidth="1.4"/>
+<path d="M 35 50 C 36 50 37 35 40 33 C 43 31 44 50 47 50" fill="none" stroke="#10B981" strokeWidth="1.7"/>
+<path d="M 49 50 C 50 50 51 28 55 25 C 59 22 60 50 64 50" fill="none" stroke="#10B981" strokeWidth="2.0"/>
+<path d="M 68 50 C 69 50 70 22 74 19 C 78 16 80 50 84 50" fill="none" stroke="#10B981" strokeWidth="2.2"/>
+<path d="M 90 50 C 91 50 92 26 96 23 C 100 20 102 50 106 50" fill="none" stroke="#10B981" strokeWidth="2.0"/>
+<path d="M 110 50 C 111 50 112 32 116 29 C 120 26 121 50 125 50" fill="none" stroke="#10B981" strokeWidth="1.7"/>
+<path d="M 128 50 C 129 50 130 39 134 37 C 138 35 139 50 143 50" fill="none" stroke="#10B981" strokeWidth="1.4"/>
+<path d="M 146 50 C 147 50 148 44 150 44 C 152 44 153 50 155 50" fill="none" stroke="#10B981" strokeWidth="1.2"/>
+<text x="90" y="70" textAnchor="middle" fontSize="8" fill="#10B981">Waxing → waning</text>
+</svg>
 </div>
 </div>
 
 <div class="discharge-card" style="border-left-color:var(--acc)">
 <div class="dc-title" style="color:var(--acc)">Myokymic Discharges</div>
 <div class="dc-row">
-<span class="dc-lbl">Morphology</span><span class="dc-val">Groups (bursts) of MUPs firing repetitively at regular intervals, separated by silent periods. "Burst–pause–burst" pattern.</span>
+<span class="dc-lbl">Morphology</span><span class="dc-val">Bursts of MUPs firing repetitively at regular intervals, separated by silence. "Burst–pause–burst".</span>
 <span class="dc-lbl">Sound</span><span class="dc-val">"Marching soldiers" — rhythmic grouped firing</span>
-<span class="dc-lbl">Clinical</span><span class="dc-val">Visible worm-like undulating muscle movement</span>
-<span class="dc-lbl">Significance</span><span class="dc-val"><strong>Facial myokymia</strong>: MS (pontine demyelination), brainstem glioma, Lyme disease. <strong>Limb myokymia</strong>: radiation plexopathy (very characteristic), AIDP/CIDP. <strong>Generalised</strong>: Isaacs syndrome (neuromyotonia).</span>
+<span class="dc-lbl">Significance</span><span class="dc-val"><strong>Facial myokymia:</strong> MS (pontine), brainstem glioma, Lyme. <strong>Limb:</strong> Radiation plexopathy (very characteristic), AIDP/CIDP. <strong>Generalised:</strong> Isaacs syndrome (neuromyotonia).</span>
 </div>
 </div>
 
 <div class="discharge-card" style="border-left-color:var(--mot)">
 <div class="dc-title" style="color:var(--mot)">Neuromyotonic Discharges</div>
 <div class="dc-row">
-<span class="dc-lbl">Morphology</span><span class="dc-val">Very high frequency (150–300 Hz), irregular discharge of MUPs with decrementing amplitude. Continuous or semi-continuous.</span>
-<span class="dc-lbl">Sound</span><span class="dc-val">High-pitched continuous sound, "pinging" quality</span>
-<span class="dc-lbl">Significance</span><span class="dc-val">Peripheral nerve hyperexcitability: Isaacs syndrome (CASPR2 antibodies), Morvan syndrome, thymoma, radiation neuropathy. Clinically: stiffness, cramps, hyperhidrosis, insomnia.</span>
+<span class="dc-lbl">Morphology</span><span class="dc-val">Very high frequency (150–300 Hz), decrementing amplitude, continuous or semi-continuous.</span>
+<span class="dc-lbl">Sound</span><span class="dc-val">High-pitched continuous "pinging"</span>
+<span class="dc-lbl">Significance</span><span class="dc-val">Peripheral nerve hyperexcitability: Isaacs syndrome (CASPR2 Ab) · Morvan syndrome · Radiation neuropathy · Thymoma</span>
 </div>
 </div>
 
 <hr style="border:none;border-top:1px solid var(--b);margin:20px 0">
-
 <h3 style="font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">MUP Analysis</h3>
 
 <div class="cards" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
 <div style="background:var(--s1);border:1px solid var(--b);border-radius:9px;padding:13px 14px">
 <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:8px;font-family:var(--mono)">Amplitude (μV)</div>
-<div class="sx">Normal: 100–2000 μV. Reflects fibers within ~500 μm of needle tip.</div>
-<div class="sl">Increased (&gt;2000 μV)</div><div class="sx">Chronic reinnervation: surviving axons sprout, adopt orphaned fibers → giant MUPs. ALS hallmark.</div>
-<div class="sl">Decreased (&lt;100 μV)</div><div class="sx">Myopathy (smaller fibers, fewer fibers/unit) · NMJ disease (variable amplitude MUPs)</div>
+<div class="sx">Normal: 100–2000 μV. Reflects fibres within ~500 μm of needle tip.</div>
+<div class="sl">↑ Amplitude (&gt;2000 μV)</div><div class="sx">Chronic reinnervation: sprouting axons adopt orphaned fibres → giant MUPs. ALS hallmark.</div>
+<div class="sl">↓ Amplitude (&lt;100 μV)</div><div class="sx">Myopathy (smaller fibre territory) · NMJ disease (variable amplitude)</div>
 </div>
 <div style="background:var(--s1);border:1px solid var(--b);border-radius:9px;padding:13px 14px">
 <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:8px;font-family:var(--mono)">Duration (ms)</div>
-<div class="sx">Normal: 5–15 ms (muscle- and age-dependent). Reflects the territory of the motor unit.</div>
-<div class="sl">Increased (&gt;15 ms)</div><div class="sx">Neuropathic (reinnervation extends territory): chronic axonal neuropathy, ALS, old radiculopathy. Late components / satellite potentials = sprout-mediated reinnervation.</div>
-<div class="sl">Decreased (&lt;5 ms)</div><div class="sx">Myopathy (fewer fibers, smaller territory, loss of synchrony). Early recruitment at low force levels.</div>
+<div class="sx">Normal: 5–15 ms (muscle- and age-dependent). Reflects territory of the motor unit.</div>
+<div class="sl">↑ Duration (&gt;15 ms)</div><div class="sx">Neuropathic reinnervation: sprouting extends territory → late components + satellite potentials.</div>
+<div class="sl">↓ Duration (&lt;5 ms)</div><div class="sx">Myopathy: fewer fibres, smaller territory, loss of synchrony.</div>
 </div>
 <div style="background:var(--s1);border:1px solid var(--b);border-radius:9px;padding:13px 14px">
 <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:8px;font-family:var(--mono)">Polyphasia</div>
-<div class="sx">Normal: &lt;20% of MUPs have &gt;4 phases. Each phase-crossing = a group of fibers arriving asynchronously.</div>
-<div class="sl">Increased (&gt;20%)</div><div class="sx">Neuropathic: reinnervating sprouts have slower conduction → late-arriving potentials → more phases.<br>Myopathic: loss of synchrony in small, disrupted MUs.<br>NMJ: variable blocking of individual fibers → polyphasia and instability.</div>
-<div class="sl">Note</div><div class="sx">Polyphasia alone is non-specific. Interpret in context of amplitude and duration.</div>
-</div>
-</div>
-
-<hr style="border:none;border-top:1px solid var(--b);margin:20px 0">
-
-<h3 style="font-size:13px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Recruitment Patterns</h3>
-<div class="cmp">
-<div class="cmp-col" style="border-top:3px solid var(--axn)">
-<div class="cmp-h" style="color:var(--axn)">NEUROPATHIC (Reduced Recruitment)</div>
-<div class="sx" style="font-size:12px;margin-bottom:8px">Fewer motor units available (axonal loss or conduction block). Remaining MUs fire faster to compensate for lost units.</div>
-<div class="cmp-row"><span class="cmp-k">Pattern</span><span class="cmp-v">Discrete "picket fence" — single MUs visible at high effort</span></div>
-<div class="cmp-row"><span class="cmp-k">Firing rate</span><span class="cmp-v">&gt;20–30 Hz for first unit (normally recruits second unit at ~10 Hz)</span></div>
-<div class="cmp-row"><span class="cmp-k">Interference</span><span class="cmp-v">Reduced — can count individual MUPs at full effort</span></div>
-<div class="cmp-row"><span class="cmp-k">MUP size</span><span class="cmp-v">↑ amplitude + duration (chronic reinnervation)</span></div>
-</div>
-<div class="cmp-col" style="border-top:3px solid var(--myo)">
-<div class="cmp-h" style="color:var(--myo)">MYOPATHIC (Early Recruitment)</div>
-<div class="sx" style="font-size:12px;margin-bottom:8px">Normal number of MUs, but each unit generates less force (fewer/smaller fibers per unit). Brain compensates by recruiting more MUs early and at low force levels.</div>
-<div class="cmp-row"><span class="cmp-k">Pattern</span><span class="cmp-v">Full interference at low force — "crowded" small MUPs</span></div>
-<div class="cmp-row"><span class="cmp-k">Firing rate</span><span class="cmp-v">Normal onset rate (&lt;10 Hz), early subsequent recruitment</span></div>
-<div class="cmp-row"><span class="cmp-k">Interference</span><span class="cmp-v">Full (many MUs) but amplitude small</span></div>
-<div class="cmp-row"><span class="cmp-k">MUP size</span><span class="cmp-v">↓ amplitude + duration (myopathic)</span></div>
+<div class="sx">Normal: &lt;20% of MUPs have &gt;4 phases. Each phase-crossing = fibre group arriving asynchronously.</div>
+<div class="sl">↑ Polyphasia (&gt;20%)</div><div class="sx">Neuropathic: reinnervating sprouts have slower conduction → late phases. Myopathic: disrupted small MUs. NMJ: variable fibre blocking → waveform instability.</div>
 </div>
 </div>
 
 <div class="alert a-info" style="margin-top:14px">
-<strong>Recruitment ratio:</strong> firing rate of the first MU (Hz) ÷ total number of MUs firing. Normally &lt;5. In neuropathy: high firing rate, few MUs → high ratio. In myopathy: normal firing rate, many MUs → low ratio.
+<strong>Recruitment ratio:</strong> firing rate of first MU (Hz) ÷ total number of MUs active. Normally &lt;5. Neuropathic: high firing rate + few MUs → high ratio. Myopathic: normal firing rate + many MUs → low ratio.
 </div>
 </div>
-
-<!-- ══════════════════════════════════════════════════════════════════════════
-  SECTION 5 — NORMAL VALUES
-══════════════════════════════════════════════════════════════════════════ -->
 <div class="section" id="s-normals">
 <div class="sec-h">
 <h2 class="sec-title">Normal Values — Reference Tables</h2>
